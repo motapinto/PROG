@@ -54,7 +54,7 @@ void decompose(string s, vector<string> &elements){
 	elements.push_back(s);
 }
 
-bool decompose(string s, vector<unsigned int> &elements, char c){
+bool decompose(string s, vector<unsigned int> &elements, char c='/'){
   //used to verify if value was converted
   //all values are unsigned, if after converting value <= -1, convertion failled or value is not unsigned
   vector<string> string_elem;
@@ -62,31 +62,6 @@ bool decompose(string s, vector<unsigned int> &elements, char c){
   int value = -1; 
 
   decompose(s, string_elem, c);
-
-  for(size_t i = 0; i < string_elem.size(); i++){
-    if(string_to_int(string_elem.at(i), value) == false){  //convertion failled
-      elements.resize(0);
-      return false; 
-    } 
-    if(value <= -1){ //negative number
-      elements.resize(0);
-      return false; 
-    }
-    elements.push_back(value);
-  }
-
-  return true;
-}
-
-bool decompose(string s, vector<unsigned int> &elements){
-  //used to verify if value was converted
-  //all values are unsigned, if after converting value <= -1, convertion failled or value is not unsigned
-  vector<string> string_elem;
-  elements.resize(0);
-  int value = -1; 
-
-  decompose(s, string_elem);
-
 
   for(size_t i = 0; i < string_elem.size(); i++){
     if(string_to_int(string_elem.at(i), value) == false){  //convertion failled
