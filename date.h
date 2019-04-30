@@ -9,7 +9,7 @@ class Date
   public:
     Date();
     Date(unsigned int year, unsigned int month,unsigned int day);
-    Date::Date(std::string date); // yearMonthDay must be in format "yyyy/mm/dd"
+    Date(std::string date); // yearMonthDay must be in format "yyyy/mm/dd"
 
     bool operator > (const Date date);
     bool operator >= (const Date date);
@@ -23,18 +23,18 @@ class Date
     void setMonth(unsigned int month) ;
     void setDay(unsigned int day) ;
     void setDate(unsigned int year, unsigned int month, unsigned int day) ;
-    void Date::setDate(std::string date);
+    void setDate(std::string date);
 
     unsigned int getYear() const;
     unsigned int getMonth() const;
     unsigned int getDay() const;
     std::string getDate() const; // returns the date in format "yyyy/mm/dd"
     
-    unsigned int Date::daysOf(unsigned int month, unsigned int &year);
+    unsigned int daysOf(unsigned int month, unsigned int &year);
 
     void show() const; // shows the date on the screen in format "yyyy/mm/dd"
     bool isValid() const;
-    void Date::checkDate(std::string &date);
+    void checkDate(std::string &date);
 
   private:
     unsigned int year;
@@ -43,7 +43,7 @@ class Date
     unsigned int monthDay(unsigned int month, unsigned int year) const;
 }; 
 
-class DateException: public exception
+class DateException: public std::exception
 {
     private:
         std::string str;
