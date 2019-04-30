@@ -23,3 +23,8 @@ Este trabalho foi feito usando classes porque quando foi entregue o inunciado do
 
 
 NOTA: é incluído um makefile para este projeto que compila os ficheiros e chama ao programa: main.
+
+
+A FAZER:---------------------------------------------------------------------------------------------------------------------------------- - Usar as funcoes de StringFunctions de read_uint, read_int, read_string em alternativa aos cin e getline
+- Utilizar apenas uma funcao decompose
+
