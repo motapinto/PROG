@@ -125,3 +125,16 @@ bool TravelPack::verifyCities(vector<string> cities){
   return true;
 }
 
+TravelPack TravelPack::operator = (TravelPack pack){
+  this->init_date = pack.getInitDate();
+  this->final_date = pack.getFinalDate();
+  this->destination = pack.getDestination();
+  this->cities = pack.getCities();
+  this->available = pack.getAvailability();
+  this->id = pack.getPackId();
+  this->price = pack.getPrice();
+  this->people_limit = pack.getPeopleLimit();
+  this->num_sold = pack.getNumberSold();
+
+  return *this;
+}

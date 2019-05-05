@@ -1,3 +1,5 @@
+#pragma once
+
 #include <vector>
 #include <string>
 #include "address.h"
@@ -24,6 +26,7 @@ class Client {
         unsigned int getFamilyNum(void);
         unsigned int getNumOfBuys(void);
 
+        Client operator = (Client client);
     private:
         std::string client_name;
         Address client_address;

@@ -1,3 +1,5 @@
+#pragma once
+
 #include <vector>
 #include <string>
 #include "date.h"
@@ -30,6 +32,8 @@ class TravelPack {
         void setPrice(unsigned int price);
         void setPeopleLimit(unsigned int people_limit);
         void setNumberSold(unsigned int num_sold);
+
+        TravelPack operator = (TravelPack pack);
     private:
         Date init_date, final_date;
         std::string destination;

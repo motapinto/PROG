@@ -83,3 +83,13 @@ bool Client::verifyPacksBought(vector<unsigned int> packs){
   }
   return true;
 }
+
+Client Client::operator = (Client client){
+  this->client_name = client.getName();
+  this->client_address = client.getAddress();
+  this->tour_packs_bought = client.getTourPacksBought();
+  this->nif = client.getNif();
+  this->family_num = client.getNumOfBuys();
+
+  return *this;
+}

@@ -1,3 +1,5 @@
+#pragma once
+
 #include "client.h"
 #include "travelpack.h" 
  
