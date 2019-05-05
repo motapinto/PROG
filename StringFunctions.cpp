@@ -1,32 +1,27 @@
-#include <iostream>
-#include <string>
-#include <vector>
 #include "StringFunctions.h"
 
-using namespace std;
-
-void TrimLeft(string &str){
+void TrimLeft(std::string &str){
     str.erase(0, str.find_first_not_of(' '));
 }
 
-void TrimRight(string &str) {
+void TrimRight(std::string &str) {
     str.erase(str.find_last_not_of(' ') + 1);
 }
 
-void Trim(string &str) {
+void Trim(std::string &str) {
     TrimLeft(str); 
     TrimRight(str); 
 }
 
-void decompose(string s, vector<string> &elements, char c){
+void decompose(std::string s, std::vector <std::string> &elements, char c){
   elements.resize(0);
 
   Trim(s);
   if(s.size() == 0) return;
 
 	size_t pos = s.find(c);
-	while(pos != string::npos){ //ate final da string
-		string elem = s.substr(0, pos);
+	while(pos != std::string::npos){ //ate final da string
+		std::string elem = s.substr(0, pos);
 		Trim(elem);
 		elements.push_back(elem);
 		s.erase(0, pos+1);
@@ -36,15 +31,15 @@ void decompose(string s, vector<string> &elements, char c){
 	elements.push_back(s);
 }
 
-void decompose(string s, vector<string> &elements){
+void decompose(std::string s, std::vector <std::string> &elements){
   elements.resize(0);
 
   Trim(s);
   if(s.size() == 0) return;
 
   size_t pos = s.find('/');
-	while(pos != string::npos){ //ate final da string
-		string elem = s.substr(0, pos);
+	while(pos != std::string::npos){ //ate final da string
+		std::string elem = s.substr(0, pos);
 		Trim(elem);
 		elements.push_back(elem);
 		s.erase(0, pos + 1);
@@ -54,10 +49,10 @@ void decompose(string s, vector<string> &elements){
 	elements.push_back(s);
 }
 
-bool decompose(string s, vector<unsigned int> &elements, char c){
+bool decompose(std::string s, std::vector <unsigned int> &elements, char c='/'){
   //used to verify if value was converted
   //all values are unsigned, if after converting value <= -1, convertion failled or value is not unsigned
-  vector<string> string_elem;
+  std::vector <std::string> string_elem;
   elements.resize(0);
   int value = -1; 
 
@@ -78,32 +73,7 @@ bool decompose(string s, vector<unsigned int> &elements, char c){
   return true;
 }
 
-bool decompose(string s, vector<unsigned int> &elements){
-  //used to verify if value was converted
-  //all values are unsigned, if after converting value <= -1, convertion failled or value is not unsigned
-  vector<string> string_elem;
-  elements.resize(0);
-  int value = -1; 
-
-  decompose(s, string_elem);
-
-
-  for(size_t i = 0; i < string_elem.size(); i++){
-    if(string_to_int(string_elem.at(i), value) == false){  //convertion failled
-      elements.resize(0);
-      return false; 
-    } 
-    if(value <= -1){ //negative number
-      elements.resize(0);
-      return false; 
-    }
-    elements.push_back(value);
-  }
-
-  return true;
-}
-
-bool string_to_int(string s, int &ret){
+bool string_to_int(std::string s, int &ret){
   Trim(s);
   ret = 0;
 
@@ -215,18 +185,43 @@ bool string_to_int(string s, int &ret){
   return false;
 }
 
-void read_int(int &ret){
-  string reading_str;
+//Generic function to read integers
+void read_int(int &init_store) 
+{ 
+    std::string str;
 
-  while(1){
-    getline(cin, reading_str);
+    while(true) {
+        getline(std::cin, str);
 
-    try{
-      ret = stoi(reading_str);
-      break;
+        try {
+            init_store = stoi(str);
+            break;
+
+        }
+        catch(const invalid_argument& ia) {
+            std::cout << "Input value is not valid\n";
+            std::cout << "Try again: ";
+        }
     }
-    catch(const invalid_argument &ia){
-      cout << "Invalid Input\n";
+}
+
+//Generic function to read unsigned integers
+void read_uint(unsigned int &init_store) 
+{ 
+    std::cin >> init_store;
+    while(std::cin.fail()) {
+        std::cin.clear();
+        std::cin.ignore();
+        std::cin >> init_store;
     }
-  }
+    std::cin.ignore();
+}
+
+//Generic function to read strings
+void read_string(std::string &str) 
+{ 
+    while(!getline(std::cin, str, '\n')){
+        std::cin.clear();
+        std::cin.ignore();
+    }
 }

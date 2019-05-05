@@ -1,5 +1,9 @@
+<<<<<<< HEAD
 #pragma once
 
+=======
+#include <iostream>
+>>>>>>> 30251e5feca12cf3feac85a37aa1fa31314cf2d6
 #include <vector>
 #include <string>
 
@@ -18,3 +22,9 @@ bool decompose(std::string s, std::vector<unsigned int> &elements, char c);
 bool decompose(std::string s, std::vector<unsigned int> &elements);
 
 bool string_to_int(std::string s, int &ret);
+
+void read_string(std::string &str);
+
+void read_uint(unsigned int &init_store);
+
+void read_int(int &init_store);
