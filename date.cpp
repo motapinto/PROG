@@ -1,4 +1,7 @@
 #include "date.h"
+#include <ctime>
+#include <iomanip>
+#include <exception>
 
 Date::Date(){
   time_t current_time = time(0);
@@ -10,23 +13,23 @@ Date::Date(){
 }
 
 Date::Date(unsigned int year, unsigned int month,unsigned int day){
-    this->year = year;
-    this->month = month;
-    this->day = day;
+    std::string date;
+    
+    date = std::to_string(year) + "/" + std::to_string(month) + "/" + std::to_string(day);
+    
+    checkDate(date); //throws exceptions if date is not valid
 
-    std::string date = getDate();
-
-    checkDate(date);
-    this->day = stoi(date.substr(6,2));
-    this->month = stoi(date.substr(4,2));
-    this->year = stoi(date.substr(0, 4));
+    this->day = stoi(date.substr(6,2)); //if no exceptions is thrown then associate day 
+    this->month = stoi(date.substr(4,2));//if no exceptions is thrown then associate month 
+    this->year = stoi(date.substr(0, 4));//if no exceptions is thrown then associate year 
 }
 
 Date::Date(std::string date){
-    checkDate(date);
-    this->day = stoi(date.substr(6,2));
-    this->month = stoi(date.substr(4,2));
-    this->year = stoi(date.substr(0, 4));
+    checkDate(date); //throws exceptions if date is not valid
+    
+    this->day = stoi(date.substr(6,2)); //if no exceptions is thrown then associate day 
+    this->month = stoi(date.substr(4,2)); //if no exceptions is thrown then associate day 
+    this->year = stoi(date.substr(0, 4)); //if no exceptions is thrown then associate day 
 }
 
 bool Date::operator > (const Date date){
@@ -69,7 +72,6 @@ bool Date::operator <= (const Date date){
   if(*this < date) return true;
 
   return false;
-
 }
 
 bool Date::operator == (const Date date){
@@ -89,47 +91,38 @@ bool Date::operator != (const Date date){
 }
 
 Date Date::operator = (const Date date){
-  this->day = date.day;
-  this->month = date.month;
-  this->year = date.year;
+  this->day = date.getDay();
+  this->month = date.getMonth();
+  this->year = date.getYear();
 
   return *this;
 }
 
 void Date::setYear (unsigned int year){
     std::string date;
+
+    date = std::to_string(year) + "/" + std::to_string(this->month) + "/" + std::to_string(this->day);
+
+    checkDate(date);
     this->year = year;
-
-    std::string date = getDate();
-
-    checkDate(date);
-    this->day = stoi(date.substr(6,2));
-    this->month = stoi(date.substr(4,2));
-    this->year = stoi(date.substr(0, 4));
-}
-
-void Date::setDay (unsigned int day){
-    std::string date;
-    this->day = day;
-
-    std::string date = getDate();
-
-    checkDate(date);
-    this->day = stoi(date.substr(6,2));
-    this->month = stoi(date.substr(4,2));
-    this->year = stoi(date.substr(0, 4));
 }
 
 void Date::setMonth (unsigned int month){
     std::string date;
-    this->month = month;
-
-    std::string date = getDate();
+    
+    date = std::to_string(this->year) + "/" + std::to_string(month) + "/" + std::to_string(this->day);
 
     checkDate(date);
-    this->day = stoi(date.substr(6,2));
-    this->month = stoi(date.substr(4,2));
-    this->year = stoi(date.substr(0, 4));
+    this->month = month;
+}
+
+void Date::setDay (unsigned int day){
+    std::string date;
+    
+    date = std::to_string(this->year) + "/" + std::to_string(this->month) + "/" + std::to_string(day);
+
+    checkDate(date);
+    this->day = day;
 }
 
 void Date::setDate(std::string date){
@@ -137,16 +130,13 @@ void Date::setDate(std::string date){
     this->day = stoi(date.substr(6,2));
     this->month = stoi(date.substr(4,2));
     this->year = stoi(date.substr(0, 4));
-    
 }
 
 void Date::setDate (unsigned int year, unsigned int month, unsigned int day){
     
-    this->year = year;
-    this->month = month;
-    this->day = day;
-
-    std::string date = getDate();
+    std::string date;
+    
+    date = std::to_string(year) + "/" + std::to_string(month) + "/" + std::to_string(day);
 
     checkDate(date);
     this->day = stoi(date.substr(6,2));
@@ -167,15 +157,13 @@ unsigned int Date::getDay() const{
 }
 
 std::string Date::getDate() const{ // returns the date in format "yyyy/mm/dd"
-  std::string date;
 
-  std::string date = std::to_string(this->day) + "/" + std::to_string(this->month) + "/" + std::to_string(this->year);
-
+  std::string date =  std::to_string(this->year);+ "/" + std::to_string(this->month) + "/" + std::to_string(this->day);
   return date;
 }
 
-void Date::show() const{ // shows the date on the screen in format "yyyy/mm/dd"
-  std::cout << std::setw(4) << this->year << '/' << std::setw(2) << this->month << '/' << std::setw(2) << this->day << std::endl;
+void Date::show(std::ostream &fp) const{ // shows the date on the screen/text file in format "yyyy/mm/dd"
+  fp << std::setw(4) << this->year << '/' << std::setw(2) << this->month << '/' << std::setw(2) << this->day << std::endl;
 }
 
 unsigned int Date::daysOf(unsigned int month, unsigned int &year) {
@@ -210,20 +198,16 @@ unsigned int Date::daysOf(unsigned int month, unsigned int &year) {
 void Date::checkDate(std::string &date) {
     unsigned int day, month, year;
 
-  if (date.size() == 10 && date.at(2) == '/' && date.at(5) == '/')
+  if (date.size() == 10 && date.at(4) == '/' && date.at(7) == '/')
   {
-        day = stoi(date.substr(0, 2));
-        month = stoi(date.substr(3, 2));
-        year = stoi(date.substr(5, 4));
+        day = stoi(date.substr(8, 2));
+        month = stoi(date.substr(5, 2));
+        year = stoi(date.substr(0, 4));
 
-        if(this->day >= 1 && this->day <= this->daysOf(this->month, this->year) && 
-        this->month >= 1 && this->month <= 12 && 
-        this->year >= 1900 && this->year <=3000) 
-        { }
-
-        else
-        {
-            throw new DateException(NULL);
+        if(this->day < 1 || this->day > this->daysOf(this->month, this->year) || 
+        this->month < 1 || this->month > 12 || this->year < 2000 || this->year > 2100) 
+        { 
+          throw new DateException(NULL);
         }
   }
 
@@ -233,6 +217,11 @@ void Date::checkDate(std::string &date) {
   }
 
 }
+
+
+
+
+
 
 bool Date::validSet(std::string date) {
     try {
@@ -331,4 +320,11 @@ bool Date::validConstruct(unsigned int year, unsigned int month, unsigned int da
     }
 
     return true;
+}
+
+std::ostream& operator << (std::ostream& os, const Date& date){
+
+  os << date.year << "/" << date.month << "/" << date.day;
+
+  return os;
 }

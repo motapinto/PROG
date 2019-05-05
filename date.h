@@ -1,8 +1,8 @@
+#pragma once
+
 #include <iostream>
-#include <string>
-#include <iomanip>
-#include <ctime>
-#include <exception>
+#include <fstream>
+#include "StringFunctions.h"
 
 class Date
 {
@@ -32,14 +32,14 @@ class Date
     
     unsigned int daysOf(unsigned int month, unsigned int &year);
 
-    void show() const; // shows the date on the screen in format "yyyy/mm/dd"
+    void show(std::ostream &fp) const; // shows the date on the screen in format "yyyy/mm/dd"
     void checkDate(std::string &date) ;
     bool validSet(std::string date);
     bool validSet(unsigned int year, unsigned int month, unsigned int day);
     bool validConstruct(std::string date);
     bool validConstruct(unsigned int year, unsigned int month, unsigned int day); 
 
-
+    friend std::ostream& operator << (std::ostream& os, const Date& date);
   private:
     unsigned int year;
     unsigned int month;
@@ -60,3 +60,4 @@ class DateException: public std::exception
         return this->str.c_str();
     }
 } ;
+

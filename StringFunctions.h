@@ -1,9 +1,6 @@
-<<<<<<< HEAD
 #pragma once
 
-=======
 #include <iostream>
->>>>>>> 30251e5feca12cf3feac85a37aa1fa31314cf2d6
 #include <vector>
 #include <string>
 

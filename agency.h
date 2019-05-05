@@ -1,7 +1,9 @@
 #pragma once
 
+#include <vector>
+#include <string>
 #include "client.h"
-#include "travelpack.h" 
+#include "travelpack.h"
  
 class Agency {
     public:
@@ -12,7 +14,7 @@ class Agency {
         
         bool addClient(std::string name, std::string address, std::vector <unsigned int> tour_packs_bought, unsigned int nif, unsigned int family_num);
         bool addClient(std::string name, Address address, std::vector <unsigned int> tour_packs_bought, unsigned int nif, unsigned int family_num);
-        bool addClient(Client client);
+        bool addClient(Client &client);
         
         bool addTravelPack(std::string init_date, std::string final_date, std::string destination, std::vector<std::string> cities, bool available, unsigned int id, unsigned int price, unsigned int people_limit, unsigned int num_sold);
         bool addTravelPack(Date &init_date, Date &final_date, std::string destination, std::vector<std::string> cities, bool available, unsigned int id, unsigned int price, unsigned int people_limit, unsigned int num_sold);

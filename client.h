@@ -28,6 +28,7 @@ class Client {
 
         Client operator = (Client client);
     private:
+        friend class Agency;
         std::string client_name;
         Address client_address;
         std::vector<unsigned int> tour_packs_bought;

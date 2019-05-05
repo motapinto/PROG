@@ -22,12 +22,12 @@ void Agency::removeClient(unsigned int nif) {
   vector <unsigned int> tour_packs_bought;
 
   for(size_t i= 0; i < this->client_list.size(); i++){
-      if(this->client_list.at(i).getNif() == nif) {
+      if(this->client_list.at(i).nif == nif) {
         for(size_t k = 0; k < tour_packs_bought.size(); k++){ //decrement number of sold packs
           for(size_t j = 0; j < tour_pack.size(); j++){
-            if(tour_pack.at(j).getPackId() == tour_packs_bought.at(k)){
-              if(tour_pack.at(j).getNumberSold() > 0){
-                tour_pack.at(j).setNumberSold(tour_pack.at(j).getNumberSold() - 1);
+            if(tour_pack.at(j).id == tour_packs_bought.at(k)){
+              if(tour_pack.at(j).num_sold > 0){
+                tour_pack.at(j).num_sold--;
                 break;
               }
             }
@@ -43,19 +43,17 @@ void Agency::removeClient(unsigned int nif) {
 bool Agency::addClient(string name, string address, vector<unsigned int> tour_packs_bought, unsigned int nif, unsigned int family_num) {
   //Check if there is already a client with the same nif
   for(size_t i = 0; i < this->client_list.size(); i++)
-    if(this->client_list.at(i).getNif() == nif) return false;
+    if(this->client_list.at(i).nif == nif) return false;
     
   if(verifyPacksBought(tour_packs_bought) == false) return false;
 
   for(size_t i = 0; i < tour_packs_bought.size(); i++){ //increment number of sold packs
     for(size_t j = 0; j < tour_pack.size(); j++){
-      if(tour_pack.at(j).getPackId() == tour_packs_bought.at(i)){
-        if(tour_pack.at(j).getNumberSold() < tour_pack.at(j).getPeopleLimit()){
-          tour_pack.at(j).setNumberSold(tour_pack.at(j).getNumberSold() + 1);
+      if(tour_pack.at(j).id == tour_packs_bought.at(i)){
+        if(tour_pack.at(j).num_sold < tour_pack.at(j).people_limit){
+          tour_pack.at(j).num_sold++;
           break;
         }
-        else 
-          return false;
       }
     }
   }
@@ -68,19 +66,17 @@ bool Agency::addClient(string name, string address, vector<unsigned int> tour_pa
 bool Agency::addClient(string name, Address address, vector<unsigned int> tour_packs_bought, unsigned int nif, unsigned int family_num) {
   //Check if there is already a client with the same nif
   for(size_t i = 0; i < this->client_list.size(); i++)
-    if(this->client_list.at(i).getNif() == nif) return false;
+    if(this->client_list.at(i).nif == nif) return false;
 
   if(verifyPacksBought(tour_packs_bought) == false) return false;
 
   for(size_t i = 0; i < tour_packs_bought.size(); i++){ //increment number of sold packs
     for(size_t j = 0; j < tour_pack.size(); j++){
-      if(tour_pack.at(j).getPackId() == tour_packs_bought.at(i)){
-        if(tour_pack.at(j).getNumberSold() < tour_pack.at(j).getPeopleLimit()){
-          tour_pack.at(j).setNumberSold(tour_pack.at(j).getNumberSold() + 1);
+      if(tour_pack.at(j).id == tour_packs_bought.at(i)){
+        if(tour_pack.at(j).num_sold < tour_pack.at(j).people_limit){
+          tour_pack.at(j).num_sold++;
           break;
         }
-        else 
-          return false;
       }
     }
   }
@@ -91,25 +87,21 @@ bool Agency::addClient(string name, Address address, vector<unsigned int> tour_p
   this->client_list.push_back(new_client);
   return true;
 }
-bool Agency::addClient(Client client){
-  vector<unsigned int> packs_bought;
+bool Agency::addClient(Client &client){
   //Check if there is already a client with the same nif
   for(size_t i = 0; i < this->client_list.size(); i++)
-    if(this->client_list.at(i).getNif() == client.getNif()) return false;
+    if(this->client_list.at(i).nif == client.nif) return false;
     
-  packs_bought = client.getTourPacksBought();
 
-  if(verifyPacksBought(packs_bought) == false) return false;
+  if(!verifyPacksBought(client.tour_packs_bought)) return false;
 
-  for(size_t i = 0; i < packs_bought.size(); i++){ //increment number of sold packs
+  for(size_t i = 0; i < client.tour_packs_bought.size(); i++){ //increment number of sold packs
     for(size_t j = 0; j < tour_pack.size(); j++){
-      if(tour_pack.at(j).getPackId() == packs_bought.at(i)){
-        if(tour_pack.at(j).getNumberSold() < tour_pack.at(j).getPeopleLimit()){
-          tour_pack.at(j).setNumberSold(tour_pack.at(j).getNumberSold() + 1);
+      if(tour_pack.at(j).id == client.tour_packs_bought.at(i)){
+        if(tour_pack.at(j).num_sold < tour_pack.at(j).people_limit){
+          tour_pack.at(j).num_sold++;
           break;
         }
-        else 
-          return false;
       }
     }
   }
@@ -119,40 +111,30 @@ bool Agency::addClient(Client client){
 
 bool Agency::addTravelPack(std::string init_date, std::string final_date, std::string destination, std::vector<std::string> cities, bool available, unsigned int id, unsigned int price, unsigned int people_limit, unsigned int num_sold){
   //Check if there is already a pack with the same id
-  Date date_aux;
-  int final_date_val;
-  int init_date_val;
+  Date init(init_date), fin(final_date);
 
   for(size_t i = 0; i < this->tour_pack.size(); i++)
-    if(this->tour_pack.at(i).getPackId() == id) return false;
+    if(this->tour_pack.at(i).id == id) return false;
 
-  if(!setDate(date_aux, final_date))return false;
-  final_date_val = getIntDate(date_aux);
+  if(!init.validSet(init_date)) return false;
+  if(!fin.validSet(final_date)) return false;
 
-  if(!setDate(date_aux, init_date))return false;
-  init_date_val = getIntDate(date_aux);
-
-  if(final_date_val < init_date_val) return false;
+  if(fin < init) return false;
 
   if(!verifyCities(cities)) return false;
 
-  TravelPack pack(init_date, final_date, destination, cities, available, id, price, people_limit, num_sold);
+  TravelPack pack(init, fin, destination, cities, available, id, price, people_limit, num_sold);
 
   this->tour_pack.push_back(pack);
   return true;
 }
 bool Agency::addTravelPack(Date &init_date, Date &final_date, std::string destination, std::vector<std::string> cities, bool available, unsigned int id, unsigned int price, unsigned int people_limit, unsigned int num_sold){
   //Check if there is already a pack with the same id
-  int final_date_val;
-  int init_date_val;
 
   for(size_t i = 0; i < this->tour_pack.size(); i++)
-    if(this->tour_pack.at(i).getPackId() == id) return false;
+    if(this->tour_pack.at(i).id == id) return false;
 
-  final_date_val = getIntDate(final_date);
-  init_date_val = getIntDate(init_date);
-
-  if(final_date_val < init_date_val) return false;
+  if(final_date < init_date) return false;
 
   if(!verifyCities(cities)) return false;
 
@@ -165,17 +147,11 @@ bool Agency::addTravelPack(Date &init_date, Date &final_date, std::string destin
 bool Agency::addTravelPack(TravelPack pack){
   //Check if there is already a pack with the same id
   for(size_t i = 0; i < this->tour_pack.size(); i++)
-    if(this->tour_pack.at(i).getPackId() == pack.getPackId()) return false;
+    if(this->tour_pack.at(i).id == pack.id) return false;
 
-  int final_date_val;
-  int init_date_val;
+  if(pack.final_date < pack.init_date) return false;
 
-  final_date_val = getIntDate(pack.getFinalDate());
-  init_date_val = getIntDate(pack.getInitDate());
-
-  if(final_date_val < init_date_val) return false;
-
-  if(!verifyCities(pack.getCities())) return false;
+  if(!verifyCities(pack.cities)) return false;
 
   this->tour_pack.push_back(pack);
   return true;
@@ -183,49 +159,42 @@ bool Agency::addTravelPack(TravelPack pack){
 
 bool Agency::changeClient(Client &client, unsigned int nif) {
   Client search_aux;
-  vector<unsigned int> tour_packs_bought;
 
   for(size_t i= 0; i < this->client_list.size(); i++){
-      if(this->client_list.at(i).getNif() == nif) {
-          if(client.getNif() != nif){
-            if(searchClientNif(client.getNif(), search_aux) == false)
-              this->client_list.at(i).setNif(client.getNif());
-            else 
-              return false;
-          }
-          this->client_list.at(i).setName(client.getName());
-          this->client_list.at(i).setAddress(client.getAddress());
-          //remove old travel packs
-          tour_packs_bought = this->client_list.at(i).getTourPacksBought();
-          for(size_t k = 0; k < tour_packs_bought.size(); k++){ //decrement number of sold packs
-            for(size_t j = 0; j < tour_pack.size(); j++){
-              if(tour_pack.at(j).getPackId() == tour_packs_bought.at(k)){
-                if(tour_pack.at(j).getNumberSold() > 0){
-                  tour_pack.at(j).setNumberSold(tour_pack.at(j).getNumberSold() - 1);
-                  break;
-                }
+    if(this->client_list.at(i).nif == nif) {
+
+        if(client.nif != this->client_list.at(i).nif)
+          if(searchClientNif(client.nif, search_aux))
+            return false;
+
+        if(!verifyPacksBought(client.tour_packs_bought)) return false;
+              
+        //remove old travel packs
+        for(size_t k = 0; k < this->client_list.at(i).tour_packs_bought.size(); k++){ //decrement number of sold packs
+          for(size_t j = 0; j < tour_pack.size(); j++){
+            if(tour_pack.at(j).id == this->client_list.at(i).tour_packs_bought.at(k)){
+              if(tour_pack.at(j).num_sold > 0){
+                tour_pack.at(j).num_sold--;
+                break;
               }
             }
           }
-          //add new travel packs
-          tour_packs_bought = client.getTourPacksBought();
-          if(verifyPacksBought(tour_packs_bought) == false) return false;
-          
-          for(size_t i = 0; i < tour_packs_bought.size(); i++){ //increment number of sold packs
-            for(size_t j = 0; j < tour_pack.size(); j++){
-              if(tour_pack.at(j).getPackId() == tour_packs_bought.at(i)){
-                if(tour_pack.at(j).getNumberSold() < tour_pack.at(j).getPeopleLimit()){
-                  tour_pack.at(j).setNumberSold(tour_pack.at(j).getNumberSold() + 1);
-                  break;
-                }
-                else 
-                  return false;
+        }
+        //add new travel packs
+
+        for(size_t i = 0; i < client.tour_packs_bought.size(); i++){ //increment number of sold packs
+          for(size_t j = 0; j < tour_pack.size(); j++){
+            if(tour_pack.at(j).id == client.tour_packs_bought.at(i)){
+              if(tour_pack.at(j).num_sold < tour_pack.at(j).people_limit){
+                tour_pack.at(j).num_sold++;
+                break;
               }
             }
           }
-          this->client_list.at(i).setTourPacks(client.getTourPacksBought());
-          this->client_list.at(i).setFamilyNum(client.getFamilyNum());
-          return true;
+        }
+
+        this->client_list.at(i) = client;
+        return true;
       }
   }
   return false;
@@ -233,49 +202,41 @@ bool Agency::changeClient(Client &client, unsigned int nif) {
 
 bool Agency::changeClient(Client &client, string name) {
   Client search_aux;
-  vector<unsigned int> tour_packs_bought;
 
   for(size_t i= 0; i < this->client_list.size(); i++)
-      if(this->client_list.at(i).getName() == name) {
-          if(client.getNif() != nif){
-            if(searchClientNif(client.getNif(), search_aux) == false)
-              this->client_list.at(i).setNif(client.getNif());
-            else 
+      if(this->client_list.at(i).client_name == name) {
+
+          if(client.nif != this->client_list.at(i).nif)
+            if(searchClientNif(client.nif, search_aux))
               return false;
-          }     
-          this->client_list.at(i).setName(client.getName());
-          this->client_list.at(i).setNif(client.getNif());
-          this->client_list.at(i).setAddress(client.getAddress());
+
+          if(!verifyPacksBought(client.tour_packs_bought)) return false;
+               
           //remove old travel packs
-          tour_packs_bought = this->client_list.at(i).getTourPacksBought();
-          for(size_t k = 0; k < tour_packs_bought.size(); k++){ //decrement number of sold packs
+          for(size_t k = 0; k < this->client_list.at(i).tour_packs_bought.size(); k++){ //decrement number of sold packs
             for(size_t j = 0; j < tour_pack.size(); j++){
-              if(tour_pack.at(j).getPackId() == tour_packs_bought.at(k)){
-                if(tour_pack.at(j).getNumberSold() > 0){
-                  tour_pack.at(j).setNumberSold(tour_pack.at(j).getNumberSold() - 1);
+              if(tour_pack.at(j).id == this->client_list.at(i).tour_packs_bought.at(k)){
+                if(tour_pack.at(j).num_sold > 0){
+                  tour_pack.at(j).num_sold--;
                   break;
                 }
               }
             }
           }
           //add new travel packs
-          tour_packs_bought = client.getTourPacksBought();
-          if(verifyPacksBought(tour_packs_bought) == false) return false;
 
-          for(size_t i = 0; i < tour_packs_bought.size(); i++){ //increment number of sold packs
+          for(size_t i = 0; i < client.tour_packs_bought.size(); i++){ //increment number of sold packs
             for(size_t j = 0; j < tour_pack.size(); j++){
-              if(tour_pack.at(j).getPackId() == tour_packs_bought.at(i)){
-                if(tour_pack.at(j).getNumberSold() < tour_pack.at(j).getPeopleLimit()){
-                  tour_pack.at(j).setNumberSold(tour_pack.at(j).getNumberSold() + 1);
+              if(tour_pack.at(j).id == client.tour_packs_bought.at(i)){
+                if(tour_pack.at(j).num_sold < tour_pack.at(j).people_limit){
+                  tour_pack.at(j).num_sold++;
                   break;
                 }
-                else 
-                  return false;
               }
             }
           }
-          this->client_list.at(i).setTourPacks(client.getTourPacksBought());
-          this->client_list.at(i).setFamilyNum(client.getFamilyNum());
+
+          this->client_list.at(i) = client;
           return true;
       }
   return false;
@@ -285,18 +246,18 @@ bool Agency::changeTravelPack(TravelPack &pack, unsigned int id){
 
   for(size_t i= 0; i < this->tour_pack.size(); i++){
       if(this->tour_pack.at(i).getPackId() == id) {
-          this->tour_pack.at(i).setDestination(pack.getDestination());
+          if(!verifyCities(pack.cities)) return false;
           //Initial date is higher than final date
-          if(getIntDate(pack.getInitDate()) > getIntDate(pack.getFinalDate())) return false; 
-          this->tour_pack.at(i).setInitDate(pack.getInitDate());
-          this->tour_pack.at(i).setFinalDate(pack.getFinalDate());
-          if(!verifyCities(pack.getCities())) return false;
-          this->tour_pack.at(i).setCities(pack.getCities());
-          this->tour_pack.at(i).setAvailability(pack.getAvailability());
-          this->tour_pack.at(i).setPrice(pack.getPrice());
-          if(pack.getNumberSold() > pack.getPeopleLimit()) return false;
-          this->tour_pack.at(i).setPeopleLimit(pack.getPeopleLimit());
-          this->tour_pack.at(i).setNumberSold(pack.getNumberSold());
+          if(pack.init_date > pack.final_date) return false; 
+          if(pack.num_sold > pack.people_limit) return false;
+          this->tour_pack.at(i).destination = pack.destination;
+          this->tour_pack.at(i).init_date = pack.init_date;
+          this->tour_pack.at(i).final_date = pack.final_date;
+          this->tour_pack.at(i).cities = pack.cities;
+          this->tour_pack.at(i).available = pack.available;
+          this->tour_pack.at(i).price = pack.price;
+          this->tour_pack.at(i).people_limit = pack.people_limit;
+          this->tour_pack.at(i).num_sold = pack.num_sold;
           return true;
       }
   }
@@ -305,10 +266,8 @@ bool Agency::changeTravelPack(TravelPack &pack, unsigned int id){
 
 void Agency::removeTravelPack(unsigned int id) {
     //Remove from agency
-    unsigned int pack_id;
     for(size_t i= 0; i < this->tour_pack.size(); i++){
-        pack_id = this->tour_pack.at(i).getPackId();
-        if(pack_id == id) {
+        if(this->tour_pack.at(i).id == id) {
              this->tour_pack.erase(this->tour_pack.begin()+i);
             break;
         }
@@ -316,9 +275,8 @@ void Agency::removeTravelPack(unsigned int id) {
 
     //Remove from each client
     for(size_t i= 0; i < this->client_list.size(); i++){
-        vector <unsigned int> client_packs = this->client_list.at(i).getTourPacksBought();
-        for(size_t j = 0; j < client_packs.size(); j++) {
-            if(client_packs.at(j) == id) { 
+        for(size_t j = 0; j < this->client_list.at(i).tour_packs_bought.size(); j++) {
+            if(this->client_list.at(i).tour_packs_bought.at(j) == id) { 
                 this->client_list.at(i).getTourPacksBought().erase(this->client_list.at(i).getTourPacksBought().begin()+j);
             }
         }
@@ -328,7 +286,7 @@ void Agency::removeTravelPack(unsigned int id) {
 
 bool Agency::searchClientNif(unsigned int nif, Client &client){
   for(size_t i = 0; i < this->client_list.size(); i++)
-    if(this->client_list.at(i).getNif() == nif){
+    if(this->client_list.at(i).nif == nif){
       client = this->client_list.at(i);
       return true;
     }
@@ -338,7 +296,7 @@ bool Agency::searchClientNif(unsigned int nif, Client &client){
 vector<Client> Agency::searchClientName(string name){
   vector<Client> vec;
   for(size_t i = 0; i < this->client_list.size(); i++)
-    if(this->client_list.at(i).getName() == name)
+    if(this->client_list.at(i).client_name == name)
       vec.push_back(this->client_list.at(i));
 
   return vec;
@@ -346,7 +304,7 @@ vector<Client> Agency::searchClientName(string name){
 vector<Client> Agency::searchClientAddress(string address){
   vector<Client> vec;
   for(size_t i = 0; i < this->client_list.size(); i++)
-    if(this->client_list.at(i).getAddress().getAddressString() == address)
+    if(this->client_list.at(i).client_address.getAddressString() == address)
       vec.push_back(this->client_list.at(i));
 
   return vec;
@@ -354,7 +312,7 @@ vector<Client> Agency::searchClientAddress(string address){
 
 bool Agency::searchTravelPackId(unsigned int id, TravelPack &pack){
   for(size_t i = 0; i < this->tour_pack.size(); i++)
-    if(this->tour_pack.at(i).getPackId() == id){
+    if(this->tour_pack.at(i).id == id){
       pack = this->tour_pack.at(i);
       return true;
     }
@@ -364,34 +322,31 @@ bool Agency::searchTravelPackId(unsigned int id, TravelPack &pack){
 vector<TravelPack> Agency::searchTravelPackDestination(string destination){
   vector<TravelPack> vec;
   for(size_t i = 0; i < this->tour_pack.size(); i++)
-    if(this->tour_pack.at(i).getDestination() == destination)
+    if(this->tour_pack.at(i).destination == destination)
       vec.push_back(this->tour_pack.at(i));
 
   return vec;
 }
 vector<TravelPack> Agency::searchTravelPackDates(string init_date, string final_date){
   vector<TravelPack> vec;
-  Date date_aux; //used to compare
-  setDate(date_aux, init_date);
-  int init_date_int = getIntDate(date_aux); 
-  setDate(date_aux, final_date);
-  int final_date_int = getIntDate(date_aux); 
+
+  Date init(init_date), fin(final_date);
+  if(!init.validSet(init_date)) return vec;
+  if(!fin.validSet(final_date)) return vec;
   
   for(size_t i = 0; i < this->tour_pack.size(); i++)
-    if( getIntDate(this->tour_pack.at(i).getInitDate()) > init_date_int && getIntDate(this->tour_pack.at(i).getFinalDate()) > final_date_int )
+    if( this->tour_pack.at(i).init_date >= init_date && this->tour_pack.at(i).final_date <= final_date )
       vec.push_back(this->tour_pack.at(i));
 
   return vec;
 }
 vector<TravelPack> Agency::searchTravelPackDates(Date init_date, Date final_date){
   vector<TravelPack> vec;
-  int init_date_int = getIntDate(init_date); 
-  int final_date_int = getIntDate(final_date); 
 
-  if(init_date_int > final_date_int) return vec;
+  if(init_date > final_date) return vec;
   
   for(size_t i = 0; i < this->tour_pack.size(); i++)
-    if( getIntDate(this->tour_pack.at(i).getInitDate()) >= init_date_int && getIntDate(this->tour_pack.at(i).getFinalDate()) <= final_date_int )
+    if( this->tour_pack.at(i).init_date >= init_date && this->tour_pack.at(i).final_date <= final_date )
       vec.push_back(this->tour_pack.at(i));
 
   return vec;

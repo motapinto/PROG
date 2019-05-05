@@ -18,8 +18,8 @@ TravelPack::TravelPack(){
 }
 
 TravelPack::TravelPack(string init_date, string final_date, string destination, vector<string> cities, bool available, unsigned int id, unsigned int price, unsigned int people_limit, unsigned int num_sold) {
-    setDate(this->init_date, init_date);
-    setDate(this->final_date, final_date);
+    this->init_date.setDate(init_date);
+    this->final_date.setDate(final_date);
     this->destination = destination;
     this->cities = cities;
     this->available = available;
@@ -41,56 +41,6 @@ TravelPack::TravelPack(Date &init_date, Date &final_date, string destination, ve
     this->num_sold = num_sold;
 }
 
-int TravelPack::readPack(istream &input){ //reads from input file and fills client class
-    vector<string> elements;
-    string str_aux;
-    
-    input >> this->id; //Number of family members
-    input.ignore(); //ignore \n
-    if(input)
-      return 1;
-
-    getline(input, str_aux); //Inicial date
-    setDate(this->init_date, str_aux);
-    if(input)
-      return 2;
-
-    getline(input, str_aux); //Final date
-    setDate(this->final_date, str_aux);
-    if(input)
-      return 3;
-
-    getline(input, str_aux);
-    decompose(str_aux, elements, '-');
-    if(elements.size() != 2)
-      return 4;
-    this->destination = elements.at(0);
-
-    decompose(elements.at(1), elements, ',');
-    for(int i = 0; i < 0; i++)
-      this->cities.push_back(elements.at(i));
-    if(input) //test input
-      return 5;
-
-    input >> this->price; //Price of the pack
-    input.ignore(); //ignore \n
-    if(input)
-      return 6;
-
-    input >> this->people_limit; //Number of people that could go
-    input.ignore(); //ignore \n
-    if(input)
-      return 7;
-
-    input >> this->num_sold; //Number of people that have bought
-    input.ignore(); //ignore \n
-    if(input)
-      return 8;
-    
-
-    return 0;
-}
-
 
 Date TravelPack::getInitDate(void){ return this->init_date; }
 Date TravelPack::getFinalDate(void){ return this->final_date; }
@@ -101,8 +51,8 @@ unsigned int TravelPack::getPackId(void) { return this->id; }
 unsigned int TravelPack::getPrice(void){ return this->price; }
 unsigned int TravelPack::getPeopleLimit(void){ return this->people_limit; }
 unsigned int TravelPack::getNumberSold(void){ return this->num_sold; }
-int TravelPack::setInitDate(string init_date){ return setDate(this->init_date, init_date); }
-int TravelPack::setFinalDate(string final_date){ return setDate(this->final_date, final_date); }
+bool TravelPack::setInitDate(string init_date){ this->init_date.setDate(init_date); return this->init_date.validSet(init_date);}
+bool TravelPack::setFinalDate(string final_date){ this->final_date.setDate(final_date); return this->final_date.validSet(final_date);}
 void TravelPack::setInitDate(Date init_date){ this->init_date = init_date; }
 void TravelPack::setFinalDate(Date final_date){ this->final_date = final_date; }
 void TravelPack::setDestination(string destination){ this->destination = destination; }

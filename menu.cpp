@@ -89,8 +89,8 @@ void print_travel_pack(TravelPack &travel_pack){
       cout  << ", " << travel_pack.getCities().at(i);
   }
   cout << endl;
-  cout << "Initial Date: " << getDate(travel_pack.getInitDate()) << endl;
-  cout << "Final Date: " << getDate(travel_pack.getFinalDate()) << endl;
+  cout << "Initial Date: " << travel_pack.getInitDate() << endl;
+  cout << "Final Date: " << travel_pack.getFinalDate() << endl;
   cout << "Price: " << travel_pack.getPrice() << endl;
   cout << "Number of seats total: " << travel_pack.getPeopleLimit() << endl;
   cout << "Number of seats sold: " << travel_pack.getNumberSold() << endl;
@@ -941,29 +941,35 @@ void print_all_travel_pack_dates(){
   vector<TravelPack> vec;
   Date init_date, final_date;
   string str_aux;
+  bool valid = false;
 
-  cout << "Initial Date: "; read_line(str_aux); 
-  while(setDate(init_date, str_aux) != 0){
-    cout << "Invalid intput!\nDate must follow format: (Year)/(Month)/(Day)\n";
-    cout << "Initial Date: ";  read_line(str_aux);
-  }
+  do {
+    cout << "Initial Date: "; read_line(str_aux); 
+    while(!init_date.validSet(str_aux)){
+      cout << "Invalid intput!\nDate must follow format: (Year)/(Month)/(Day)\n";
+      cout << "Initial Date: ";  read_line(str_aux);
+    }
+    init_date.setDate(str_aux);
 
-  cout << "Final Date: "; read_line(str_aux); 
-  while(setDate(final_date, str_aux) != 0){
-    cout << "Invalid intput!\nDate must follow format: (Year)/(Month)/(Day)\n";
-    cout << "Final Date: "; read_line(str_aux);
-  }
+    cout << "Final Date: "; read_line(str_aux); 
+    while(!final_date.validSet(str_aux)){
+      cout << "Invalid intput!\nDate must follow format: (Year)/(Month)/(Day)\n";
+      cout << "Final Date: "; read_line(str_aux);
+    }
+    final_date.setDate(str_aux);
 
-  if(getIntDate(init_date) > getIntDate(final_date)){
-    cout << "Invalid dates entered!\n";
-    return;
-  }
+    if(init_date > final_date){
+      cout << "Invalid dates entered!\n";
+      valid = false;
+    }
+  } while(!valid);
+
 
   cout << endl;
 
   vec = agency.searchTravelPackDates(init_date, final_date);
 
-  if(vec.size() == 0) cout << "Travel Packs with dates raging from " << getDate(init_date) << " to " << getDate(final_date) << " not found!\n";
+  if(vec.size() == 0) cout << "Travel Packs with dates raging from " << init_date << " to " << final_date << " not found!\n";
   else
     for(size_t i = 0; i < vec.size(); i++)
       print_travel_pack(vec.at(i));
@@ -976,30 +982,36 @@ void print_all_travel_pack_destination_dates(){
   string str_aux;
   string destination;
   bool found = false;
+  bool valid = false;
 
   cout << "Destination: "; read_line(destination); 
 
-  cout << "Initial Date: "; read_line(str_aux); 
-  while(setDate(init_date, str_aux) != 0){
-    cout << "Invalid intput!\nDate must follow format: (Year)/(Month)/(Day)\n";
-    cout << "Initial Date: ";  read_line(str_aux);
-  }
+  do {
+    cout << "Initial Date: "; read_line(str_aux); 
+    while(!init_date.validSet(str_aux)){
+      cout << "Invalid intput!\nDate must follow format: (Year)/(Month)/(Day)\n";
+      cout << "Initial Date: ";  read_line(str_aux);
+    }
+    init_date.setDate(str_aux);
 
-  cout << "Final Date: "; read_line(str_aux); 
-  while(setDate(final_date, str_aux) != 0){
-    cout << "Invalid intput!\nDate must follow format: (Year)/(Month)/(Day)\n";
-    cout << "Final Date: "; read_line(str_aux);
-  }
+    cout << "Final Date: "; read_line(str_aux); 
+    while(!final_date.validSet(str_aux)){
+      cout << "Invalid intput!\nDate must follow format: (Year)/(Month)/(Day)\n";
+      cout << "Final Date: "; read_line(str_aux);
+    }
+    final_date.setDate(str_aux);
 
-  if(getIntDate(init_date) > getIntDate(final_date)){
-    cout << "Invalid dates entered!\n";
-    return;
-  }
+    if(init_date > final_date){
+      cout << "Invalid dates entered!\n";
+      valid = false;
+    }
+  } while(!valid);
+
   cout << endl;
 
   vec = agency.searchTravelPackDates(init_date, final_date);
 
-  if(vec.size() == 0) cout << "Travel Packs with dates raging from " << getDate(init_date) << " to " << getDate(final_date) << " not found!\n";
+  if(vec.size() == 0) cout << "Travel Packs with dates raging from " << init_date << " to " << final_date << " not found!\n";
   else
     for(size_t i = 0; i < vec.size(); i++)
       if(vec.at(i).getDestination() == destination){
@@ -1072,10 +1084,11 @@ void change_travel_pack_init_date(TravelPack &travel_pack){
   Date date_aux;
 
   cout << "Initial Date: "; read_line(str_aux);
-  while(setDate(date_aux, str_aux) != 0){
-    cout << "Invalid Input\nDate should have following format: (year)/(month)/(day)\n";
-    cout << "Initial Date: "; read_line(str_aux); 
+  while(!date_aux.validSet(str_aux)){
+    cout << "Invalid intput!\nDate must follow format: (Year)/(Month)/(Day)\n";
+    cout << "Initial Date: ";  read_line(str_aux);
   }
+  date_aux.setDate(str_aux);
 
   travel_pack.setInitDate(date_aux);
 }
@@ -1085,10 +1098,11 @@ void change_travel_pack_final_date(TravelPack &travel_pack){
   Date date_aux;
 
   cout << "Final Date: "; read_line(str_aux); 
-  while(setDate(date_aux, str_aux) != 0){
-    cout << "Invalid Input\nDate should have following format: (year)/(month)/(day)\n";
+  while(!date_aux.validSet(str_aux)){
+    cout << "Invalid intput!\nDate must follow format: (Year)/(Month)/(Day)\n";
     cout << "Final Date: "; read_line(str_aux);
   }
+  date_aux.setDate(str_aux);
 
   travel_pack.setFinalDate(date_aux);
 }
@@ -1186,7 +1200,7 @@ void add_travel_pack(){
   change_travel_pack_cities(new_pack);
   change_travel_pack_init_date(new_pack);
   change_travel_pack_final_date(new_pack);
-  if(getIntDate(new_pack.getInitDate()) > getIntDate(new_pack.getFinalDate())){
+  if(new_pack.getInitDate() > new_pack.getFinalDate()){
     cerr << "Invalid dates: initial date must be before final date!\n";
     print_wait_menu();
     return;

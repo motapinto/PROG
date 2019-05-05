@@ -9,7 +9,6 @@ class TravelPack {
         TravelPack();
         TravelPack(std::string init_date, std::string final_date, std::string destination, std::vector<std::string> cities, bool available, unsigned int id, unsigned int price, unsigned int people_limit, unsigned int num_sold);
         TravelPack(Date &init_date, Date &final_date, std::string destination, std::vector<std::string> cities, bool available, unsigned int id, unsigned int price, unsigned int people_limit, unsigned int num_sold);
-        int readPack(std::istream &input);
         
         Date getInitDate(void);
         Date getFinalDate(void);
@@ -21,8 +20,8 @@ class TravelPack {
         unsigned int getPeopleLimit(void);
         unsigned int getNumberSold(void);
         
-        int setInitDate(std::string init_date);
-        int setFinalDate(std::string final_date);
+        bool setInitDate(std::string init_date);
+        bool setFinalDate(std::string final_date);
         void setInitDate(Date init_date);
         void setFinalDate(Date final_date);
         void setCities(std::vector<std::string> cities);
@@ -35,6 +34,7 @@ class TravelPack {
 
         TravelPack operator = (TravelPack pack);
     private:
+        friend class Agency;
         Date init_date, final_date;
         std::string destination;
         std::vector<std::string> cities;
