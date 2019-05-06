@@ -1,7 +1,4 @@
 #pragma once
-
-#include <iostream>
-#include <fstream>
 #include "StringFunctions.h"
 
 class Date
@@ -40,6 +37,7 @@ class Date
     bool validConstruct(unsigned int year, unsigned int month, unsigned int day); 
 
     friend std::ostream& operator << (std::ostream& os, const Date& date);
+
   private:
     unsigned int year;
     unsigned int month;
@@ -56,8 +54,9 @@ class DateException: public std::exception
             this->str = str;
         }
 
+        virtual ~DateException() throw() {}
+
     virtual const char* what() const throw() {
         return this->str.c_str();
     }
 } ;
-

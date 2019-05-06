@@ -1,8 +1,12 @@
-#pragma once
-
 #include <iostream>
 #include <vector>
 #include <string>
+#include <cmath>
+#include <cstring>
+#include <fstream>
+#include <iomanip>
+#include <ctime>
+#include <exception>
 
 void TrimLeft(std::string &str);
 

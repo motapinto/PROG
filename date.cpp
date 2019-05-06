@@ -1,7 +1,4 @@
 #include "date.h"
-#include <ctime>
-#include <iomanip>
-#include <exception>
 
 Date::Date(){
   time_t current_time = time(0);
@@ -218,6 +215,12 @@ void Date::checkDate(std::string &date) {
 
 }
 
+std::ostream& operator << (std::ostream& os, const Date& date){
+
+  os << date.year << "/" << date.month << "/" << date.day;
+  return os;
+}
+
 
 
 
@@ -320,11 +323,4 @@ bool Date::validConstruct(unsigned int year, unsigned int month, unsigned int da
     }
 
     return true;
-}
-
-std::ostream& operator << (std::ostream& os, const Date& date){
-
-  os << date.year << "/" << date.month << "/" << date.day;
-
-  return os;
 }
