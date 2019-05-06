@@ -1,5 +1,4 @@
 #include "files.h"
-
 #include "StringFunctions.h"
 #include <string>
 #include <iostream>
@@ -515,8 +514,8 @@ void write_packs(Agency &agency, const string packs_file_name){
     }
   }
   temp_file << "\n";
-  temp_file << packs.at(0).getInitDate() << "\n";
-  temp_file << packs.at(0).getFinalDate() << "\n";
+  temp_file << getDate(packs.at(0).getInitDate()) << "\n";
+  temp_file << getDate(packs.at(0).getFinalDate()) << "\n";
   temp_file << packs.at(0).getPrice() << "\n";
   temp_file << packs.at(0).getPeopleLimit() << "\n";
   temp_file << packs.at(0).getNumberSold() << "\n";
@@ -536,8 +535,8 @@ void write_packs(Agency &agency, const string packs_file_name){
       }
     }
     temp_file << "\n";
-    temp_file << packs.at(i).getInitDate() << "\n";
-    temp_file << packs.at(i).getFinalDate() << "\n";
+    temp_file << getDate(packs.at(i).getInitDate()) << "\n";
+    temp_file << getDate(packs.at(i).getFinalDate()) << "\n";
     temp_file << packs.at(i).getPrice() << "\n";
     temp_file << packs.at(i).getPeopleLimit() << "\n";
     temp_file << packs.at(i).getNumberSold() << "\n";

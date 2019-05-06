@@ -9,7 +9,7 @@ TravelPack::TravelPack(){
   this->num_sold = 0;
 }
 
-TravelPack::TravelPack(string init_date, string final_date, string destination, vector<string> cities, bool available, unsigned int id, unsigned int price, unsigned int people_limit, unsigned int num_sold) {
+TravelPack::TravelPack(string init_date, string final_date, string destination, vector<string> cities, int id, unsigned int price, unsigned int people_limit, unsigned int num_sold) {
 
     this->init_date.setDate(init_date);
     this->final_date.setDate(final_date);
@@ -89,7 +89,7 @@ vector<string> TravelPack::getCities(void) const{
   return this->cities; 
 }
 
-unsigned int TravelPack::getPackId(void) const{ 
+int TravelPack::getPackId(void) const{ 
   return this->id;
 }
 
@@ -124,7 +124,7 @@ void TravelPack::setCities(vector<string> cities){
   this->checkPack();
 }
 
-void TravelPack::setPackId(unsigned int id){ 
+void TravelPack::setPackId(int id){ 
   this->id = id; 
 }
 

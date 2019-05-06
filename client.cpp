@@ -94,8 +94,6 @@ bool Client::verifyPacksBought(vector<int> packs){
 }
 
 void Client::checkClient() {
-    if(this->family_num < 0)
-      throw ClientException(NULL);
 
     if(this->verifyPacksBought(this->tour_packs_bought) == false)
       throw ClientException(NULL);

@@ -1,5 +1,5 @@
 CC=g++
-CFLAGS=-I. -Wall -Wextra -Werror -std=c++11
+CFLAGS=-I. -Wall -Wextra -Werror
 DEPS = agency.h client.h travelpack.h address.h date.h StringFunctions.h files.h menu.h
 OBJ = main.o agency.o client.o travelpack.o address.o date.o StringFunctions.o files.o menu.o
 
