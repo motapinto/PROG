@@ -3,18 +3,20 @@
 using namespace std;
 
 TravelPack::TravelPack(){
+  this->available = false;
   this->id = 0; 
   this->price = 0; 
   this->people_limit = 0;
   this->num_sold = 0;
 }
 
-TravelPack::TravelPack(string init_date, string final_date, string destination, vector<string> cities, int id, unsigned int price, unsigned int people_limit, unsigned int num_sold) {
+TravelPack::TravelPack(string init_date, string final_date, string destination, vector<string> cities, bool available, int id, unsigned int price, unsigned int people_limit, unsigned int num_sold) {
 
     this->init_date.setDate(init_date);
     this->final_date.setDate(final_date);
     this->destination = destination;
     this->cities = cities;
+    this->available = available;
     this->id = id;
     this->price = price;
     this->people_limit = people_limit;
