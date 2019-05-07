@@ -9,7 +9,6 @@ Address::Address() {
 }
 
 Address::Address(std::string address){
-    size_t pos = 0;
     std::vector <std::string> elements;
     std::vector <unsigned int> vec;
 
@@ -42,7 +41,6 @@ Address::Address(std::string street_name, std::string postal_code, std::string c
 void Address::setAddress(std::string address){
     std::vector <std::string> elements;
     std::vector <unsigned int> vec;
-    int door_num;
 
     decompose(address, elements, '/');
     if(elements.size() != 5)

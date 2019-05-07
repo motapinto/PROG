@@ -19,6 +19,7 @@ class Address {
         std::string getCity(void);
         std::string getFloorNum(void);
         unsigned int getDoorNum(void);
+        
     private:
         std::string street_name, postal_code, city, floor_num;  //floor_num : ("-" se não aplicável)
         unsigned int door_num;
