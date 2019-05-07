@@ -1,4 +1,5 @@
 #include "files.h"
+
 #include "StringFunctions.h"
 #include <string>
 #include <iostream>
@@ -378,19 +379,6 @@ int read_files(Agency &agency, string agency_file_name, string &clients_file_nam
       return 1;
   }
 
-  switch (line = read_clients(agency, clients_file_name))
-  {
-    case -1:
-      cerr << "Error: failled to open " << clients_file_name << "!\n";
-      return -2;
-      break;
-    case 0:
-      break;
-    default:
-      cerr << "Error: invalid struct of data in "<< clients_file_name << " on line: " << line << "!\n";      
-      return 2;
-  }
-
   switch (line = read_packs(agency, packs_file_name))
   {
     case -1:
@@ -402,6 +390,19 @@ int read_files(Agency &agency, string agency_file_name, string &clients_file_nam
     default:
       cerr << "Error: invalid struct of data in "<< packs_file_name << " on line: " << line << "!\n";      
       return 3;
+  }
+
+  switch (line = read_clients(agency, clients_file_name))
+  {
+    case -1:
+      cerr << "Error: failled to open " << clients_file_name << "!\n";
+      return -2;
+      break;
+    case 0:
+      break;
+    default:
+      cerr << "Error: invalid struct of data in "<< clients_file_name << " on line: " << line << "!\n";      
+      return 2;
   }
 
   return 0;
@@ -514,8 +515,8 @@ void write_packs(Agency &agency, const string packs_file_name){
     }
   }
   temp_file << "\n";
-  temp_file << getDate(packs.at(0).getInitDate()) << "\n";
-  temp_file << getDate(packs.at(0).getFinalDate()) << "\n";
+  temp_file << packs.at(0).getInitDate() << "\n";
+  temp_file << packs.at(0).getFinalDate() << "\n";
   temp_file << packs.at(0).getPrice() << "\n";
   temp_file << packs.at(0).getPeopleLimit() << "\n";
   temp_file << packs.at(0).getNumberSold() << "\n";
@@ -535,8 +536,8 @@ void write_packs(Agency &agency, const string packs_file_name){
       }
     }
     temp_file << "\n";
-    temp_file << getDate(packs.at(i).getInitDate()) << "\n";
-    temp_file << getDate(packs.at(i).getFinalDate()) << "\n";
+    temp_file << packs.at(i).getInitDate() << "\n";
+    temp_file << packs.at(i).getFinalDate() << "\n";
     temp_file << packs.at(i).getPrice() << "\n";
     temp_file << packs.at(i).getPeopleLimit() << "\n";
     temp_file << packs.at(i).getNumberSold() << "\n";
