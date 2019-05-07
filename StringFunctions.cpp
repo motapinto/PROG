@@ -31,24 +31,6 @@ void decompose(std::string s, std::vector <std::string> &elements, char c){
 	elements.push_back(s);
 }
 
-void decompose(std::string s, std::vector <std::string> &elements){
-  elements.resize(0);
-
-  Trim(s);
-  if(s.size() == 0) return;
-
-  size_t pos = s.find('/');
-	while(pos != std::string::npos){ //ate final da string
-		std::string elem = s.substr(0, pos);
-		Trim(elem);
-		elements.push_back(elem);
-		s.erase(0, pos + 1);
-		pos = s.find('/');
-	}
-	Trim(s);
-	elements.push_back(s);
-}
-
 bool decompose(std::string s, std::vector <unsigned int> &elements, char c='/'){
   //used to verify if value was converted
   //all values are unsigned, if after converting value <= -1, convertion failled or value is not unsigned
@@ -183,38 +165,6 @@ bool string_to_int(std::string s, int &ret){
 
 
   return false;
-}
-
-//Generic function to read integers
-void read_int(int &init_store) 
-{ 
-    std::string str;
-
-    while(true) {
-        getline(std::cin, str);
-
-        try {
-            init_store = stoi(str);
-            break;
-
-        }
-        catch(const invalid_argument& ia) {
-            std::cout << "Input value is not valid\n";
-            std::cout << "Try again: ";
-        }
-    }
-}
-
-//Generic function to read unsigned integers
-void read_uint(unsigned int &init_store) 
-{ 
-    std::cin >> init_store;
-    while(std::cin.fail()) {
-        std::cin.clear();
-        std::cin.ignore();
-        std::cin >> init_store;
-    }
-    std::cin.ignore();
 }
 
 //Generic function to read strings
