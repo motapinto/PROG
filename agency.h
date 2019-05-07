@@ -8,15 +8,15 @@ class Agency {
         
         int clientPos(unsigned int nif);
         
-        void addClient(std::string name, std::string address, std::vector <int> tour_packs_bought, unsigned int nif, unsigned int family_num);
+        void addClient(std::string name, std::string address, std::vector <unsigned int> tour_packs_bought, unsigned int nif, unsigned int family_num);
         void changeClient(Client &client, unsigned int nif);
         void removeClient(unsigned int nif);
 
         void addTravelPack(std::string init_date, std::string final_date, std::string destination, std::vector<std::string> cities, bool available, int id, unsigned int price, unsigned int people_limit, unsigned int num_sold);
-        void changeTravelPack(TravelPack &pack, int id);
-        void removeTravelPack(int id);
+        void changeTravelPack(TravelPack &pack, unsigned int id);
+        void removeTravelPack(unsigned int id);
 
-        bool searchTravelPackId(int id, TravelPack &pack);
+        bool searchTravelPackId(unsigned int id, TravelPack &pack);
         std::vector<TravelPack> searchTravelPackDestination(std::string destination);
         std::vector<TravelPack> searchTravelPackDates(std::string initial_date, std::string final_date);
         std::vector<TravelPack> searchTravelPackDates(Date initial_date, Date final_date);
@@ -45,7 +45,7 @@ class Agency {
         unsigned int nif;
 
         bool verifyCities(std::vector<std::string> cities);
-        bool verifyPacksBought(std::vector<int> packs);
+        bool verifyPacksBought(std::vector<unsigned int> packs);
         unsigned int sumSold(const unsigned int id);
         bool verifyPacks(const std::vector<unsigned int> &packs);
 } ;

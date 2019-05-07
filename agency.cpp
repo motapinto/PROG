@@ -25,7 +25,7 @@ int Agency::clientPos(unsigned int nif) {
   return -1;
 }
 
-void Agency::addClient(std::string name, std::string address, std::vector<int> tour_packs_bought, unsigned int nif, unsigned int family_num) {
+void Agency::addClient(std::string name, std::string address, std::vector<unsigned int> tour_packs_bought, unsigned int nif, unsigned int family_num) {
   //Check if there is already a client with the same nif
   if(clientPos(nif) != -1)
     return;
@@ -44,7 +44,7 @@ void Agency::addClient(std::string name, std::string address, std::vector<int> t
     }
   }
 
-  Client new_client(name, address, tour_packs_bought, nif,family_num);
+  Client new_client(name, address, tour_packs_bought, nif, family_num);
   this->client_list.push_back(new_client);
 }
 
@@ -117,7 +117,7 @@ void Agency::changeClient(Client &client, unsigned int nif) {
   this->client_list.at(pos).setFamilyNum(client.getFamilyNum());
 }
 
-void Agency::addTravelPack(std::string init_date, std::string final_date, std::string destination, std::vector<std::string> cities, bool available, int id, unsigned int price, unsigned int people_limit, unsigned int num_sold){
+void Agency::addTravelPack(std::string init_date, std::string final_date, std::string destination, std::vector<std::string> cities, bool available, unsigned int id, unsigned int price, unsigned int people_limit, unsigned int num_sold){
   //Check if there is already a pack with the same id
   Date date_aux;
 
@@ -135,7 +135,7 @@ void Agency::addTravelPack(std::string init_date, std::string final_date, std::s
   this->tour_pack.push_back(pack);
 }
 
-void Agency::changeTravelPack(TravelPack &pack, int id){
+void Agency::changeTravelPack(TravelPack &pack, unsigned int id){
 
   for(size_t i= 0; i < this->tour_pack.size(); i++){
       if(this->tour_pack.at(i).getPackId() == id) {
@@ -155,9 +155,9 @@ void Agency::changeTravelPack(TravelPack &pack, int id){
   }
 }
 
-void Agency::removeTravelPack(int id) {
+void Agency::removeTravelPack(unsigned int id) {
     //Remove from agency
-    int pack_id;
+    unsigned int pack_id;
     for(size_t i= 0; i < this->tour_pack.size(); i++){
         pack_id = this->tour_pack.at(i).getPackId();
         if(pack_id == id) {
@@ -178,7 +178,7 @@ void Agency::removeTravelPack(int id) {
     return;
 }
 
-bool Agency::searchTravelPackId(int id, TravelPack &pack){
+bool Agency::searchTravelPackId(unsigned int id, TravelPack &pack){
   for(size_t i = 0; i < this->tour_pack.size(); i++)
     if(this->tour_pack.at(i).getPackId() == id){
       pack = this->tour_pack.at(i);
@@ -302,7 +302,7 @@ bool Agency::verifyCities(const std::vector<std::string> cities){
   return true;
 }
 
-bool Agency::verifyPacks(const std::vector<unsigned int> &packs){
+bool Agency::verifyPacks(const std::vector<int> &packs){
   for(size_t i = 0; i < packs.size(); i++){
     for(size_t j = 0; j < tour_pack.size(); j++){
       if(tour_pack.at(j).id == packs.at(i)){
@@ -316,7 +316,7 @@ bool Agency::verifyPacks(const std::vector<unsigned int> &packs){
   return true;
 }
 
-bool Agency::verifyPacksBought(const std::vector<unsigned int> &packs){
+bool Agency::verifyPacksBought(const std::vector<int> &packs){
   TravelPack aux;
 
   for(size_t i = 0; i < packs.size(); i++){
