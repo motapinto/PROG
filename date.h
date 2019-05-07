@@ -31,11 +31,6 @@ class Date
     unsigned int daysOf(unsigned int month, unsigned int &year);
     void checkDate(std::string date) ;
 
-    //bool validSet(std::string date);
-    //bool validSet(unsigned int year, unsigned int month, unsigned int day);
-    //bool validConstruct(std::string date);
-    //bool validConstruct(unsigned int year, unsigned int month, unsigned int day); 
-
   private:
     unsigned int year;
     unsigned int month;
