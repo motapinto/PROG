@@ -11,7 +11,6 @@ Date::Date(){
 
 Date::Date(unsigned int year, unsigned int month,unsigned int day){
     std::string date;
-    
     date = std::to_string(year) + "/" + std::to_string(month) + "/" + std::to_string(day);
     
     checkDate(date); //throws exceptions if date is not valid
@@ -95,9 +94,14 @@ Date Date::operator = (const Date date){
   return *this;
 }
 
+std::ostream& operator << (std::ostream& os, const Date& date){
+
+  os << date.year << "/" << date.month << "/" << date.day;
+  return os;
+}
+
 void Date::setYear (unsigned int year){
     std::string date;
-
     date = std::to_string(year) + "/" + std::to_string(this->month) + "/" + std::to_string(this->day);
 
     checkDate(date);
@@ -106,7 +110,6 @@ void Date::setYear (unsigned int year){
 
 void Date::setMonth (unsigned int month){
     std::string date;
-    
     date = std::to_string(this->year) + "/" + std::to_string(month) + "/" + std::to_string(this->day);
 
     checkDate(date);
@@ -115,7 +118,6 @@ void Date::setMonth (unsigned int month){
 
 void Date::setDay (unsigned int day){
     std::string date;
-    
     date = std::to_string(this->year) + "/" + std::to_string(this->month) + "/" + std::to_string(day);
 
     checkDate(date);
@@ -132,7 +134,6 @@ void Date::setDate(std::string date){
 void Date::setDate (unsigned int year, unsigned int month, unsigned int day){
     
     std::string date;
-    
     date = std::to_string(year) + "/" + std::to_string(month) + "/" + std::to_string(day);
 
     checkDate(date);
@@ -154,13 +155,8 @@ unsigned int Date::getDay() const{
 }
 
 std::string Date::getDate() const{ // returns the date in format "yyyy/mm/dd"
-
-  std::string date =  std::to_string(this->year);+ "/" + std::to_string(this->month) + "/" + std::to_string(this->day);
+  std::string date =  std::to_string(this->year) + "/" + std::to_string(this->month) + "/" + std::to_string(this->day);
   return date;
-}
-
-void Date::show(std::ostream &fp) const{ // shows the date on the screen/text file in format "yyyy/mm/dd"
-  fp << std::setw(4) << this->year << '/' << std::setw(2) << this->month << '/' << std::setw(2) << this->day << std::endl;
 }
 
 unsigned int Date::daysOf(unsigned int month, unsigned int &year) {
@@ -192,8 +188,8 @@ unsigned int Date::daysOf(unsigned int month, unsigned int &year) {
   return 0;
 }
 
-void Date::checkDate(std::string &date) {
-    unsigned int day, month, year;
+void Date::checkDate(std::string date) {
+  unsigned int day, month, year;
 
   if (date.size() == 10 && date.at(4) == '/' && date.at(7) == '/')
   {
@@ -201,8 +197,8 @@ void Date::checkDate(std::string &date) {
         month = stoi(date.substr(5, 2));
         year = stoi(date.substr(0, 4));
 
-        if(this->day < 1 || this->day > this->daysOf(this->month, this->year) || 
-        this->month < 1 || this->month > 12 || this->year < 2000 || this->year > 2100) 
+        if(day < 1 || day > daysOf(month, year) || 
+        month < 1 || month > 12 || year < 2000 || year > 2100) 
         { 
           throw new DateException(NULL);
         }
@@ -213,114 +209,4 @@ void Date::checkDate(std::string &date) {
     throw new DateException(NULL);
   }
 
-}
-
-std::ostream& operator << (std::ostream& os, const Date& date){
-
-  os << date.year << "/" << date.month << "/" << date.day;
-  return os;
-}
-
-
-
-
-
-
-bool Date::validSet(std::string date) {
-    try {
-        this->setDate(date);
-    }
-
-    catch(DateException) {
-        return false;
-    }
-
-    catch(const invalid_argument& ia) {
-        return false;
-    }
-
-    catch (const std::out_of_range& oor) {
-        return false;
-    }
-
-    catch(...) {
-        return false;
-    }
-
-    return true;
-}
-
-bool Date::validSet(unsigned int year, unsigned int month, unsigned int day) {
-    try {
-        this->setDate(year, month, day);
-    }
-
-    catch(DateException) {
-        return false;
-    }
-
-    catch(const invalid_argument& ia) {
-        return false;
-    }
-
-    catch (const std::out_of_range& oor) {
-        return false;
-    }
-
-    catch(...) {
-        return false;
-    }
-
-    return true;
-}
-
-bool Date::validConstruct(std::string date = "current time") {
-    try {
-        if(date == "current time")
-          new Date();
-        else
-          new Date(date);
-    }
-
-    catch(DateException) {
-        return false;
-    }
-
-    catch(const invalid_argument& ia) {
-        return false;
-    }
-
-    catch (const std::out_of_range& oor) {
-        return false;
-    }
-
-    catch(...) {
-        return false;
-    }
-
-    return true;
-}
-
-bool Date::validConstruct(unsigned int year, unsigned int month, unsigned int day) {
-    try {
-        new Date(year, month, day);
-    }
-
-    catch(DateException) {
-        return false;
-    }
-
-    catch(const invalid_argument& ia) {
-        return false;
-    }
-
-    catch (const std::out_of_range& oor) {
-        return false;
-    }
-
-    catch(...) {
-        return false;
-    }
-
-    return true;
 }

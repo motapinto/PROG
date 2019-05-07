@@ -15,6 +15,7 @@ class Date
     bool operator == (const Date date);
     bool operator != (const Date date);
     Date operator = (const Date date);
+    friend std::ostream& operator << (std::ostream& os, const Date& date); //acede aos parametros da classe
 
     void setYear(unsigned int year) ;
     void setMonth(unsigned int month) ;
@@ -28,15 +29,12 @@ class Date
     std::string getDate() const; // returns the date in format "yyyy/mm/dd"
     
     unsigned int daysOf(unsigned int month, unsigned int &year);
+    void checkDate(std::string date) ;
 
-    void show(std::ostream &fp) const; // shows the date on the screen in format "yyyy/mm/dd"
-    void checkDate(std::string &date) ;
-    bool validSet(std::string date);
-    bool validSet(unsigned int year, unsigned int month, unsigned int day);
-    bool validConstruct(std::string date);
-    bool validConstruct(unsigned int year, unsigned int month, unsigned int day); 
-
-    friend std::ostream& operator << (std::ostream& os, const Date& date);
+    //bool validSet(std::string date);
+    //bool validSet(unsigned int year, unsigned int month, unsigned int day);
+    //bool validConstruct(std::string date);
+    //bool validConstruct(unsigned int year, unsigned int month, unsigned int day); 
 
   private:
     unsigned int year;
