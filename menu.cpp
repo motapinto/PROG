@@ -1,5 +1,7 @@
 #include <iostream>
 #include <iomanip>
+#include <map>
+#include <algorithm>
 #include "menu.h"
 #include "agency.h"
 #include "StringFunctions.h"
@@ -89,8 +91,8 @@ void print_travel_pack(TravelPack &travel_pack){
       cout  << ", " << travel_pack.getCities().at(i);
   }
   cout << endl;
-  cout << "Initial Date: " << getDate(travel_pack.getInitDate()) << endl;
-  cout << "Final Date: " << getDate(travel_pack.getFinalDate()) << endl;
+  cout << "Initial Date: " << travel_pack.getInitDate() << endl;
+  cout << "Final Date: " << travel_pack.getFinalDate() << endl;
   cout << "Price: " << travel_pack.getPrice() << endl;
   cout << "Number of seats total: " << travel_pack.getPeopleLimit() << endl;
   cout << "Number of seats sold: " << travel_pack.getNumberSold() << endl;
@@ -941,29 +943,35 @@ void print_all_travel_pack_dates(){
   vector<TravelPack> vec;
   Date init_date, final_date;
   string str_aux;
+  bool valid = false;
 
-  cout << "Initial Date: "; read_line(str_aux); 
-  while(setDate(init_date, str_aux) != 0){
-    cout << "Invalid intput!\nDate must follow format: (Year)/(Month)/(Day)\n";
-    cout << "Initial Date: ";  read_line(str_aux);
-  }
+  do {
+    cout << "Initial Date: "; read_line(str_aux); 
+    while(!init_date.validSet(str_aux)){
+      cout << "Invalid intput!\nDate must follow format: (Year)/(Month)/(Day)\n";
+      cout << "Initial Date: ";  read_line(str_aux);
+    }
+    init_date.setDate(str_aux);
 
-  cout << "Final Date: "; read_line(str_aux); 
-  while(setDate(final_date, str_aux) != 0){
-    cout << "Invalid intput!\nDate must follow format: (Year)/(Month)/(Day)\n";
-    cout << "Final Date: "; read_line(str_aux);
-  }
+    cout << "Final Date: "; read_line(str_aux); 
+    while(!final_date.validSet(str_aux)){
+      cout << "Invalid intput!\nDate must follow format: (Year)/(Month)/(Day)\n";
+      cout << "Final Date: "; read_line(str_aux);
+    }
+    final_date.setDate(str_aux);
 
-  if(getIntDate(init_date) > getIntDate(final_date)){
-    cout << "Invalid dates entered!\n";
-    return;
-  }
+    if(init_date > final_date){
+      cout << "Invalid dates entered!\n";
+      valid = false;
+    }
+  } while(!valid);
+
 
   cout << endl;
 
   vec = agency.searchTravelPackDates(init_date, final_date);
 
-  if(vec.size() == 0) cout << "Travel Packs with dates raging from " << getDate(init_date) << " to " << getDate(final_date) << " not found!\n";
+  if(vec.size() == 0) cout << "Travel Packs with dates raging from " << init_date << " to " << final_date << " not found!\n";
   else
     for(size_t i = 0; i < vec.size(); i++)
       print_travel_pack(vec.at(i));
@@ -976,30 +984,36 @@ void print_all_travel_pack_destination_dates(){
   string str_aux;
   string destination;
   bool found = false;
+  bool valid = false;
 
   cout << "Destination: "; read_line(destination); 
 
-  cout << "Initial Date: "; read_line(str_aux); 
-  while(setDate(init_date, str_aux) != 0){
-    cout << "Invalid intput!\nDate must follow format: (Year)/(Month)/(Day)\n";
-    cout << "Initial Date: ";  read_line(str_aux);
-  }
+  do {
+    cout << "Initial Date: "; read_line(str_aux); 
+    while(!init_date.validSet(str_aux)){
+      cout << "Invalid intput!\nDate must follow format: (Year)/(Month)/(Day)\n";
+      cout << "Initial Date: ";  read_line(str_aux);
+    }
+    init_date.setDate(str_aux);
 
-  cout << "Final Date: "; read_line(str_aux); 
-  while(setDate(final_date, str_aux) != 0){
-    cout << "Invalid intput!\nDate must follow format: (Year)/(Month)/(Day)\n";
-    cout << "Final Date: "; read_line(str_aux);
-  }
+    cout << "Final Date: "; read_line(str_aux); 
+    while(!final_date.validSet(str_aux)){
+      cout << "Invalid intput!\nDate must follow format: (Year)/(Month)/(Day)\n";
+      cout << "Final Date: "; read_line(str_aux);
+    }
+    final_date.setDate(str_aux);
 
-  if(getIntDate(init_date) > getIntDate(final_date)){
-    cout << "Invalid dates entered!\n";
-    return;
-  }
+    if(init_date > final_date){
+      cout << "Invalid dates entered!\n";
+      valid = false;
+    }
+  } while(!valid);
+
   cout << endl;
 
   vec = agency.searchTravelPackDates(init_date, final_date);
 
-  if(vec.size() == 0) cout << "Travel Packs with dates raging from " << getDate(init_date) << " to " << getDate(final_date) << " not found!\n";
+  if(vec.size() == 0) cout << "Travel Packs with dates raging from " << init_date << " to " << final_date << " not found!\n";
   else
     for(size_t i = 0; i < vec.size(); i++)
       if(vec.at(i).getDestination() == destination){
@@ -1072,10 +1086,11 @@ void change_travel_pack_init_date(TravelPack &travel_pack){
   Date date_aux;
 
   cout << "Initial Date: "; read_line(str_aux);
-  while(setDate(date_aux, str_aux) != 0){
-    cout << "Invalid Input\nDate should have following format: (year)/(month)/(day)\n";
-    cout << "Initial Date: "; read_line(str_aux); 
+  while(!date_aux.validSet(str_aux)){
+    cout << "Invalid intput!\nDate must follow format: (Year)/(Month)/(Day)\n";
+    cout << "Initial Date: ";  read_line(str_aux);
   }
+  date_aux.setDate(str_aux);
 
   travel_pack.setInitDate(date_aux);
 }
@@ -1085,10 +1100,11 @@ void change_travel_pack_final_date(TravelPack &travel_pack){
   Date date_aux;
 
   cout << "Final Date: "; read_line(str_aux); 
-  while(setDate(date_aux, str_aux) != 0){
-    cout << "Invalid Input\nDate should have following format: (year)/(month)/(day)\n";
+  while(!date_aux.validSet(str_aux)){
+    cout << "Invalid intput!\nDate must follow format: (Year)/(Month)/(Day)\n";
     cout << "Final Date: "; read_line(str_aux);
   }
+  date_aux.setDate(str_aux);
 
   travel_pack.setFinalDate(date_aux);
 }
@@ -1186,7 +1202,7 @@ void add_travel_pack(){
   change_travel_pack_cities(new_pack);
   change_travel_pack_init_date(new_pack);
   change_travel_pack_final_date(new_pack);
-  if(getIntDate(new_pack.getInitDate()) > getIntDate(new_pack.getFinalDate())){
+  if(new_pack.getInitDate() > new_pack.getFinalDate()){
     cerr << "Invalid dates: initial date must be before final date!\n";
     print_wait_menu();
     return;
@@ -1351,6 +1367,122 @@ void travel_packs_menu(){
 }
 
 //End Travel Packs
+//Begin Statistics
+
+void print_most_visited_places(){
+  multimap<unsigned int, string> mp = agency.mostVisitedPlaces();
+  string str_aux;
+  int number_places = -1;
+
+  cout << "Number of Places: "; read_line(str_aux);
+  while(!string_to_int(str_aux, number_places) || number_places < 0){
+    cerr << "Invalid intput!\n\n";
+    cout << "Number of Places: "; read_line(str_aux);
+  }
+
+  auto iterator = mp.begin();
+  for(int i = 0; i < number_places && iterator != mp.end(); i++, iterator++)
+    cout << "Most visited place number " << i+1 << ": " << (*iterator).second << " visited a total of " << (*iterator).first << " times\n";
+
+  cout << endl;
+}
+
+void print_most_visited_places_clients(){
+  multimap<unsigned int, string> mp = agency.mostVisitedPlaces();
+  string str_aux;
+  int number_places = -1;
+  vector <TravelPack> packs_with_city;
+  vector <Client> clients = agency.getClientList();
+  vector <unsigned int> packs_bought;
+  vector <TravelPack> clients_pack(clients.size()); //pack for every client people_limit = 0 == none
+  
+
+  cout << "Number of Places: "; read_line(str_aux);
+  while(!string_to_int(str_aux, number_places) || number_places < 0){
+    cerr << "Invalid intput!\n\n";
+    cout << "Number of Places: "; read_line(str_aux);
+  }
+
+  auto iterator = mp.begin();
+  for(int i = 0; i < number_places && iterator != mp.end(); i++, iterator++){
+    packs_with_city = agency.searchTravelPackCity((*iterator).second);
+
+    for(size_t j = 0; j < clients.size(); j++){
+
+      if(!(clients_pack.at(j).getPeopleLimit() != 0)) continue;
+      packs_bought = clients.at(j).getTourPacksBought();
+
+      for(size_t k = 0; k < packs_bought.size(); k++){
+        if(!(clients_pack.at(j).getPeopleLimit != 0)) break;
+        //find pack from all packs that have the city with same id as the pack bought by the client
+
+        if( find(packs_with_city.begin(), packs_with_city.end(), packs_bought.at(k)) == packs_with_city.end() ){
+        //could not find == client has not visited the city!
+          if(packs_with_city.size() != 0){
+            clients_pack.at(j) = packs_with_city.at(0);
+            break;
+          }
+        }
+
+      }
+
+    }
+    
+  }
+
+  for(size_t i = 0; i < clients.size(); i++){
+    print_client(clients.at(i));
+    cout << "Recommend pack: \n";
+    if(clients_pack.at(i).getPeopleLimit() != 0)
+      print_travel_pack(clients_pack.at(i));
+    else
+      cout << "None\n";
+
+    cout << endl;
+  }
+
+
+  cout << endl;
+}
+
+void statistics_menu(){
+  TravelPack search_pack;
+  int answer = 0;
+  int id = 0;
+
+  while(1){ //only ends when 0 is typed
+    print_first_lines("Statistics Menu");
+    cout << "1 - Most Visited Places\n";
+    cout << "2 - Clients Who Visited a Most Visited Place\n";
+    cout << "0 - Back\n";
+    print_last_line();
+
+    answer = scan_single_int();
+    while( answer < 0 || answer > 2){
+      cerr << "Invalid intput!\n\n";
+      answer = scan_single_int();
+    }
+    
+    switch (answer)
+    {
+      case 0:
+        return;
+
+      case 1:
+        print_most_visited_places();
+        break;
+
+      case 2:
+        print_most_visited_places_clients();
+        break;
+
+      default:
+        break;
+    }
+  }
+}
+
+//End Statistics
 
 void start_menu(){
   int answer;
@@ -1360,11 +1492,12 @@ void start_menu(){
     cout << "1 - Agency\n";
     cout << "2 - Clients\n";
     cout << "3 - Travel Packs\n";
+    cout << "4 - Statistics\n";
     cout << "0 - Exit\n";
     print_last_line();
 
     answer = scan_single_int();
-    while( answer < 0 || answer > 3){
+    while( answer < 0 || answer > 4){
       cerr << "Invalid intput!\n\n";
       answer = scan_single_int();
     }
@@ -1383,6 +1516,10 @@ void start_menu(){
 
       case 3:
         travel_packs_menu();
+        break;
+
+      case 4:
+        statistics_menu();
         break;
     }
   }
