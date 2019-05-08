@@ -27,7 +27,10 @@ class TravelPack {
         void setPeopleLimit(unsigned int people_limit);
         void setNumberSold(unsigned int num_sold);
 
-        TravelPack operator = (TravelPack pack);
+        TravelPack operator = (TravelPack pack);        
+        bool operator == (TravelPack pack);
+        bool operator == (int id);
+
     private:
         Date init_date, final_date;
         std::string destination;

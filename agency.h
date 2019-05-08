@@ -1,5 +1,7 @@
 #include "client.h"
 #include "travelpack.h" 
+
+#include <map>
  
 class Agency {
     public:
@@ -18,9 +20,12 @@ class Agency {
 
         bool searchTravelPackId(unsigned int id, TravelPack &pack);
         std::vector<TravelPack> searchTravelPackDestination(std::string destination);
+        std::vector<TravelPack> searchTravelPackCity(std::string city);
         std::vector<TravelPack> searchTravelPackDates(std::string initial_date, std::string final_date);
         std::vector<TravelPack> searchTravelPackDates(Date initial_date, Date final_date);
         
+        std::multimap<unsigned int, std::string> mostVisitedPlaces();
+
         void setName(std::string name);
         void setUrl(std::string url);
         void setAddress(Address address);
@@ -44,8 +49,8 @@ class Agency {
         std::vector <TravelPack> tour_pack;  
         unsigned int nif;
 
-        bool verifyCities(std::vector<std::string> cities);
-        bool verifyPacksBought(std::vector<unsigned int> packs);
+        bool verifyCities(const std::vector<std::string> cities);
+        bool verifyPacksBought(const std::vector<unsigned int> &packs);
         unsigned int sumSold(const unsigned int id);
         bool verifyPacks(const std::vector<unsigned int> &packs);
 } ;

@@ -179,3 +179,23 @@ TravelPack TravelPack::operator = (TravelPack pack){
   return *this;
 }
 
+bool TravelPack::operator == (TravelPack pack){
+  if(this->init_date == pack.getInitDate() &&
+      this->final_date == pack.getFinalDate() &&
+      this->destination == pack.getDestination() &&
+      this->cities == pack.getCities() &&
+      this->id == pack.getPackId() &&
+      this->price == pack.getPrice() &&
+      this->people_limit == pack.getPeopleLimit() &&
+      this->num_sold == pack.getNumberSold() )
+        return true; 
+
+  return false;
+}
+
+bool TravelPack::operator == (int id){
+  if(this->id == id) return true;
+
+  return false;
+}
+

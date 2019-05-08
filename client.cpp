@@ -8,7 +8,7 @@ Client::Client() {
   this->tour_packs_bought.resize(0); 
 }
 
-Client::Client(string name, string address, vector<int> tour_packs_bought, unsigned int nif, unsigned int family_num) {
+Client::Client(string name, string address, vector<unsigned int> tour_packs_bought, unsigned int nif, unsigned int family_num) {
     this->client_name = name;
     this->client_address.setAddress(address);
     if(verifyPacksBought(tour_packs_bought)) this->tour_packs_bought = tour_packs_bought;
