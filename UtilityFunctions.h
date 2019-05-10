@@ -22,5 +22,6 @@ bool string_to_int(std::string s, int &ret);
 
 void read_string(std::string &str);
 
+//Generic function to test and catch exceptions
 template <class T>
 bool Try(void func(T &param), T &param);
