@@ -8,8 +8,9 @@ class Agency {
         Agency(); 
         Agency(std::string name, std::string url, std::string agency_address, std::vector <TravelPack> tour_pack, std::vector <Client> client_list, unsigned int nif);
         
-        int clientPos(unsigned int nif);
+        unsigned int clientPos(unsigned int nif);
         
+        void addClient(Client client);
         void addClient(std::string name, std::string address, std::vector <unsigned int> tour_packs_bought, unsigned int nif, unsigned int family_num);
         void changeClient(Client &client, unsigned int nif);
         void removeClient(unsigned int nif);
@@ -17,6 +18,9 @@ class Agency {
         void addTravelPack(std::string init_date, std::string final_date, std::string destination, std::vector<std::string> cities, bool available, int id, unsigned int price, unsigned int people_limit, unsigned int num_sold);
         void changeTravelPack(TravelPack &pack, unsigned int id);
         void removeTravelPack(unsigned int id);
+
+        bool searchClientNif(unsigned int nif, Client &client);
+        std::vector<Client> searchClientName(std::string name);
 
         bool searchTravelPackId(unsigned int id, TravelPack &pack);
         std::vector<TravelPack> searchTravelPackDestination(std::string destination);
@@ -26,13 +30,13 @@ class Agency {
         
         std::multimap<unsigned int, std::string> mostVisitedPlaces();
 
-        void setName(std::string name);
-        void setUrl(std::string url);
-        void setAddress(Address address);
-        void setAddress(std::string address);
-        void setTourPack(std::vector <TravelPack> tour_pack);
-        void setClientList(std::vector <Client> client_list);
-        void setNif(unsigned int nif);
+        void setName(const std::string &name);
+        void setUrl(const std::string &url);
+        void setAddress(const Address &address);
+        void setAddress(const std::string &address);
+        void setTourPack(const std::vector <TravelPack> &tour_pack);
+        void setClientList(const std::vector <Client> &client_list);
+        void setNif(const unsigned int &nif);
 
         std::string getName(void);
         std::string getUrl(void);
@@ -51,6 +55,7 @@ class Agency {
 
         bool verifyCities(const std::vector<std::string> cities);
         bool verifyPacksBought(const std::vector<unsigned int> &packs);
-        unsigned int sumSold(const unsigned int id);
+        unsigned int sumSold(const unsigned int nif);
+        unsigned int sumSold(const std::vector<unsigned int> &tour_packs);
         bool verifyPacks(const std::vector<unsigned int> &packs);
 } ;

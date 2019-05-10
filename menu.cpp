@@ -4,7 +4,7 @@
 #include <algorithm>
 #include "menu.h"
 #include "agency.h"
-#include "StringFunctions.h"
+#include "UtilityFunctions.h"
 
 #define MAX_NIF 999999999
 #define INT_MAX 2147483647
@@ -61,7 +61,7 @@ int scan_single_int(){
 void print_agency(){
   cout << "Name: " << agency.getName() << endl;
   cout << "URL: " << agency.getUrl() << endl;
-  cout << "Address: " << agency.getAddress().getAddressString() << endl;
+  cout << "Address: " << agency.getAddress().getAddress() << endl;
   cout << "NIF: " << agency.getNif() << endl;
 
   print_wait_menu();
@@ -69,7 +69,7 @@ void print_agency(){
 
 void print_client(Client &client){
   cout << "Name: " << client.getName() << endl;
-  cout << "Address: " << client.getAddress().getAddressString() << endl;
+  cout << "Address: " << client.getAddress().getAddress() << endl;
   cout << "Tour Packs Bought: ";
   if(client.getTourPacksBought().size() == 0) cout << "None";
   else for(size_t i = 0; i < client.getTourPacksBought().size(); i++){
@@ -131,11 +131,12 @@ void change_agency_nif(){
 void change_agency_address(){
   string str_aux;
   cout << "Address: "; read_line(str_aux);
-  while(agency.setAddress(str_aux) == false){
+  while(Try(agency.setAddress, str_aux) == false){
     cout << "Invalid input!\nAddress must be typed in the following way: \n";
     print_address_struct();
     cout << "Address: "; read_line(str_aux);
   }
+  agency.setAddress(str_aux);
   modified_agency = true;
 }
 

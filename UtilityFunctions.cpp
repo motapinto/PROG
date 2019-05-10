@@ -1,4 +1,4 @@
-#include "StringFunctions.h"
+#include "UtilityFunctions.h"
 
 void TrimLeft(std::string &str){
     str.erase(0, str.find_first_not_of(' '));
@@ -174,4 +174,17 @@ void read_string(std::string &str)
         std::cin.clear();
         std::cin.ignore();
     }
+}
+
+template <class T>
+bool Try(void func(T &param), T &param){
+  try{
+    func(param);
+    return true;
+  }
+  catch(){
+    return false;
+  }
+
+  return false;
 }

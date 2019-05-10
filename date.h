@@ -1,5 +1,5 @@
 #pragma once
-#include "StringFunctions.h"
+#include "UtilityFunctions.h"
 
 class Date
 {

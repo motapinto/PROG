@@ -17,6 +17,7 @@ class TravelPack {
         unsigned int getPrice(void) const;
         unsigned int getPeopleLimit(void) const;
         unsigned int getNumberSold(void) const;
+        bool getAvailability(void) const;
         
         void setInitDate(std::string init_date);
         void setFinalDate(std::string final_date);

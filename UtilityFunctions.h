@@ -21,3 +21,6 @@ bool decompose(std::string s, std::vector<unsigned int> &elements, char c);
 bool string_to_int(std::string s, int &ret);
 
 void read_string(std::string &str);
+
+template <class T>
+bool Try(void func(T &param), T &param);

@@ -198,4 +198,3 @@ bool TravelPack::operator == (int id){
 
   return false;
 }
-

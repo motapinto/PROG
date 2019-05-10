@@ -162,6 +162,19 @@ int read_clients(Agency &agency, string clients_file_name){
         break;
 
       case 5:
+        if(string_to_int(str_aux, value_check) == false){
+          client_file.close();           
+          return total_line_count;         
+        } 
+        if(value_check <= -1){ //verify value
+          client_file.close();
+          return total_line_count;
+        } 
+        new_client.setMoneySpent(value_check);        
+        value_check = -1;
+        break;
+
+      case 6:
         end_of_file = last_line(str_aux);
         line_count = -1; //reset line_count, it will increment to 0 for next iteration
         
@@ -419,7 +432,7 @@ void write_agency(Agency &agency, const string agency_file_name, const string cl
   temp_file << agency.getName() << "\n";
   temp_file << agency.getNif() << "\n";
   temp_file << agency.getUrl() << "\n";
-  temp_file << agency.getAddress().getAddressString() << "\n";
+  temp_file << agency.getAddress().getAddress() << "\n";
   temp_file << clients_file_name << "\n";
   temp_file << packs_file_name << "\n";
 
@@ -450,7 +463,7 @@ void write_clients(Agency &agency, const string clients_file_name){
   temp_file << clients.at(0).getName() << "\n";
   temp_file << clients.at(0).getNif() << "\n";
   temp_file << clients.at(0).getFamilyNum() << "\n";
-  temp_file << clients.at(0).getAddress().getAddressString() << "\n";
+  temp_file << clients.at(0).getAddress().getAddress() << "\n";
   packs_bought = clients.at(0).getTourPacksBought();
   if(packs_bought.size() != 0) {
     temp_file << packs_bought.at(0);
@@ -459,13 +472,14 @@ void write_clients(Agency &agency, const string clients_file_name){
     
     temp_file << "\n";
   }
+  temp_file << clients.at(0).getMoneySpent() << "\n";
 
   for(size_t i = 1; i < clients.size(); i++){
     temp_file << "::::::::::\n";
     temp_file << clients.at(i).getName() << "\n";
     temp_file << clients.at(i).getNif() << "\n";
     temp_file << clients.at(i).getFamilyNum() << "\n";
-    temp_file << clients.at(i).getAddress().getAddressString() << "\n";
+    temp_file << clients.at(i).getAddress().getAddress() << "\n";
     packs_bought = clients.at(i).getTourPacksBought();
     if(packs_bought.size() != 0) {
       temp_file << packs_bought.at(0);
@@ -474,6 +488,7 @@ void write_clients(Agency &agency, const string clients_file_name){
       
       temp_file << "\n";
     }
+    temp_file << clients.at(i).getMoneySpent() << "\n";
   }
 
   temp_file.close();

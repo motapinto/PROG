@@ -7,24 +7,25 @@
 class Client {
     public:
         Client();
-        Client(std::string name, Address address, std::vector<unsigned int> tour_packs_bought, unsigned int nif, unsigned int family_num);
-        Client(std::string name, std::string address, std::vector<unsigned int> tour_packs_bought, unsigned int nif, unsigned int family_num);
+        Client(std::string name, Address address, std::vector<unsigned int> tour_packs_bought, unsigned int nif, unsigned int family_num, unsigned int money_spent);
+        Client(std::string name, std::string address, std::vector<unsigned int> tour_packs_bought, unsigned int nif, unsigned int family_num, unsigned int money_spent);
         bool addPack(unsigned int pack_id);
 
         void setName (std::string new_name);
-        void setAddress(Address address);
-        bool setAddress(std::string address);
-        bool setTourPacks(std::vector <unsigned int> packs);
-        bool setTourPacks(std::string packs, char delim);
+        void setAddress(std::string address);
+        void setTourPacks(std::vector <unsigned int> packs);
+        void setTourPacks(std::string packs, char delim);
         void setNif(unsigned int nif);
         void setFamilyNum(unsigned int family_num);
+        void setMoneySpent(unsigned int money_spent);
 
-        std::string getName(void);
-        Address getAddress(void);
-        std::vector <unsigned int> getTourPacksBought(void);
-        unsigned int getNif(void);
-        unsigned int getFamilyNum(void);
-        unsigned int getNumOfBuys(void);
+        std::string getName(void) const;
+        Address getAddress(void) const;
+        std::vector <unsigned int> getTourPacksBought(void) const;
+        unsigned int getNif(void) const;
+        unsigned int getFamilyNum(void) const;
+        unsigned int getNumOfBuys(void) const;
+        unsigned int getMoneySpent(void) const;
 
         Client operator = (Client client);
     private:
@@ -32,7 +33,7 @@ class Client {
         std::string client_name;
         Address client_address;
         std::vector<unsigned int> tour_packs_bought;
-        unsigned int nif, family_num;
+        unsigned int nif, family_num, money_spent;
         bool verifyPacksBought(std::vector<unsigned int> packs);
 } ;
 
