@@ -1,7 +1,5 @@
 #include "client.h"
 
-using namespace std;
-
 Client::Client() { 
   this->nif = 0; 
   this->family_num = 0; 
@@ -10,33 +8,33 @@ Client::Client() {
 }
 
 Client::Client(std::string name, std::string address, std::vector<unsigned int> tour_packs_bought, unsigned int nif, unsigned int family_num, unsigned int money_spent) {
+    checkClient(tour_packs_bought);
+
     this->client_name = name;
     this->client_address.setAddress(address);
-    if(verifyPacksBought(tour_packs_bought)) this->tour_packs_bought = tour_packs_bought;
-    else this->tour_packs_bought.resize(0);
+    this->tour_packs_bought = tour_packs_bought;
     this->nif = nif;
     this->family_num = family_num;
-
-    checkClient();
+    this->money_spent = money_spent;
 }
 
-/*int Client::packPos(int id) {
-  for(size_t i = 0; i < tour_packs_bought.size(); i++)
-      if(tour_packs_bought.at(i) == id)
-        return id;
+int Client::packPos(unsigned int id) {
+  for(size_t i = 0; i < this->tour_packs_bought.size(); i++)
+      if(this->tour_packs_bought.at(i) == id)
+        return i;
   
   return -1;
 }
 
-void Client::addPack(int pack_id){
-  if(packPos(pack_id == -1))
+void Client::addPack(unsigned int pack_id){
+  if(packPos(pack_id) == -1)
     this->tour_packs_bought.push_back(pack_id);
 }
 
 void Client::removePack(int pack_id){
   if(int pos = packPos(pack_id) != -1) 
     this->tour_packs_bought.erase(tour_packs_bought.begin() + pos);
-}*/
+}
 
 void Client::setName (std::string new_name) { 
   this->client_name = new_name; 
@@ -47,8 +45,8 @@ void Client::setAddress(std::string address) {
 }
 
 void Client::setTourPacks(std::vector <unsigned int> packs) { 
+  checkClient(packs);
   this->tour_packs_bought = packs; 
-  this->checkClient(); //usar throw aqui? para não alterar cliente?
 }
 
 void Client::setNif(unsigned int nif) { 
@@ -91,20 +89,14 @@ unsigned int Client::getMoneySpent(void) const{
   return this->money_spent; 
 }
 
-bool Client::verifyPacksBought(std::vector<unsigned int> packs){
+bool Client::repeatedPacks(std::vector<unsigned int> packs) const {
   for(size_t i = 0; i < packs.size(); i++){
     for(size_t j = i+1; j < packs.size(); j++){
       if(packs.at(i) == packs.at(j))
-        return false;
+        return true;
     }
   }
-  return true;
-}
-
-void Client::checkClient() {
-
-    if(verifyPacksBought(tour_packs_bought) == false)
-      throw ClientException(NULL);
+  return false;
 }
 
 Client Client::operator = (Client client){
@@ -115,4 +107,10 @@ Client Client::operator = (Client client){
   this->family_num = client.getNumOfBuys();
 
   return *this;
+}
+
+void Client::checkClient(std::vector<unsigned int> tour_packs_bought) {
+  //repeated packs
+  if(repeatedPacks(tour_packs_bought))
+      throw ClientException(NULL);
 }

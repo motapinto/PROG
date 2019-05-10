@@ -7,9 +7,11 @@
 class Client {
     public:
         Client();
-        Client(std::string name, Address address, std::vector<unsigned int> tour_packs_bought, unsigned int nif, unsigned int family_num, unsigned int money_spent);
         Client(std::string name, std::string address, std::vector<unsigned int> tour_packs_bought, unsigned int nif, unsigned int family_num, unsigned int money_spent);
-        bool addPack(unsigned int pack_id);
+
+        int packPos(unsigned int id);
+        void addPack(unsigned int pack_id);
+        void removePack(int pack_id);
 
         void setName (std::string new_name);
         void setAddress(std::string address);
@@ -28,13 +30,36 @@ class Client {
         unsigned int getMoneySpent(void) const;
 
         Client operator = (Client client);
+
     private:
-        friend class Agency;
         std::string client_name;
         Address client_address;
         std::vector<unsigned int> tour_packs_bought;
         unsigned int nif, family_num, money_spent;
-        bool verifyPacksBought(std::vector<unsigned int> packs);
+
+        //Class Agency can now access all private members of Client
+        friend class Agency;
+
+        //Private methods only inside public functions
+        bool repeatedPacks(std::vector<unsigned int> packs) const;
+        void checkClient(std::vector<unsigned int> tour_packs_bought);
+} ;
+
+class ClientException: public std::exception
+{
+    private:
+        std::string str;
+
+    public:
+        ClientException(std::string str) {
+            this->str = str;
+        }
+
+        virtual ~ClientException() throw() {}
+
+    virtual const char* what() const throw() {
+        return this->str.c_str();
+    }
 } ;
 
 
