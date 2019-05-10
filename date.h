@@ -28,8 +28,8 @@ class Date
     unsigned int getDay() const;
     std::string getDate() const; // returns the date in format "yyyy/mm/dd"
     
-    unsigned int daysOf(unsigned int month, unsigned int &year);
-    void checkDate(std::string date) ;
+    unsigned int daysOf(unsigned int month, unsigned int &year) const;
+    void checkDate(std::string date) const;
 
   private:
     unsigned int year;
