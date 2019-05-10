@@ -4,7 +4,7 @@
 class TravelPack {
     public:
         TravelPack();
-        TravelPack(std::string init_date, std::string final_date, std::string destination, std::vector<std::string> cities, bool available, int id, unsigned int price, unsigned int people_limit, unsigned int num_sold);
+        TravelPack(std::string init_date, std::string final_date, std::string destination, std::vector<std::string> cities, bool available, unsigned int id, unsigned int price, unsigned int people_limit, unsigned int num_sold);
         
         int readPack(std::istream &input);
         void show(std::ostream &fp) const;
@@ -13,7 +13,7 @@ class TravelPack {
         Date getFinalDate(void) const;
         std::string getDestination(void) const;
         std::vector<std::string> getCities(void) const;
-        int getPackId(void) const;
+        unsigned int getPackId(void) const;
         unsigned int getPrice(void) const;
         unsigned int getPeopleLimit(void) const;
         unsigned int getNumberSold(void) const;
@@ -23,24 +23,26 @@ class TravelPack {
         void setFinalDate(std::string final_date);
         void setDestination(std::string destination);
         void setCities(std::vector<std::string> cities);
-        void setPackId(int id);
+        void setPackId(unsigned int id);
         void setPrice(unsigned int price);
         void setPeopleLimit(unsigned int people_limit);
         void setNumberSold(unsigned int num_sold);
+        void setAvailable(bool available);
 
         TravelPack operator = (TravelPack pack);        
         bool operator == (TravelPack pack);
-        bool operator == (int id);
 
     private:
         Date init_date, final_date;
         std::string destination;
         std::vector<std::string> cities;
-        int id, price, people_limit, num_sold;
+        unsigned int id, price, people_limit, num_sold;
         bool available;
 
-        bool verifyCities(std::vector<std::string> cities);
-        void checkPack() ;
+        //Private methods only inside public functions
+        bool repeatedCities(std::vector<std::string> cities) const;
+        void checkPack(Date final_date, Date init_date, unsigned int num_sold, unsigned int people_limit, std::vector<std::string> cities) const;
+        //Class Agency can now access all private members of TravelPack
         friend class Agency;
 }  ; 
 

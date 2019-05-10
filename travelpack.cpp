@@ -10,19 +10,19 @@ TravelPack::TravelPack(){
   this->num_sold = 0;
 }
 
-TravelPack::TravelPack(string init_date, string final_date, string destination, vector<string> cities, bool available, int id, unsigned int price, unsigned int people_limit, unsigned int num_sold) {
+TravelPack::TravelPack(string init_date, string final_date, string destination, vector<string> cities, bool available, unsigned int id, unsigned int price, unsigned int people_limit, unsigned int num_sold) {
+  checkPack(final_date, init_date, num_sold, people_limit, cities);
+  
+  this->init_date.setDate(init_date);
+  this->final_date.setDate(final_date);
+  this->destination = destination;
+  this->cities = cities;
+  this->available = available;
+  this->id = id;
+  this->price = price;
+  this->people_limit = people_limit;
+  this->num_sold = num_sold;
 
-    this->init_date.setDate(init_date);
-    this->final_date.setDate(final_date);
-    this->destination = destination;
-    this->cities = cities;
-    this->available = available;
-    this->id = id;
-    this->price = price;
-    this->people_limit = people_limit;
-    this->num_sold = num_sold;
-
-    checkPack();
 } 
 
 int TravelPack::readPack(istream &input){ //reads from input file and fills client class
@@ -91,7 +91,7 @@ vector<string> TravelPack::getCities(void) const{
   return this->cities; 
 }
 
-int TravelPack::getPackId(void) const{ 
+unsigned int TravelPack::getPackId(void) const{ 
   return this->id;
 }
 
@@ -108,13 +108,13 @@ unsigned int TravelPack::getNumberSold(void) const{
 }
 
 void TravelPack::setInitDate(string init_date){ 
+  checkPack(this->final_date, init_date, this->num_sold, this->people_limit, this->cities);
   this->init_date.setDate(init_date);
-  this->checkPack();
 }
 
 void TravelPack::setFinalDate(string final_date){ 
+  checkPack(final_date, this->init_date, this->num_sold, this->people_limit, this->cities);
   this->final_date.setDate(final_date);
-  this->checkPack();
 }
 
 void TravelPack::setDestination(string destination){ 
@@ -122,11 +122,11 @@ void TravelPack::setDestination(string destination){
 }
 
 void TravelPack::setCities(vector<string> cities){ 
+  checkPack(this->final_date, this->init_date, this->num_sold, this->people_limit, cities);
   this->cities = cities; 
-  this->checkPack();
 }
 
-void TravelPack::setPackId(int id){ 
+void TravelPack::setPackId(unsigned int id){ 
   this->id = id; 
 }
 
@@ -135,34 +135,37 @@ void TravelPack::setPrice(unsigned int price){
 }
 
 void TravelPack::setPeopleLimit(unsigned int people_limit){ 
+  checkPack(this->final_date, this->init_date, this->num_sold, people_limit, this->cities);
   this->people_limit = people_limit; 
-  this->checkPack();
 }
 
 void TravelPack::setNumberSold(unsigned int num_sold){ 
+  checkPack(this->final_date, this->init_date, num_sold, this->people_limit, this->cities);
   this->num_sold = num_sold; 
-  this->checkPack();
 }
 
-bool TravelPack::verifyCities(vector<string> cities){
+void TravelPack::setAvailable(bool available){
+  this->available = available;
+}
+
+bool TravelPack::repeatedCities(vector<string> cities) const {
   for(size_t i = 0; i < cities.size(); i++){
-    for(size_t j = 0; j < cities.size(); j++){
-      if(i == j) continue;
+    for(size_t j = i+1; j < cities.size(); j++){
       if(cities.at(i) == cities.at(j))
-        return false;
+        return true;
     }
   }
-  return true;
+  return false;
 }
 
-void TravelPack::checkPack() {
-    if( this->final_date < this->init_date)
+void TravelPack::checkPack(Date final_date, Date init_date, unsigned int num_sold, unsigned int people_limit, vector<string> cities) const {
+    if( final_date < init_date)
       throw new TPackException(NULL);
 
-    if(this->num_sold > this->people_limit)
+    if(num_sold > people_limit)
       throw new TPackException(NULL);
 
-    if(this->verifyCities(this->cities) == false)
+    if(repeatedCities(cities))
       throw new TPackException(NULL);
 }
 
@@ -189,12 +192,6 @@ bool TravelPack::operator == (TravelPack pack){
       this->people_limit == pack.getPeopleLimit() &&
       this->num_sold == pack.getNumberSold() )
         return true; 
-
-  return false;
-}
-
-bool TravelPack::operator == (int id){
-  if(this->id == id) return true;
 
   return false;
 }
