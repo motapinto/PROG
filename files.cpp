@@ -141,7 +141,7 @@ int read_clients(Agency &agency, string clients_file_name){
         break;
 
       case 4:
-        if( new_client.setTourPacks(str_aux, ';') == false) { //couldn't convert all values, vector might be empty
+        /*if( */new_client.setTourPacks(str_aux, ';'); //== false) { //couldn't convert all values, vector might be empty
           if( !(end_of_file = last_line(str_aux)) ){ //separator was read
             line_count = -1;
           }
@@ -149,8 +149,8 @@ int read_clients(Agency &agency, string clients_file_name){
             client_file.close();
             return total_line_count;
           }
-        } 
-        agency.addClient(new_client);
+        //} 
+        agency.addClient(new_client.getName(), new_client.getAddress().getAddress(), new_client.getTourPacksBought(), new_client.getNif(), new_client.getNif());
         break;
 
       case 5:
@@ -191,7 +191,7 @@ int read_clients(Agency &agency, string clients_file_name){
 
   if(line_count == 4 && str_aux.size() == 0){
     new_client.setTourPacks(str_aux, ';'); // str_aux will be empty so packs bought will be none
-    agency.addClient(new_client);
+    agency.addClient(new_client.getName(), new_client.getAddress().getAddress(), new_client.getTourPacksBought(), new_client.getNif(), new_client.getNif());
     client_file.close();
     return 0;
   } 
@@ -258,11 +258,11 @@ int read_packs(Agency &agency, string packs_file_name){
           return total_line_count;
         }
         if(value_check < 0){
-          pack.setAvailable(false);
+          pack.setAvailability(false);
           pack.setPackId(-value_check);
         }
         else {
-          pack.setAvailable(true);
+          pack.setAvailability(true);
           pack.setPackId(value_check);
         }
         value_check = -1;
@@ -326,7 +326,7 @@ int read_packs(Agency &agency, string packs_file_name){
         pack.setNumberSold(value_check);
         value_check = -1;
 
-        agency.addTravelPack(pack);
+        agency.addTravelPack(pack.getInitDate().getDate(), pack.getFinalDate().getDate(), pack.getDestination(), pack.getCities(), pack.getAvailability(), pack.getPackId(), pack.getPrice(), pack.getPeopleLimit(), pack.getNumberSold());
         cities.resize(0); //eliminate all elements for next iteration
         break;
     
