@@ -9,8 +9,7 @@ class Agency {
         Agency(std::string name, std::string url, std::string agency_address, std::vector <TravelPack> tour_pack, std::vector <Client> client_list, unsigned int nif);
         
         int clientPos(unsigned int nif);
-        
-        void addClient(Client client);
+
         void addClient(std::string name, std::string address, std::vector <unsigned int> tour_packs_bought, unsigned int nif, unsigned int family_num);
         void changeClient(Client &client, unsigned int nif);
         void removeClient(unsigned int nif);
