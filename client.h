@@ -9,6 +9,8 @@ class Client {
         Client();
         Client(std::string name, std::string address, std::vector<unsigned int> tour_packs_bought, unsigned int nif, unsigned int family_num, unsigned int money_spent);
 
+        void show(std::ostream &fp) const;
+
         int packPos(unsigned int id);
         void addPack(unsigned int pack_id);
         void removePack(int pack_id);
