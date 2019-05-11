@@ -27,7 +27,7 @@ class TravelPack {
         void setPrice(unsigned int price);
         void setPeopleLimit(unsigned int people_limit);
         void setNumberSold(unsigned int num_sold);
-        void setAvailable(bool available);
+        void setAvailability(bool available);
 
         TravelPack operator = (TravelPack pack);        
         bool operator == (TravelPack pack);

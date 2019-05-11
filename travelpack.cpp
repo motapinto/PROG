@@ -144,7 +144,7 @@ void TravelPack::setNumberSold(unsigned int num_sold){
   this->num_sold = num_sold; 
 }
 
-void TravelPack::setAvailable(bool available){
+void TravelPack::setAvailability(bool available){
   this->available = available;
 }
 
