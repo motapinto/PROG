@@ -534,7 +534,7 @@ void add_client(){
 
 
   try {
-    agency.addClient(new_client);
+    agency.addClient(new_client.getName(), new_client.getAddress().getAddress(), new_client.getTourPacksBought(), new_client.getNif(), new_client.getNif());
   }
 
   catch(std::string) {
@@ -590,32 +590,32 @@ void change_client_menu(Client &client){
 
       case 2:
         change_client_name(client);
-        if(agency.changeClient(client, old_nif) == true) modified_client = true;
-        else std::cerr << "Failled to modify client: some parameters were invalid!\n";
+       /* if(*/agency.changeClient(client, old_nif); //== true) modified_client = true;
+        //else std::cerr << "Failled to modify client: some parameters were invalid!\n";
         break;
 
       case 3:
         if(change_client_nif(client) == false) break;
-        if(agency.changeClient(client, old_nif) == true) modified_client = true;
-        else std::cerr << "Failled to modify client: some parameters were invalid!\n";
+        /*if(*/agency.changeClient(client, old_nif);// == true) modified_client = true;
+        //else std::cerr << "Failled to modify client: some parameters were invalid!\n";
         break;
 
       case 4:
         change_client_address(client);
-        if(agency.changeClient(client, old_nif) == true) modified_client = true;
-        else std::cerr << "Failled to modify client: some parameters were invalid!\n";
+        /*if(*/agency.changeClient(client, old_nif);// == true) modified_client = true;
+        //else std::cerr << "Failled to modify client: some parameters were invalid!\n";
         break;
 
       case 5:
         change_client_packs_bought(client);
-        if(agency.changeClient(client, old_nif) == true) modified_client = true;
-        else std::cerr << "Failled to modify client: invalid packs entered!\n";
+        /*if(*/agency.changeClient(client, old_nif);// == true) modified_client = true;
+        //else std::cerr << "Failled to modify client: invalid packs entered!\n";
         break;
 
       case 6:
         change_client_family_num(client);
-        if(agency.changeClient(client, old_nif) == true) modified_client = true;
-        else std::cerr << "Failled to modify client: some parameters were invalid!\n";
+        /*if(*/agency.changeClient(client, old_nif);// == true) modified_client = true;
+        //else std::cerr << "Failled to modify client: some parameters were invalid!\n";
         break;
 
       default:
@@ -716,16 +716,16 @@ bool purchase_pack(Client &client){
       return false;
     }
 
-    if(client.addPack(id) == false){
+    /*if(*/client.addPack(id);/* == false){
       std::cerr << "This client has already purchased this pack!\n";
       return false;
-    }
+    }*/
     pack.setNumberSold(pack.getNumberSold() + 1);
     agency.changeTravelPack(pack, pack.getPackId());
-    if(agency.changeClient(client, client.getNif()) == false) {
+    /*if(*/agency.changeClient(client, client.getNif());/* == false) {
       std::cerr << "Failled to purchase the pack for the client!\n";
       return false;
-    }
+    }*/
     return true;
   }
   return false;
@@ -910,7 +910,6 @@ void print_all_travel_pack_dates(){
   std::vector<TravelPack> vec;
   Date init_date, final_date;
   std::string str_aux;
-  bool valid = false;
 
   do {
     std::cout<< "Initial Date: "; read_line(str_aux); 
@@ -959,7 +958,6 @@ void print_all_travel_pack_destination_dates(){
   std::string str_aux;
   std::string destination;
   bool found = false;
-  bool valid = false;
 
   std::cout<< "Destination: "; read_line(destination); 
 
@@ -1206,10 +1204,10 @@ void add_travel_pack(){
   }
   change_travel_pack_available(new_pack);
 
-  if(agency.addTravelPack(new_pack) == false){
+  /*if(*/agency.addTravelPack(new_pack.getInitDate().getDate(), new_pack.getFinalDate().getDate(), new_pack.getDestination(), new_pack.getCities(), new_pack.getAvailability(), new_pack.getPackId(), new_pack.getPrice(), new_pack.getPeopleLimit(), new_pack.getNumberSold());/* == false){
     std::cerr << "Failled to add travel pack: travel pack with ID: " << id << " already exists\n";
   }
-  else modified_travel_pack = true;
+  else modified_travel_pack = true;*/
 
   print_wait_menu();
 }
@@ -1250,56 +1248,56 @@ void change_travel_pack_menu(TravelPack &travel_pack){
         change_travel_pack_price(travel_pack);
         change_travel_pack_people_limit(travel_pack);
         change_travel_pack_num_sold(travel_pack);
-        if(agency.changeTravelPack(travel_pack, travel_pack.getPackId()) == true) modified_travel_pack = true;
-        else std::cerr << "Failled to modify travel pack: some parameters were invalid!\n";
+        /*if(*/agency.changeTravelPack(travel_pack, travel_pack.getPackId());// == true) modified_travel_pack = true;
+        //else std::cerr << "Failled to modify travel pack: some parameters were invalid!\n";
         break;
 
       case 2:
         change_travel_pack_destination(travel_pack);
-        if(agency.changeTravelPack(travel_pack, travel_pack.getPackId()) == true) modified_travel_pack = true;
-        else std::cerr << "Failled to modify travel pack: destination is invalid!\n";
+        /*if(*/agency.changeTravelPack(travel_pack, travel_pack.getPackId());// == true) modified_travel_pack = true;
+        //else std::cerr << "Failled to modify travel pack: destination is invalid!\n";
         break;
 
       case 3:
         change_travel_pack_cities(travel_pack);
-        if(agency.changeTravelPack(travel_pack, travel_pack.getPackId()) == true) modified_travel_pack = true;
-        else std::cerr << "Failled to modify travel pack: no repeated cities allowed!\n";
+        /*if(*/agency.changeTravelPack(travel_pack, travel_pack.getPackId());// == true) modified_travel_pack = true;
+        //else std::cerr << "Failled to modify travel pack: no repeated cities allowed!\n";
         break;
 
       case 4:
         change_travel_pack_init_date(travel_pack);
-        if(agency.changeTravelPack(travel_pack, travel_pack.getPackId()) == true) modified_travel_pack = true;
-        else std::cerr << "Failled to modify travel pack: some parameters were invalid!\n";
+        /*if(*/agency.changeTravelPack(travel_pack, travel_pack.getPackId());// == true) modified_travel_pack = true;
+        //else std::cerr << "Failled to modify travel pack: some parameters were invalid!\n";
         break;
 
       case 5:
         change_travel_pack_final_date(travel_pack);
-        if(agency.changeTravelPack(travel_pack, travel_pack.getPackId()) == true) modified_travel_pack = true;
-        else std::cerr << "Failled to modify travel pack: some parameters were invalid!\n";
+        /*if(*/agency.changeTravelPack(travel_pack, travel_pack.getPackId());// == true) modified_travel_pack = true;
+        //else std::cerr << "Failled to modify travel pack: some parameters were invalid!\n";
         break;
 
       case 6:
         change_travel_pack_price(travel_pack);
-        if(agency.changeTravelPack(travel_pack, travel_pack.getPackId()) == true) modified_travel_pack = true;
-        else std::cerr << "Failled to modify travel pack: some parameters were invalid!\n";
+        /*if(*/agency.changeTravelPack(travel_pack, travel_pack.getPackId());// == true) modified_travel_pack = true;
+        //else std::cerr << "Failled to modify travel pack: some parameters were invalid!\n";
         break;
 
       case 7:
         change_travel_pack_people_limit(travel_pack);
-        if(agency.changeTravelPack(travel_pack, travel_pack.getPackId()) == true) modified_travel_pack = true;
-        else std::cerr << "Failled to modify travel pack: total seats available must be higher than seats sold!\n";
+        /*if(*/agency.changeTravelPack(travel_pack, travel_pack.getPackId());// == true) modified_travel_pack = true;
+        //else std::cerr << "Failled to modify travel pack: total seats available must be higher than seats sold!\n";
         break;
 
       case 8:
         change_travel_pack_num_sold(travel_pack);
-        if(agency.changeTravelPack(travel_pack, travel_pack.getPackId()) == true) modified_travel_pack = true;
-        else std::cerr << "Failled to modify travel pack: total seats available must be higher than seats sold!\n";
+        /*if(*/agency.changeTravelPack(travel_pack, travel_pack.getPackId());// == true) modified_travel_pack = true;
+        //else std::cerr << "Failled to modify travel pack: total seats available must be higher than seats sold!\n";
         break;
 
       case 9:
         change_travel_pack_available(travel_pack);
-        if(agency.changeTravelPack(travel_pack, travel_pack.getPackId()) == true) modified_travel_pack = true;
-        else std::cerr << "Failled to modify travel pack: some parameters were invalid!\n";
+        /*if(*/agency.changeTravelPack(travel_pack, travel_pack.getPackId());// == true) modified_travel_pack = true;
+        //else std::cerr << "Failled to modify travel pack: some parameters were invalid!\n";
         break;
 
       default:
@@ -1344,9 +1342,9 @@ void travel_packs_menu(){
         if(!search_travel_pack(id, search_pack)) std::cout<< "Travel Pack with ID: " << id << " not found!\n";
         else {
           change_travel_pack_menu(search_pack);
-          if(agency.changeTravelPack(search_pack, id) == true) modified_travel_pack = true;
+          /*if(*/agency.changeTravelPack(search_pack, id) ;/*== true) modified_travel_pack = true;
           else std::cout<< "Failled to modify travel pack!\n";
-        }
+        }*/
         break;
 
       default:
@@ -1512,5 +1510,4 @@ void start_menu(){
         break;
     }
   }
-
 }
