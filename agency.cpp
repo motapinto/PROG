@@ -46,27 +46,6 @@ void Agency::addClient(std::string name, std::string address, std::vector<unsign
   client_list.push_back(new_client);
 }
 
-void Agency::addClient(Client client){
-  //Check if there is already a client with the same nif
-  if(clientPos(nif) != -1)
-    //ERROR
-    return;
-    
-  if(verifyPacksBought(client.tour_packs_bought) == false) 
-    //ERROR
-    return;
-
-  for(size_t i = 0; i < client.tour_packs_bought.size(); i++){ //increment number of sold packs
-    for(size_t j = 0; j < tour_pack.size(); j++){
-      if(tour_pack.at(j).getPackId() == client.tour_packs_bought.at(i))
-          tour_pack.at(j).setNumberSold(tour_pack.at(j).getNumberSold() + 1);
-    }
-  }
-
-  client_list.push_back(client);
-  return;
-}
-
 void Agency::removeClient(unsigned int nif) {
 
   if(int pos = clientPos(nif) != -1) {
