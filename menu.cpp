@@ -15,101 +15,77 @@ using namespace std;
 
 extern bool modified_agency, modified_client, modified_travel_pack;
 
-//General Functions
-
-void read_line(string &s){
-  cin.clear();
-  fflush(stdin);
-  getline(cin, s);
-  while(s.size() == 0)
-    getline(cin, s);  
-}
-
 void print_first_lines(const char *array){
-  cout << "\n==============================\n";
-  cout << "\t" << array;
-  cout << "\n==============================\n";
+  std::cout<< "\n==============================\n";
+  std::cout<< "\t" << array;
+  std::cout<< "\n==============================\n";
 }
 
 void print_last_line(){
-  cout << "==============================\n\n";
+  std::cout<< "==============================\n\n";
 }
 
 void print_wait_menu(){
   string str_aux;
   cin.clear();
   fflush(stdin);
-  cout << "\nPress enter to continue... ";
+  std::cout<< "\nPress enter to continue... ";
   getline(cin, str_aux);
-  cout << endl;
-}
-
-int scan_single_int(){
-  int scan = 0;
-  string str_aux;
-
-  cout << "Please type in a number: ";
-  read_line(str_aux);  
-  while(string_to_int(str_aux, scan) == false || scan < 0 || scan > 9){
-    cerr << "Invalid intput!\n\n";
-    cout << "Please type in a number: ";
-    read_line(str_aux);  
-  }
-  return scan;
+  std::cout<< endl;
 }
 
 void print_agency(){
-  cout << "Name: " << agency.getName() << endl;
-  cout << "URL: " << agency.getUrl() << endl;
-  cout << "Address: " << agency.getAddress().getAddress() << endl;
-  cout << "NIF: " << agency.getNif() << endl;
+  std::cout<< "Name: " << agency.getName() << endl;
+  std::cout<< "URL: " << agency.getUrl() << endl;
+  std::cout<< "Address: " << agency.getAddress().getAddress() << endl;
+  std::cout<< "NIF: " << agency.getNif() << endl;
 
   print_wait_menu();
 }
 
 void print_client(Client &client){
-  cout << "Name: " << client.getName() << endl;
-  cout << "Address: " << client.getAddress().getAddress() << endl;
-  cout << "Tour Packs Bought: ";
-  if(client.getTourPacksBought().size() == 0) cout << "None";
+  std::cout<< "Name: " << client.getName() << endl;
+  std::cout<< "Address: " << client.getAddress().getAddress() << endl;
+  std::cout<< "Tour Packs Bought: ";
+  if(client.getTourPacksBought().size() == 0) std::cout<< "None";
   else for(size_t i = 0; i < client.getTourPacksBought().size(); i++){
-    cout << client.getTourPacksBought().at(i) << " ";
+    std::cout<< client.getTourPacksBought().at(i) << " ";
   }
-  cout << endl;
-  cout << "NIF: " << client.getNif() << endl;
-  cout << "Family Number: " << client.getFamilyNum() << endl;
+  std::cout<< endl;
+  std::cout<< "NIF: " << client.getNif() << endl;
+  std::cout<< "Family Number: " << client.getFamilyNum() << endl;
 }
 
 void print_travel_pack(TravelPack &travel_pack){
   
-  cout << "ID: " << travel_pack.getPackId() << endl;
-  cout << "Destination: " << travel_pack.getDestination() << endl;
-  cout << "Route: ";
+  std::cout<< "ID: " << travel_pack.getPackId() << endl;
+  std::cout<< "Destination: " << travel_pack.getDestination() << endl;
+  std::cout<< "Route: ";
   if(travel_pack.getCities().size() > 0){
-      cout  << travel_pack.getCities().at(0);
+      std::cout << travel_pack.getCities().at(0);
     for(size_t i = 1; i < travel_pack.getCities().size(); i++)
-      cout  << ", " << travel_pack.getCities().at(i);
+      std::cout << ", " << travel_pack.getCities().at(i);
   }
-  cout << endl;
-  cout << "Initial Date: " << travel_pack.getInitDate() << endl;
-  cout << "Final Date: " << travel_pack.getFinalDate() << endl;
-  cout << "Price: " << travel_pack.getPrice() << endl;
-  cout << "Number of seats total: " << travel_pack.getPeopleLimit() << endl;
-  cout << "Number of seats sold: " << travel_pack.getNumberSold() << endl;
-  cout << "Available: ";
-  if(travel_pack.getAvailability() == true) cout << "Yes\n";
-  else cout << "No\n";
+  std::cout<< endl;
+  std::cout<< "Initial Date: " << travel_pack.getInitDate() << endl;
+  std::cout<< "Final Date: " << travel_pack.getFinalDate() << endl;
+  std::cout<< "Price: " << travel_pack.getPrice() << endl;
+  std::cout<< "Number of seats total: " << travel_pack.getPeopleLimit() << endl;
+  std::cout<< "Number of seats sold: " << travel_pack.getNumberSold() << endl;
+  std::cout<< "Available: ";
+  if(travel_pack.getAvailability() == true) std::cout<< "Yes\n";
+  else std::cout<< "No\n";
 }
 
 //Begin Agency
 
 void print_address_struct(){
-  cout << "(Street Name) / (Door Number) / (Floor) / (Zip Code) / (City)\n";
+  std::cout<< "(Street Name) / (Door Number) / (Floor) / (Zip Code) / (City)\n";
 }
 
 void change_agency_name(){
   string str_aux;
-  cout << "Name: "; read_line(str_aux); 
+  std::cout<< "Name: "; read_line(str_aux); 
   agency.setName(str_aux);
   modified_agency = true;
 }
@@ -118,10 +94,10 @@ void change_agency_nif(){
   int nif = -1;
   string str_aux;
 
-  cout << "NIF: "; read_line(str_aux);
+  std::cout<< "NIF: "; read_line(str_aux);
   while(!string_to_int(str_aux, nif) || nif < 0 || nif > MAX_NIF){
     cerr << "Invalid intput!\n\n";
-    cout << "NIF: "; read_line(str_aux);
+    std::cout<< "NIF: "; read_line(str_aux);
   }
 
   agency.setNif(nif);
@@ -130,20 +106,26 @@ void change_agency_nif(){
 
 void change_agency_address(){
   string str_aux;
-  cout << "Address: "; read_line(str_aux);
-  while(Try(agency.setAddress, str_aux) == false){
-    cout << "Invalid input!\nAddress must be typed in the following way: \n";
-    print_address_struct();
-    cout << "Address: "; read_line(str_aux);
+  std::cout<< "Address: "; read_line(str_aux);
+
+  while(1) {
+    try {
+      agency.setAddress(str_aux);
+    }
+    catch(std::string) {
+      std::cout<< "Invalid input!\nAddress must be typed in the following way: \n";
+      print_address_struct();
+      std::cout<< "Address: "; read_line(str_aux);
+    }
   }
   agency.setAddress(str_aux);
   modified_agency = true;
 }
 
 void change_agency_url(){
-  string str_aux;
+  std::string str_aux;
 
-  cout << "URL: "; read_line(str_aux);
+  std::cout<< "URL: "; read_line(str_aux);
 
   agency.setUrl(str_aux);  
   modified_agency = true;
@@ -161,12 +143,12 @@ void change_agency_menu(){
 
   while(1){ //only ends when 0 is typed
     print_first_lines("Change Agency Menu");
-    cout << "1 - All\n";
-    cout << "2 - Name\n";
-    cout << "3 - NIF\n";
-    cout << "4 - Address\n";
-    cout << "5 - URL\n";
-    cout << "0 - Back\n";
+    std::cout<< "1 - All\n";
+    std::cout<< "2 - Name\n";
+    std::cout<< "3 - NIF\n";
+    std::cout<< "4 - Address\n";
+    std::cout<< "5 - URL\n";
+    std::cout<< "0 - Back\n";
     print_last_line();
 
     answer = scan_single_int();
@@ -215,8 +197,8 @@ void print_total_gains(){
     gains += packs.at(i).getNumberSold() * packs.at(i).getPrice();
   }
 
-  cout << endl << "Number of packs sold: " << num_sold << endl;
-  cout << "Total amount of gains: " << gains << endl << endl;
+  std::cout<< endl << "Number of packs sold: " << num_sold << endl;
+  std::cout<< "Total amount of gains: " << gains << endl << endl;
   print_wait_menu();
 }
 
@@ -225,10 +207,10 @@ void agency_menu(){
 
   while(1){ //only ends when 0 is typed
     print_first_lines("Agency Menu");
-    cout << "1 - View\n";
-    cout << "2 - Change\n";
-    cout << "3 - Calculate Gains\n";
-    cout << "0 - Back\n";
+    std::cout<< "1 - View\n";
+    std::cout<< "2 - Change\n";
+    std::cout<< "3 - Calculate Gains\n";
+    std::cout<< "0 - Back\n";
     print_last_line();
 
     answer = scan_single_int();
@@ -267,7 +249,7 @@ int search_client_name(Client &client){
   vector<Client> vec;
   string name;
 
-  cout << "Name: "; read_line(name); 
+  std::cout<< "Name: "; read_line(name); 
 
   vec = agency.searchClientName(name);
   
@@ -282,11 +264,11 @@ int search_client_nif(Client &client){
   int nif = 0;
   string str_aux;
 
-  cout << "NIF: ";
+  std::cout<< "NIF: ";
   read_line(str_aux);
   while(!string_to_int(str_aux, nif) || nif < 0 || nif > MAX_NIF){
     cerr << "Invalid intput!\n\n";
-    cout << "NIF: ";
+    std::cout<< "NIF: ";
     read_line(str_aux);
   }
 
@@ -301,10 +283,10 @@ void print_client_packs(Client &client){
   vector<unsigned int>tour_packs_ids = client.getTourPacksBought();
   TravelPack pack;
 
-  if(tour_packs_ids.size() == 0) cout << "This client does not have any purchased packs\n";
+  if(tour_packs_ids.size() == 0) std::cout<< "This client does not have any purchased packs\n";
   else{
     for(size_t i = 0; i < tour_packs_ids.size(); i++){
-      if(agency.searchTravelPackId(tour_packs_ids.at(i), pack) == false) cout << "Travel Pack with ID: " << tour_packs_ids.at(i) << " could not be found\n";
+      if(agency.searchTravelPackId(tour_packs_ids.at(i), pack) == false) std::cout<< "Travel Pack with ID: " << tour_packs_ids.at(i) << " could not be found\n";
       else print_travel_pack(pack);
     }
   }
@@ -315,9 +297,9 @@ void print_client_selected(Client &client){
 
   while(1){ //only ends when 0 is typed
     print_first_lines("Selected Client Menu");
-    cout << "1 - View Client Details\n";
-    cout << "2 - View Packs Bought\n";
-    cout << "0 - Back\n";
+    std::cout<< "1 - View Client Details\n";
+    std::cout<< "2 - View Packs Bought\n";
+    std::cout<< "0 - Back\n";
     print_last_line();
 
     answer = scan_single_int();
@@ -346,7 +328,7 @@ void print_client_selected(Client &client){
 }
 
 void print_client_selected(vector<Client> &client_vec){
-  if(client_vec.size() > 1) cout << "More than one client found!\nPlease select the client wanted by another parameter\n";
+  if(client_vec.size() > 1) std::cout<< "More than one client found!\nPlease select the client wanted by another parameter\n";
   else print_client_selected(client_vec.at(0));
 }
 
@@ -356,9 +338,9 @@ void print_single_client(){
 
   while(1){ //only ends when 0 is typed
     print_first_lines("Single Client View Menu");
-    cout << "1 - Search by NIF\n";
-    cout << "2 - Search by Name\n";
-    cout << "0 - Back\n";
+    std::cout<< "1 - Search by NIF\n";
+    std::cout<< "2 - Search by Name\n";
+    std::cout<< "0 - Back\n";
     print_last_line();
 
     answer = scan_single_int();
@@ -380,7 +362,7 @@ void print_single_client(){
             break;
 
           case 1:
-            cout << "Could not find client!\n";
+            std::cout<< "Could not find client!\n";
             break;
 
           default:
@@ -396,11 +378,11 @@ void print_single_client(){
             break;
         
           case 1:
-            cout << "More than one client found with given name!\n";
+            std::cout<< "More than one client found with given name!\n";
             break;
 
           case -1:
-            cout << "Could not find client with specified name!\n";
+            std::cout<< "Could not find client with specified name!\n";
             break;
             
           default:
@@ -425,7 +407,7 @@ void print_all_clients(){
       print_wait_menu();
     }
     print_client(vec.at(i));
-    cout << endl;
+    std::cout<< endl;
   }
 
   print_wait_menu();
@@ -454,14 +436,14 @@ void print_clients_all_travel_packs(){
     }
   }
 
-  if(tour_packs_ids.size() == 0) cout << "No packs were purchased by any client\n";
+  if(tour_packs_ids.size() == 0) std::cout<< "No packs were purchased by any client\n";
   else{
     for(size_t i = 0; i < tour_packs_ids.size(); i++, pack_count++){
       if(pack_count == 5) print_wait_menu();
 
-      if(!agency.searchTravelPackId(tour_packs_ids.at(i), pack)) cout << "Travel Pack with ID: " << tour_packs_ids.at(i) << " could not be found\n";
+      if(!agency.searchTravelPackId(tour_packs_ids.at(i), pack)) std::cout<< "Travel Pack with ID: " << tour_packs_ids.at(i) << " could not be found\n";
       else print_travel_pack(pack); 
-      cout << endl;             
+      std::cout<< endl;             
     }
   }
 
@@ -473,9 +455,9 @@ void print_clients_menu(){
 
   while(1){ //only ends when 0 is typed
     print_first_lines("View Clients Menu");
-    cout << "1 - All Clients\n";
-    cout << "2 - Single Client\n";
-    cout << "0 - Back\n";
+    std::cout<< "1 - All Clients\n";
+    std::cout<< "2 - Single Client\n";
+    std::cout<< "0 - Back\n";
     print_last_line();
 
     answer = scan_single_int();
@@ -505,7 +487,7 @@ void print_clients_menu(){
 
 void change_client_name(Client &client){
   string str_aux;
-  cout << "Name: "; 
+  std::cout<< "Name: "; 
   read_line(str_aux); 
 
   client.setName(str_aux);
@@ -513,24 +495,41 @@ void change_client_name(Client &client){
 
 void change_client_address(Client &client){
   string str_aux;
-  cout << "Address: "; read_line(str_aux);
-  while(client.setAddress(str_aux) == false){
-    cout << "Invalid input!\nAddress must be typed in the following way: \n";
-    print_address_struct();
-    cout << "Address: "; read_line(str_aux);
+  std::cout<< "Address: "; read_line(str_aux);
+
+  try {
+    client.setAddress(str_aux);
   }
+
+  catch(std::string) {
+    std::cout<< "Invalid input!\nAddress must be typed in the following way: \n";
+    print_address_struct();
+    std::cout<< "Address: "; read_line(str_aux);
+  }
+
+
 }
 
 void change_client_packs_bought(Client &client){
   string str_aux;
 
-  cout << "Tour packs bought: "; read_line(str_aux);
-  while(client.setTourPacks(str_aux, ';') == false){
-    cout << "Invalid intput!\nPlease type tour packs bought in the following order:\n";
-    cout << "(Tour Pack Id 1) ; (Tour Pack Id 2); ... ; (Tour Pack Id n) or - for no packs\n";
-    cout << "Tour packs bought: ";
-    read_line(str_aux);
+  std::cout<< "Tour packs bought: "; read_line(str_aux);
+
+  while(1) {
+      try {
+        client.setTourPacks(str_aux, ';');
+        break;
+      }
+
+      catch(std::string) {
+        std::cout<< "Invalid intput!\nPlease type tour packs bought in the following order:\n";
+        std::cout<< "(Tour Pack Id 1) ; (Tour Pack Id 2); ... ; (Tour Pack Id n) or - for no packs\n";
+        std::cout<< "Tour packs bought: ";
+        read_line(str_aux);
+      }
+
   }
+
 }
 
 bool change_client_nif(Client &client){
@@ -538,11 +537,11 @@ bool change_client_nif(Client &client){
   string str_aux;
   Client search_aux;
 
-  cout << "NIF: "; read_line(str_aux);
+  std::cout<< "NIF: "; read_line(str_aux);
 
   while(!string_to_int(str_aux, nif) || nif < 0 || nif > MAX_NIF){
     cerr << "Invalid intput!\n\n";
-    cout << "NIF: "; read_line(str_aux);
+    std::cout<< "NIF: "; read_line(str_aux);
   }
 
   if(agency.searchClientNif((unsigned int)nif, search_aux) == true){
@@ -558,10 +557,10 @@ void change_client_family_num(Client &client){
   int family_num = -1;
   string str_aux;
 
-  cout << "Family Number: "; read_line(str_aux);
+  std::cout<< "Family Number: "; read_line(str_aux);
   while(string_to_int(str_aux, family_num) == false || family_num <= 0){
     cerr << "Invalid intput!\n\n";
-    cout << "Family Number: "; read_line(str_aux);
+    std::cout<< "Family Number: "; read_line(str_aux);
   }
 
   client.setFamilyNum(family_num);
@@ -578,11 +577,16 @@ void add_client(){
   change_client_packs_bought(new_client);
   change_client_family_num(new_client);
 
-  if(agency.addClient(new_client) == false){
+
+  try {
+    agency.addClient(new_client);
+  }
+
+  catch(std::string) {
     cerr << "Failled to add client: some parameters were wrong\n";
   }
-  modified_client = true;
 
+  modified_client = true;
   print_wait_menu();
 }
 
@@ -592,13 +596,13 @@ void change_client_menu(Client &client){
 
   while(1){ //only ends when 0 is typed
     print_first_lines("Change Client Selected Menu");
-    cout << "1 - All\n";
-    cout << "2 - Name\n";
-    cout << "3 - NIF\n";
-    cout << "4 - Address\n";
-    cout << "5 - Tour Packs Bought\n";
-    cout << "6 - Family Number\n";
-    cout << "0 - Back\n";
+    std::cout<< "1 - All\n";
+    std::cout<< "2 - Name\n";
+    std::cout<< "3 - NIF\n";
+    std::cout<< "4 - Address\n";
+    std::cout<< "5 - Tour Packs Bought\n";
+    std::cout<< "6 - Family Number\n";
+    std::cout<< "0 - Back\n";
     print_last_line();
 
     answer = scan_single_int();
@@ -618,8 +622,15 @@ void change_client_menu(Client &client){
         change_client_address(client);
         change_client_packs_bought(client);
         change_client_family_num(client);
-        if(agency.changeClient(client, old_nif) == true) modified_client = true;
-        else cerr << "Failled to modify client: some parameters were invalid!\n";
+
+        try {
+          agency.changeClient(client, old_nif);
+          modified_client = true;
+        }
+        catch(std::string) {
+          cerr << "Failled to modify client: some parameters were invalid!\n";
+        }
+
         break;
 
       case 2:
@@ -664,9 +675,9 @@ void change_clients_menu(){
 
   while(1){ //only ends when 0 is typed
     print_first_lines("Change Clients Menu");
-    cout << "1 - Search by NIF\n";
-    cout << "2 - Search by Name\n";
-    cout << "0 - Back\n";
+    std::cout<< "1 - Search by NIF\n";
+    std::cout<< "2 - Search by Name\n";
+    std::cout<< "0 - Back\n";
     print_last_line();
 
     answer = scan_single_int();
@@ -688,7 +699,7 @@ void change_clients_menu(){
             break;
 
           case 1:
-            cout << "Could not find with given NIF client!\n";
+            std::cout<< "Could not find with given NIF client!\n";
             break;
 
           default:
@@ -704,11 +715,11 @@ void change_clients_menu(){
             break;
         
           case 1:
-            cout << "More than one client found with given name!\n";
+            std::cout<< "More than one client found with given name!\n";
             break;
 
           case -1:
-            cout << "Could not find client with specified name!\n";
+            std::cout<< "Could not find client with specified name!\n";
             break;
             
           default:
@@ -728,25 +739,25 @@ bool purchase_pack(Client &client){
   TravelPack pack;
   vector <unsigned int> packs_bought;
 
-  cout << "Travel Pack ID: ";
+  std::cout<< "Travel Pack ID: ";
   read_line(str_aux);
   while(string_to_int(str_aux, id) == false || id < 0){
     cerr << "Invalid intput!\n\n";
-    cout << "Travel Pack ID: ";
+    std::cout<< "Travel Pack ID: ";
     read_line(str_aux);
   }
 
-  if(!agency.searchTravelPackId(id, pack)) cout << "Travel Pack with ID: " << id << " not found!\n";
+  if(!agency.searchTravelPackId(id, pack)) std::cout<< "Travel Pack with ID: " << id << " not found!\n";
   else {
     packs_bought = client.getTourPacksBought();
     
     if(pack.getAvailability() == false) {
-      cout << "This pack is not available for purchase!\n";
+      std::cout<< "This pack is not available for purchase!\n";
       return false;
     }
     
     if( (pack.getPeopleLimit() - pack.getNumberSold()) <= 0 ) {
-      cout << "This pack has no more seats available for purchase!\n";
+      std::cout<< "This pack has no more seats available for purchase!\n";
       return false;
     }
 
@@ -770,11 +781,11 @@ void purchase_client_nif(){
   string str_aux;
   Client client;
 
-  cout << "NIF: ";
+  std::cout<< "NIF: ";
   read_line(str_aux);
   while(!string_to_int(str_aux, nif) || nif < 0 || nif > MAX_NIF){
     cerr << "Invalid intput!\n\n";
-    cout << "NIF: ";
+    std::cout<< "NIF: ";
     read_line(str_aux);
   }
 
@@ -787,14 +798,14 @@ void purchase_client_nif(){
     } 
     print_wait_menu();
   }
-  else cout << "Client with NIF: " << nif << " not found!\n";
+  else std::cout<< "Client with NIF: " << nif << " not found!\n";
 }
 
 void purchase_client_name(){
   vector<Client> vec;
   string name;
 
-  cout << "Name: "; read_line(name); 
+  std::cout<< "Name: "; read_line(name); 
 
   vec = agency.searchClientName(name);
   
@@ -802,8 +813,8 @@ void purchase_client_name(){
     agency.changeClient(vec.at(0), vec.at(0).getNif());
     modified_client = true;
   } 
-  else if(vec.size() > 1) cout << "More than one client found with name: " << name << "\nPlease select another method of choosing a client\n";
-  else if(vec.size() == 0) cout << "Client with name:" << name << " not found!\n";
+  else if(vec.size() > 1) std::cout<< "More than one client found with name: " << name << "\nPlease select another method of choosing a client\n";
+  else if(vec.size() == 0) std::cout<< "Client with name:" << name << " not found!\n";
   
   print_wait_menu();
 }
@@ -813,9 +824,9 @@ void purchase_client_menu(){
 
   while(1){ //only ends when 0 is typed
     print_first_lines("Purchase Travel Pack Menu");
-    cout << "1 - Search Client by NIF\n";
-    cout << "2 - Search Client by Name\n";
-    cout << "0 - Back\n";
+    std::cout<< "1 - Search Client by NIF\n";
+    std::cout<< "2 - Search Client by Name\n";
+    std::cout<< "0 - Back\n";
     print_last_line();
 
     answer = scan_single_int();
@@ -848,12 +859,12 @@ void clients_menu(){
 
   while(1){ //only ends when 0 is typed
     print_first_lines("Clients Menu");
-    cout << "1 - View Clients\n";
-    cout << "2 - Add New Client\n";
-    cout << "3 - Change Clients\n";
-    cout << "4 - Purchase a Pack for a Client\n";   
-    cout << "5 - View All Travel Packs Purchased\n";
-    cout << "0 - Back\n";
+    std::cout<< "1 - View Clients\n";
+    std::cout<< "2 - Add New Client\n";
+    std::cout<< "3 - Change Clients\n";
+    std::cout<< "4 - Purchase a Pack for a Client\n";   
+    std::cout<< "5 - View All Travel Packs Purchased\n";
+    std::cout<< "0 - Back\n";
     print_last_line();
 
     answer = scan_single_int();
@@ -899,11 +910,11 @@ void clients_menu(){
 bool search_travel_pack(int &id, TravelPack &pack){
   string str_aux;
 
-  cout << "Travel Pack ID: ";
+  std::cout<< "Travel Pack ID: ";
   read_line(str_aux);
   while(string_to_int(str_aux, id) == false || id < 0){
     cerr << "Invalid intput!\n\n";
-    cout << "Travel Pack ID: ";
+    std::cout<< "Travel Pack ID: ";
     read_line(str_aux);
   }
 
@@ -920,7 +931,7 @@ void print_all_travel_pack(){
       packs_counter = 0;
     }
     print_travel_pack(vec.at(i));
-    cout << endl;
+    std::cout<< endl;
   }
   print_wait_menu();
 }
@@ -929,12 +940,12 @@ void print_all_travel_pack_destination(){
   vector<TravelPack> vec;
   string destination;
 
-  cout << "Destination: "; read_line(destination); 
-  cout << endl;
+  std::cout<< "Destination: "; read_line(destination); 
+  std::cout<< endl;
 
   vec = agency.searchTravelPackDestination(destination);
 
-  if(vec.size() == 0) cout << "Travel Packs with destination:" << destination << " not found!\n";
+  if(vec.size() == 0) std::cout<< "Travel Packs with destination:" << destination << " not found!\n";
   else
     for(size_t i = 0; i < vec.size(); i++)
       print_travel_pack(vec.at(i));
@@ -947,32 +958,40 @@ void print_all_travel_pack_dates(){
   bool valid = false;
 
   do {
-    cout << "Initial Date: "; read_line(str_aux); 
-    while(!init_date.validSet(str_aux)){
-      cout << "Invalid intput!\nDate must follow format: (Year)/(Month)/(Day)\n";
-      cout << "Initial Date: ";  read_line(str_aux);
+    std::cout<< "Initial Date: "; read_line(str_aux); 
+
+    try {
+      init_date.setDate(str_aux);
+      break;
     }
-    init_date.setDate(str_aux);
-
-    cout << "Final Date: "; read_line(str_aux); 
-    while(!final_date.validSet(str_aux)){
-      cout << "Invalid intput!\nDate must follow format: (Year)/(Month)/(Day)\n";
-      cout << "Final Date: "; read_line(str_aux);
+    catch(std::string) {
+      std::cout<< "Invalid intput!\nDate must follow format: (Year)/(Month)/(Day)\n";
+      std::cout<< "Initial Date: ";  read_line(str_aux);
     }
-    final_date.setDate(str_aux);
+  }  while(1);
 
-    if(init_date > final_date){
-      cout << "Invalid dates entered!\n";
-      valid = false;
+  init_date.setDate(str_aux);
+
+  do {
+    std::cout<< "Final Date: "; read_line(str_aux); 
+
+    try {
+      final_date.setDate(str_aux);
+      break;
     }
-  } while(!valid);
+    catch(std::string) {
+      std::cout<< "Invalid intput!\nDate must follow format: (Year)/(Month)/(Day)\n";
+      std::cout<< "Final Date: "; read_line(str_aux);
+    }
+  }  while(1);
 
+  final_date.setDate(str_aux);
 
-  cout << endl;
+  std::cout<< endl;
 
   vec = agency.searchTravelPackDates(init_date, final_date);
 
-  if(vec.size() == 0) cout << "Travel Packs with dates raging from " << init_date << " to " << final_date << " not found!\n";
+  if(vec.size() == 0) std::cout<< "Travel Packs with dates raging from " << init_date << " to " << final_date << " not found!\n";
   else
     for(size_t i = 0; i < vec.size(); i++)
       print_travel_pack(vec.at(i));
@@ -987,34 +1006,40 @@ void print_all_travel_pack_destination_dates(){
   bool found = false;
   bool valid = false;
 
-  cout << "Destination: "; read_line(destination); 
+  std::cout<< "Destination: "; read_line(destination); 
 
   do {
-    cout << "Initial Date: "; read_line(str_aux); 
-    while(!init_date.validSet(str_aux)){
-      cout << "Invalid intput!\nDate must follow format: (Year)/(Month)/(Day)\n";
-      cout << "Initial Date: ";  read_line(str_aux);
-    }
-    init_date.setDate(str_aux);
+    std::cout<< "Initial Date: "; read_line(str_aux); 
 
-    cout << "Final Date: "; read_line(str_aux); 
-    while(!final_date.validSet(str_aux)){
-      cout << "Invalid intput!\nDate must follow format: (Year)/(Month)/(Day)\n";
-      cout << "Final Date: "; read_line(str_aux);
+    try {
+      init_date.setDate(str_aux);
+      break;
     }
-    final_date.setDate(str_aux);
-
-    if(init_date > final_date){
-      cout << "Invalid dates entered!\n";
-      valid = false;
+    catch(std::string) {
+      std::cout<< "Invalid intput!\nDate must follow format: (Year)/(Month)/(Day)\n";
+      std::cout<< "Initial Date: ";  read_line(str_aux);
     }
-  } while(!valid);
+  }  while(1);
 
-  cout << endl;
+  do {
+    std::cout<< "Final Date: "; read_line(str_aux); 
+
+    try {
+      final_date.setDate(str_aux);
+      break;
+    }
+    catch(std::string) {
+      std::cout<< "Invalid intput!\nDate must follow format: (Year)/(Month)/(Day)\n";
+      std::cout<< "Final Date: "; read_line(str_aux);
+    }
+  }  while(1);
+
+
+  std::cout<< endl;
 
   vec = agency.searchTravelPackDates(init_date, final_date);
 
-  if(vec.size() == 0) cout << "Travel Packs with dates raging from " << init_date << " to " << final_date << " not found!\n";
+  if(vec.size() == 0) std::cout<< "Travel Packs with dates raging from " << init_date << " to " << final_date << " not found!\n";
   else
     for(size_t i = 0; i < vec.size(); i++)
       if(vec.at(i).getDestination() == destination){
@@ -1022,7 +1047,7 @@ void print_all_travel_pack_destination_dates(){
         found = true;
       }
 
-  else if(found == false) cout << "Travel Packs with destination:" << destination << " not found!\n";
+  else if(found == false) std::cout<< "Travel Packs with destination:" << destination << " not found!\n";
 }
 
 void print_travel_pack_menu(){
@@ -1032,12 +1057,12 @@ void print_travel_pack_menu(){
 
   while(1){ //only ends when 0 is typed
     print_first_lines("View Travel Packs Menu");
-    cout << "1 - All\n";
-    cout << "2 - All to Destination\n";
-    cout << "3 - All from date to date\n";
-    cout << "4 - All to Destination and from date to date\n";
-    cout << "5 - Single Travel Pack\n";
-    cout << "0 - Back\n";
+    std::cout<< "1 - All\n";
+    std::cout<< "2 - All to Destination\n";
+    std::cout<< "3 - All from date to date\n";
+    std::cout<< "4 - All to Destination and from date to date\n";
+    std::cout<< "5 - Single Travel Pack\n";
+    std::cout<< "0 - Back\n";
     print_last_line();
 
     answer = scan_single_int();
@@ -1068,7 +1093,7 @@ void print_travel_pack_menu(){
         break;
 
       case 5:
-        if(!search_travel_pack(id, search_pack)) cout << "Travel Pack with ID: " << id << " not found!\n";
+        if(!search_travel_pack(id, search_pack)) std::cout<< "Travel Pack with ID: " << id << " not found!\n";
         else {
           print_travel_pack(search_pack);
           print_wait_menu();
@@ -1084,35 +1109,43 @@ void print_travel_pack_menu(){
 
 void change_travel_pack_init_date(TravelPack &travel_pack){
   string str_aux;
-  Date date_aux;
 
-  cout << "Initial Date: "; read_line(str_aux);
-  while(!date_aux.validSet(str_aux)){
-    cout << "Invalid intput!\nDate must follow format: (Year)/(Month)/(Day)\n";
-    cout << "Initial Date: ";  read_line(str_aux);
-  }
-  date_aux.setDate(str_aux);
+  do {
+    std::cout<< "Initial Date: "; read_line(str_aux); 
 
-  travel_pack.setInitDate(date_aux);
+    try {
+      travel_pack.setInitDate(str_aux);
+      break;
+    }
+    catch(std::string) {
+      std::cout<< "Invalid intput!\nDate must follow format: (Year)/(Month)/(Day)\n";
+      std::cout<< "Initial Date: ";  read_line(str_aux);
+    }
+  }  while(1);
+
 }
 
 void change_travel_pack_final_date(TravelPack &travel_pack){
   string str_aux;
   Date date_aux;
 
-  cout << "Final Date: "; read_line(str_aux); 
-  while(!date_aux.validSet(str_aux)){
-    cout << "Invalid intput!\nDate must follow format: (Year)/(Month)/(Day)\n";
-    cout << "Final Date: "; read_line(str_aux);
-  }
-  date_aux.setDate(str_aux);
+  do {
+    std::cout<< "Final Date: "; read_line(str_aux); 
 
-  travel_pack.setFinalDate(date_aux);
+    try {
+      travel_pack.setFinalDate(str_aux);
+      break;
+    }
+    catch(std::string) {
+      std::cout<< "Invalid intput!\nDate must follow format: (Year)/(Month)/(Day)\n";
+      std::cout<< "Final Date: "; read_line(str_aux);
+    }
+  }  while(1);
 }
 
 void change_travel_pack_destination(TravelPack &travel_pack){
   string str_aux;
-  cout << "Destination: "; read_line(str_aux);
+  std::cout<< "Destination: "; read_line(str_aux);
 
   travel_pack.setDestination(str_aux);
 }
@@ -1121,7 +1154,7 @@ void change_travel_pack_cities(TravelPack &travel_pack){
   string str_aux;
   vector<string> cities;
 
-  cout << "Cities (Separated by , or - for none): "; read_line(str_aux);
+  std::cout<< "Cities (Separated by , or - for none): "; read_line(str_aux);
 
   if(str_aux.compare("-") == 0) cities.resize(0);
   else decompose(str_aux, cities, ',');
@@ -1132,10 +1165,10 @@ void change_travel_pack_cities(TravelPack &travel_pack){
 void change_travel_pack_price(TravelPack &travel_pack){
   int price = -1;
   string str_aux;
-  cout << "Price: "; read_line(str_aux);
+  std::cout<< "Price: "; read_line(str_aux);
   while(string_to_int(str_aux, price) == false || price < 0){
     cerr << "Invalid intput!\n\n";
-    cout << "Price: "; read_line(str_aux);
+    std::cout<< "Price: "; read_line(str_aux);
   }
 
   travel_pack.setPrice(price);
@@ -1144,10 +1177,10 @@ void change_travel_pack_price(TravelPack &travel_pack){
 void change_travel_pack_people_limit(TravelPack &travel_pack){
   int people_limit = -1;
   string str_aux;
-  cout << "Number of seats available: "; read_line(str_aux);
+  std::cout<< "Number of seats available: "; read_line(str_aux);
   while(string_to_int(str_aux, people_limit) == false || people_limit < 0){
     cerr << "Invalid intput!\n\n";
-    cout << "Number of seats available: "; read_line(str_aux);
+    std::cout<< "Number of seats available: "; read_line(str_aux);
   }
 
   travel_pack.setPeopleLimit(people_limit);
@@ -1157,10 +1190,10 @@ void change_travel_pack_num_sold(TravelPack &travel_pack){
   int num_sold = -1;
   string str_aux;
 
-  cout << "Number of seats sold: "; read_line(str_aux);
+  std::cout<< "Number of seats sold: "; read_line(str_aux);
   while(!string_to_int(str_aux, num_sold) || num_sold < 0){
     cerr << "Invalid intput!\n\n";
-    cout << "Number of seats sold: "; read_line(str_aux);
+    std::cout<< "Number of seats sold: "; read_line(str_aux);
   }
 
   travel_pack.setNumberSold(num_sold);
@@ -1168,10 +1201,10 @@ void change_travel_pack_num_sold(TravelPack &travel_pack){
 
 void change_travel_pack_available(TravelPack &travel_pack){
   string str_aux;
-  cout << "Available(Yes/No): "; read_line(str_aux); 
+  std::cout<< "Available(Yes/No): "; read_line(str_aux); 
   while(str_aux.compare("Yes") != 0 && str_aux.compare("No") != 0){
-    cout << "Invalid Input\n";
-    cout << "Available(Yes/No): "; read_line(str_aux);
+    std::cout<< "Invalid Input\n";
+    std::cout<< "Available(Yes/No): "; read_line(str_aux);
   }
 
   if(str_aux.compare("Yes") == 0) travel_pack.setAvailability(true);
@@ -1184,11 +1217,11 @@ void add_travel_pack(){
   int id = -1;
   string str_aux;
 
-  cout << "Travel Pack ID: ";
+  std::cout<< "Travel Pack ID: ";
   read_line(str_aux);
   while(string_to_int(str_aux, id) == false || id < 0){
     cerr << "Invalid intput!\n\n";
-    cout << "Travel Pack ID: ";
+    std::cout<< "Travel Pack ID: ";
     read_line(str_aux);
   }
   new_pack.setPackId(id);
@@ -1231,16 +1264,16 @@ void change_travel_pack_menu(TravelPack &travel_pack){
 
   while(1){ //only ends when 0 is typed
     print_first_lines("Change Travel Pack Menu");
-    cout << "1 - All\n";
-    cout << "2 - Destination\n";
-    cout << "3 - Cities\n";
-    cout << "4 - Initial Date\n";
-    cout << "5 - Final Date\n";
-    cout << "6 - Price\n";
-    cout << "7 - Seats Available\n";
-    cout << "8 - Seats Sold\n";
-    cout << "9 - Availability\n";
-    cout << "0 - Back\n";
+    std::cout<< "1 - All\n";
+    std::cout<< "2 - Destination\n";
+    std::cout<< "3 - Cities\n";
+    std::cout<< "4 - Initial Date\n";
+    std::cout<< "5 - Final Date\n";
+    std::cout<< "6 - Price\n";
+    std::cout<< "7 - Seats Available\n";
+    std::cout<< "8 - Seats Sold\n";
+    std::cout<< "9 - Availability\n";
+    std::cout<< "0 - Back\n";
     print_last_line();
 
     answer = scan_single_int();
@@ -1327,10 +1360,10 @@ void travel_packs_menu(){
 
   while(1){ //only ends when 0 is typed
     print_first_lines("Travel Packs Menu");
-    cout << "1 - View Travel Packs\n";
-    cout << "2 - Add New Travel Pack\n";
-    cout << "3 - Change Travel Pack\n";
-    cout << "0 - Back\n";
+    std::cout<< "1 - View Travel Packs\n";
+    std::cout<< "2 - Add New Travel Pack\n";
+    std::cout<< "3 - Change Travel Pack\n";
+    std::cout<< "0 - Back\n";
     print_last_line();
 
     answer = scan_single_int();
@@ -1353,11 +1386,11 @@ void travel_packs_menu(){
         break;
 
       case 3:
-        if(!search_travel_pack(id, search_pack)) cout << "Travel Pack with ID: " << id << " not found!\n";
+        if(!search_travel_pack(id, search_pack)) std::cout<< "Travel Pack with ID: " << id << " not found!\n";
         else {
           change_travel_pack_menu(search_pack);
           if(agency.changeTravelPack(search_pack, id) == true) modified_travel_pack = true;
-          else cout << "Failled to modify travel pack!\n";
+          else std::cout<< "Failled to modify travel pack!\n";
         }
         break;
 
@@ -1375,17 +1408,17 @@ void print_most_visited_places(){
   string str_aux;
   int number_places = -1;
 
-  cout << "Number of Places: "; read_line(str_aux);
+  std::cout<< "Number of Places: "; read_line(str_aux);
   while(!string_to_int(str_aux, number_places) || number_places < 0){
     cerr << "Invalid intput!\n\n";
-    cout << "Number of Places: "; read_line(str_aux);
+    std::cout<< "Number of Places: "; read_line(str_aux);
   }
 
   auto iterator = mp.begin();
   for(int i = 0; i < number_places && iterator != mp.end(); i++, iterator++)
-    cout << "Most visited place number " << i+1 << ": " << (*iterator).second << " visited a total of " << (*iterator).first << " times\n";
+    std::cout<< "Most visited place number " << i+1 << ": " << (*iterator).second << " visited a total of " << (*iterator).first << " times\n";
 
-  cout << endl;
+  std::cout<< endl;
 }
 
 void print_most_visited_places_clients(){
@@ -1398,10 +1431,10 @@ void print_most_visited_places_clients(){
   vector <TravelPack> clients_pack(clients.size()); //pack for every client people_limit = 0 == none
   
 
-  cout << "Number of Places: "; read_line(str_aux);
+  std::cout<< "Number of Places: "; read_line(str_aux);
   while(!string_to_int(str_aux, number_places) || number_places < 0){
     cerr << "Invalid intput!\n\n";
-    cout << "Number of Places: "; read_line(str_aux);
+    std::cout<< "Number of Places: "; read_line(str_aux);
   }
 
   auto iterator = mp.begin();
@@ -1433,17 +1466,17 @@ void print_most_visited_places_clients(){
 
   for(size_t i = 0; i < clients.size(); i++){
     print_client(clients.at(i));
-    cout << "Recommend pack: \n";
+    std::cout<< "Recommend pack: \n";
     if(clients_pack.at(i).getPeopleLimit() != 0)
       print_travel_pack(clients_pack.at(i));
     else
-      cout << "None\n";
+      std::cout<< "None\n";
 
-    cout << endl;
+    std::cout<< endl;
   }
 
 
-  cout << endl;
+  std::cout<< endl;
 }
 
 void statistics_menu(){
@@ -1453,9 +1486,9 @@ void statistics_menu(){
 
   while(1){ //only ends when 0 is typed
     print_first_lines("Statistics Menu");
-    cout << "1 - Most Visited Places\n";
-    cout << "2 - Clients Who Visited a Most Visited Place\n";
-    cout << "0 - Back\n";
+    std::cout<< "1 - Most Visited Places\n";
+    std::cout<< "2 - Clients Who Visited a Most Visited Place\n";
+    std::cout<< "0 - Back\n";
     print_last_line();
 
     answer = scan_single_int();
@@ -1490,11 +1523,11 @@ void start_menu(){
 
   while(1){ //only ends when 0 is typed
     print_first_lines("Main Menu");
-    cout << "1 - Agency\n";
-    cout << "2 - Clients\n";
-    cout << "3 - Travel Packs\n";
-    cout << "4 - Statistics\n";
-    cout << "0 - Exit\n";
+    std::cout<< "1 - Agency\n";
+    std::cout<< "2 - Clients\n";
+    std::cout<< "3 - Travel Packs\n";
+    std::cout<< "4 - Statistics\n";
+    std::cout<< "0 - Exit\n";
     print_last_line();
 
     answer = scan_single_int();

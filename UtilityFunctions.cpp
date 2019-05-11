@@ -167,13 +167,26 @@ bool string_to_int(std::string s, int &ret){
   return false;
 }
 
-//Generic function to read strings
-void read_string(std::string &str) 
-{ 
-    while(!getline(std::cin, str, '\n')){
-        std::cin.clear();
-        std::cin.ignore();
-    }
+void read_line(std::string &s){
+  std::cin.clear();
+  fflush(stdin);
+  getline(std::cin, s);
+  while(s.size() == 0)
+    getline(std::cin, s);  
+}
+
+int scan_single_int(){
+  int scan = 0;
+  std::string str_aux;
+
+  std::cout << "Please type in a number: ";
+  read_line(str_aux);  
+  while(string_to_int(str_aux, scan) == false || scan < 0 || scan > 9){
+    std::cerr << "Invalid intput!\n\n";
+    std::cout << "Please type in a number: ";
+    read_line(str_aux);  
+  }
+  return scan;
 }
 
 //Generic function to test and catch exceptions
