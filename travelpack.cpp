@@ -195,3 +195,26 @@ bool TravelPack::operator == (TravelPack pack){
 
   return false;
 }
+
+void TravelPack::show(std::ostream &fp) const{
+  
+  std::cout<< "ID: " << id << endl;
+  std::cout<< "Destination: " << destination << endl;
+  std::cout<< "Route: ";
+  if(cities.size() > 0){
+      std::cout << cities.at(0);
+    for(size_t i = 1; i < cities.size(); i++)
+      std::cout << ", " << cities.at(i);
+  }
+  std::cout<< endl;
+  std::cout<< "Initial Date: "; init_date.show(cout);
+  std::cout<< "Final Date: ";   final_date.show(cout);
+  std::cout<< "Price: " << price << endl;
+  std::cout<< "Number of seats total: " << people_limit << endl;
+  std::cout<< "Number of seats sold: " << num_sold << endl;
+  std::cout<< "Available: ";
+  if(getAvailability() == true) 
+    std::cout<< "Yes\n";
+  else 
+    std::cout<< "No\n";
+}

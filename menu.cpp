@@ -56,27 +56,6 @@ void print_client(Client &client){
   std::cout<< "Family Number: " << client.getFamilyNum() << endl;
 }
 
-void print_travel_pack(TravelPack &travel_pack){
-  
-  std::cout<< "ID: " << travel_pack.getPackId() << endl;
-  std::cout<< "Destination: " << travel_pack.getDestination() << endl;
-  std::cout<< "Route: ";
-  if(travel_pack.getCities().size() > 0){
-      std::cout << travel_pack.getCities().at(0);
-    for(size_t i = 1; i < travel_pack.getCities().size(); i++)
-      std::cout << ", " << travel_pack.getCities().at(i);
-  }
-  std::cout<< endl;
-  std::cout<< "Initial Date: " << travel_pack.getInitDate() << endl;
-  std::cout<< "Final Date: " << travel_pack.getFinalDate() << endl;
-  std::cout<< "Price: " << travel_pack.getPrice() << endl;
-  std::cout<< "Number of seats total: " << travel_pack.getPeopleLimit() << endl;
-  std::cout<< "Number of seats sold: " << travel_pack.getNumberSold() << endl;
-  std::cout<< "Available: ";
-  if(travel_pack.getAvailability() == true) std::cout<< "Yes\n";
-  else std::cout<< "No\n";
-}
-
 //Begin Agency
 
 void print_address_struct(){
@@ -287,7 +266,7 @@ void print_client_packs(Client &client){
   else{
     for(size_t i = 0; i < tour_packs_ids.size(); i++){
       if(agency.searchTravelPackId(tour_packs_ids.at(i), pack) == false) std::cout<< "Travel Pack with ID: " << tour_packs_ids.at(i) << " could not be found\n";
-      else print_travel_pack(pack);
+      else pack.show(cout);
     }
   }
 }
@@ -442,7 +421,7 @@ void print_clients_all_travel_packs(){
       if(pack_count == 5) print_wait_menu();
 
       if(!agency.searchTravelPackId(tour_packs_ids.at(i), pack)) std::cout<< "Travel Pack with ID: " << tour_packs_ids.at(i) << " could not be found\n";
-      else print_travel_pack(pack); 
+      else pack.show(cout);
       std::cout<< endl;             
     }
   }
@@ -930,7 +909,7 @@ void print_all_travel_pack(){
       print_wait_menu();
       packs_counter = 0;
     }
-    print_travel_pack(vec.at(i));
+    vec.at(i).show(cout);
     std::cout<< endl;
   }
   print_wait_menu();
@@ -948,7 +927,7 @@ void print_all_travel_pack_destination(){
   if(vec.size() == 0) std::cout<< "Travel Packs with destination:" << destination << " not found!\n";
   else
     for(size_t i = 0; i < vec.size(); i++)
-      print_travel_pack(vec.at(i));
+      vec.at(i).show(cout);
 }
 
 void print_all_travel_pack_dates(){
@@ -994,7 +973,7 @@ void print_all_travel_pack_dates(){
   if(vec.size() == 0) std::cout<< "Travel Packs with dates raging from " << init_date << " to " << final_date << " not found!\n";
   else
     for(size_t i = 0; i < vec.size(); i++)
-      print_travel_pack(vec.at(i));
+      vec.at(i).show(cout);
 
 }
 
@@ -1043,7 +1022,7 @@ void print_all_travel_pack_destination_dates(){
   else
     for(size_t i = 0; i < vec.size(); i++)
       if(vec.at(i).getDestination() == destination){
-        print_travel_pack(vec.at(i));
+        vec.at(i).show(cout);
         found = true;
       }
 
@@ -1095,7 +1074,7 @@ void print_travel_pack_menu(){
       case 5:
         if(!search_travel_pack(id, search_pack)) std::cout<< "Travel Pack with ID: " << id << " not found!\n";
         else {
-          print_travel_pack(search_pack);
+          search_pack.show(cout);
           print_wait_menu();
         }
 
@@ -1468,7 +1447,7 @@ void print_most_visited_places_clients(){
     print_client(clients.at(i));
     std::cout<< "Recommend pack: \n";
     if(clients_pack.at(i).getPeopleLimit() != 0)
-      print_travel_pack(clients_pack.at(i));
+      clients_pack.at(i).show(cout);
     else
       std::cout<< "None\n";
 
