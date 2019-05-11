@@ -18,6 +18,19 @@ Client::Client(std::string name, std::string address, std::vector<unsigned int> 
     this->money_spent = money_spent;
 }
 
+void Client::show(std::ostream &fp) const {
+  fp << "Name: " << client_name << std::endl;
+  fp << "Address: " ; client_address.show(fp);
+  fp << "Tour Packs Bought: ";
+  if(tour_packs_bought.size() == 0) fp << "None";
+  else for(size_t i = 0; i < tour_packs_bought.size(); i++){
+    fp << tour_packs_bought.at(i) << " ";
+  }
+  fp << std::endl;
+  fp << "NIF: " << nif << std::endl;
+  fp << "Family Number: " << family_num << std::endl;
+}
+
 int Client::packPos(unsigned int id) {
   for(size_t i = 0; i < this->tour_packs_bought.size(); i++)
       if(this->tour_packs_bought.at(i) == id)

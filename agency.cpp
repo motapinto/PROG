@@ -28,7 +28,7 @@ int Agency::clientPos(unsigned int nif) {
 void Agency::show(std::ostream &fp) const{
   fp << "Name: " << name << std::endl;
   fp << "URL: " << url << std::endl;
-  fp << "Address: " <<  agency_address.getAddress() << std::endl;
+  fp << "Address: " ; agency_address.show(fp);
   fp << "NIF: " << nif << std::endl;
 }
 

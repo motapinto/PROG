@@ -207,8 +207,8 @@ void TravelPack::show(std::ostream &fp ) const{
       fp  << ", " << cities.at(i);
   }
   fp << endl;
-  fp << "Initial Date: "; init_date.show(cout);
-  fp << "Final Date: ";   final_date.show(cout);
+  fp << "Initial Date: "; init_date.show(fp);
+  fp << "Final Date: ";   final_date.show(fp);
   fp << "Price: " << price << endl;
   fp << "Number of seats total: " << people_limit << endl;
   fp << "Number of seats sold: " << num_sold << endl;
