@@ -49,6 +49,21 @@ void Client::setTourPacks(std::vector <unsigned int> packs) {
   this->tour_packs_bought = packs; 
 }
 
+void Client::setTourPacks(std::string packs, char delim) { 
+  std::vector<unsigned int> packs_bought;
+
+   if(packs.compare("-") == 0){
+    this->tour_packs_bought.resize(0); //eliminate previous values
+    throw ClientException(NULL);
+  } 
+
+   if(decompose(packs, packs_bought, delim) == true){
+    if(!repeatedPacks(packs_bought)){
+      this->tour_packs_bought = packs_bought;
+    }
+  }
+}
+
 void Client::setNif(unsigned int nif) { 
   this->nif = nif; 
 }
