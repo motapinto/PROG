@@ -17,7 +17,7 @@ Agency::Agency(std::string name, std::string url, std::string agency_address, st
     this->client_list = client_list;
 }
 
-unsigned int Agency::clientPos(unsigned int nif) {
+int Agency::clientPos(unsigned int nif) {
   for(size_t pos = 0; pos < client_list.size(); pos++){
     if(client_list.at(pos).getNif() == nif) 
       return pos;
@@ -133,7 +133,7 @@ void Agency::changeClient(Client &client, unsigned int old_nif) {
   client_list.at(pos).family_num = client.family_num;
 }
 
-void Agency::addTravelPack(std::string init_date, std::string final_date, std::string destination, std::vector<std::string> cities, bool available, int id, unsigned int price, unsigned int people_limit, unsigned int num_sold){
+void Agency::addTravelPack(std::string init_date, std::string final_date, std::string destination, std::vector<std::string> cities, bool available, unsigned int id, unsigned int price, unsigned int people_limit, unsigned int num_sold){
   //Check if there is already a pack with the same id
   Date date_aux;
 
@@ -167,7 +167,7 @@ void Agency::changeTravelPack(TravelPack &pack, unsigned int id){
             if(client_list.at(j).tour_packs_bought.at(l) == tour_pack.at(i).id)
               client_list.at(j).money_spent += pack.price - tour_pack.at(i).price;
 
-        tour_pack.at(i).price = pack.getPrice;
+        tour_pack.at(i).price = pack.getPrice();
         tour_pack.at(i).people_limit = pack.people_limit;
         tour_pack.at(i).num_sold = pack.num_sold;
     }
@@ -378,7 +378,7 @@ unsigned int Agency::sumSold(const std::vector<unsigned int> &tour_packs){
 
   for(size_t k = 0; k < this->tour_pack.size(); k++)
     for(size_t j = 0; j < tour_packs.size(); j++){
-      if(tour_pack.at(j) == this->tour_pack.at(k).id)
+      if(tour_pack.at(j).id == this->tour_pack.at(k).id)
         n_sold+= this->tour_pack.at(k).price;
     }
 

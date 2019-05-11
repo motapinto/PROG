@@ -1,6 +1,6 @@
 #include "files.h"
 
-#include "StringFunctions.h"
+#include "UtilityFunctions.h"
 #include <string>
 #include <iostream>
 #include <stdio.h>
@@ -55,7 +55,7 @@ int read_agency(Agency &agency, string agency_file_name, string &clients_file_na
         break;
 
       case 3:
-        if(!agency.setAddress(str_aux)) return total_line_count;
+        agency.setAddress(str_aux);
         break;
 
       case 4:
@@ -137,11 +137,7 @@ int read_clients(Agency &agency, string clients_file_name){
         break;
 
       case 3:
-        if(new_client.setAddress(str_aux) == false){
-          client_file.close();
-          return total_line_count;
-        }      
-
+        new_client.setAddress(str_aux);
         break;
 
       case 4:
@@ -154,11 +150,7 @@ int read_clients(Agency &agency, string clients_file_name){
             return total_line_count;
           }
         } 
-        if(agency.addClient(new_client) == false){
-          client_file.close();
-          return total_line_count;
-        }
-        
+        agency.addClient(new_client);
         break;
 
       case 5:
@@ -199,10 +191,7 @@ int read_clients(Agency &agency, string clients_file_name){
 
   if(line_count == 4 && str_aux.size() == 0){
     new_client.setTourPacks(str_aux, ';'); // str_aux will be empty so packs bought will be none
-    if(agency.addClient(new_client) == false){
-      client_file.close();
-      return total_line_count;
-    }
+    agency.addClient(new_client);
     client_file.close();
     return 0;
   } 
@@ -269,11 +258,11 @@ int read_packs(Agency &agency, string packs_file_name){
           return total_line_count;
         }
         if(value_check < 0){
-          pack.setAvailability(false);
+          pack.setAvailable(false);
           pack.setPackId(-value_check);
         }
         else {
-          pack.setAvailability(true);
+          pack.setAvailable(true);
           pack.setPackId(value_check);
         }
         value_check = -1;
@@ -292,17 +281,11 @@ int read_packs(Agency &agency, string packs_file_name){
         break;
 
       case 2:
-        if(pack.setInitDate(str_aux) != 0){
-          packs_file.close();
-          return total_line_count;
-        }
+        pack.setInitDate(str_aux);
         break;
 
       case 3:
-        if(pack.setFinalDate(str_aux) != 0){
-          packs_file.close();
-          return total_line_count;
-        }
+        pack.setFinalDate(str_aux);
         break;
 
       case 4:
@@ -343,7 +326,7 @@ int read_packs(Agency &agency, string packs_file_name){
         pack.setNumberSold(value_check);
         value_check = -1;
 
-        if (agency.addTravelPack(pack) == false ) return total_line_count;
+        agency.addTravelPack(pack);
         cities.resize(0); //eliminate all elements for next iteration
         break;
     
