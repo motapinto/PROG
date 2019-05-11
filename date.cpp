@@ -154,9 +154,13 @@ unsigned int Date::getDay() const{
   return this->day; 
 }
 
-std::string Date::getDate() const{ // returns the date in format "yyyy/mm/dd"
+std::string Date::getDate() const{ 
   std::string date =  std::to_string(this->year) + "/" + std::to_string(this->month) + "/" + std::to_string(this->day);
   return date;
+}
+
+void Date::show(std::ostream &fp) const{ // shows the date on the screen/text file in format "yyyy/mm/dd"	
+  fp << std::setw(4) << this->year << '/' << std::setw(2) << this->month << '/' << std::setw(2) << this->day << std::endl;	
 }
 
 unsigned int Date::daysOf(unsigned int month, unsigned int &year) const{

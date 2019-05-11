@@ -27,14 +27,17 @@ class Date
     unsigned int getMonth() const;
     unsigned int getDay() const;
     std::string getDate() const; // returns the date in format "yyyy/mm/dd"
-    
-    unsigned int daysOf(unsigned int month, unsigned int &year) const;
-    void checkDate(std::string date) const;
+
+    void show(std::ostream &fp) const; // shows the date on the screen in format "yyyy/mm/dd"
 
   private:
     unsigned int year;
     unsigned int month;
     unsigned int day;
+    
+    //Private methods only inside public functions
+    unsigned int daysOf(unsigned int month, unsigned int &year) const;
+    void checkDate(std::string date) const;
 }; 
 
 class DateException: public std::exception
