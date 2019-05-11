@@ -196,25 +196,25 @@ bool TravelPack::operator == (TravelPack pack){
   return false;
 }
 
-void TravelPack::show(std::ostream &fp) const{
+void TravelPack::show(std::ostream &fp ) const{
   
-  std::cout<< "ID: " << id << endl;
-  std::cout<< "Destination: " << destination << endl;
-  std::cout<< "Route: ";
+  fp << "ID: " << id << endl;
+  fp << "Destination: " << destination << endl;
+  fp << "Route: ";
   if(cities.size() > 0){
-      std::cout << cities.at(0);
+      fp  << cities.at(0);
     for(size_t i = 1; i < cities.size(); i++)
-      std::cout << ", " << cities.at(i);
+      fp  << ", " << cities.at(i);
   }
-  std::cout<< endl;
-  std::cout<< "Initial Date: "; init_date.show(cout);
-  std::cout<< "Final Date: ";   final_date.show(cout);
-  std::cout<< "Price: " << price << endl;
-  std::cout<< "Number of seats total: " << people_limit << endl;
-  std::cout<< "Number of seats sold: " << num_sold << endl;
-  std::cout<< "Available: ";
+  fp << endl;
+  fp << "Initial Date: "; init_date.show(cout);
+  fp << "Final Date: ";   final_date.show(cout);
+  fp << "Price: " << price << endl;
+  fp << "Number of seats total: " << people_limit << endl;
+  fp << "Number of seats sold: " << num_sold << endl;
+  fp << "Available: ";
   if(getAvailability() == true) 
-    std::cout<< "Yes\n";
+    fp << "Yes\n";
   else 
-    std::cout<< "No\n";
+    fp << "No\n";
 }

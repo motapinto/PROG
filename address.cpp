@@ -38,6 +38,10 @@ Address::Address(std::string street_name, std::string postal_code, std::string c
     this->door_num = door_num;
 }
 
+void Address::show(std::ostream &fp) const {
+    fp << getAddress() << std::endl;
+}
+
 void Address::setAddress(std::string address){
     std::vector <std::string> elements;
     std::vector <unsigned int> vec;
@@ -58,27 +62,27 @@ void Address::setAddress(std::string address){
     this->city        = elements[4];
 }
 
-std::string Address::getStreet(void){ 
+std::string Address::getStreet(void) const{ 
     return this->street_name; 
 }
 
-std::string Address::getPostalCode(void){ 
+std::string Address::getPostalCode(void) const{ 
     return this->postal_code; 
 }
 
-std::string Address::getCity(void){ 
+std::string Address::getCity(void) const{ 
     return this->city; 
 }
 
-std::string Address::getFloorNum(void){ 
+std::string Address::getFloorNum(void) const{ 
     return this->floor_num; 
 }
 
-unsigned int Address::getDoorNum(void){ 
+unsigned int Address::getDoorNum(void) const{ 
     return this->door_num; 
 }
 
-std::string Address::getAddress(void){
+std::string Address::getAddress(void) const{
   std::string address;
 
   address = this->street_name + " / " + std::to_string(this->door_num) + " / " + this->floor_num  

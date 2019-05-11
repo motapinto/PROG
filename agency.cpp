@@ -25,6 +25,13 @@ int Agency::clientPos(unsigned int nif) {
   return -1;
 }
 
+void Agency::show(std::ostream &fp) const{
+  std::cout<< "Name: " << name << std::endl;
+  std::cout<< "URL: " << url << std::endl;
+  std::cout<< "Address: " <<  agency_address.getAddress() << std::endl;
+  std::cout<< "NIF: " << nif << std::endl;
+}
+
 void Agency::addClient(std::string name, std::string address, std::vector<unsigned int> tour_packs_bought, unsigned int nif, unsigned int family_num) {
   //Check if there is already a client with the same nif
   if(clientPos(nif) != -1)
