@@ -1367,9 +1367,9 @@ void print_most_visited_places(){
     std::cout<< "Number of Places: "; read_line(str_aux);
   }
 
-  auto iterator = mp.begin();
-  for(int i = 0; i < number_places && iterator != mp.end(); i++, iterator++)
-    std::cout<< "Most visited place number " << i+1 << ": " << (*iterator).second << " visited a total of " << (*iterator).first << " times\n";
+  auto it = mp.begin();
+  for(int i = 0; i < number_places && it != mp.end(); i++, it++)
+    std::cout<< "Most visited place number " << i+1 << ": " << (*it).second << " visited a total of " << (*it).first << " times\n";
 
   std::cout<< std::endl;
 }
@@ -1390,9 +1390,9 @@ void print_most_visited_places_clients(){
     std::cout<< "Number of Places: "; read_line(str_aux);
   }
 
-  auto iterator = mp.begin();
-  for(int i = 0; i < number_places && iterator != mp.end(); i++, iterator++){
-    packs_with_city = agency.searchTravelPackCity((*iterator).second);
+  auto it = mp.begin();
+  for(int i = 0; i < number_places && it != mp.end(); i++, it++){
+    packs_with_city = agency.searchTravelPackCity((*it).second);
 
     for(size_t j = 0; j < clients.size(); j++){
 
