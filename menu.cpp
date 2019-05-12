@@ -1343,8 +1343,8 @@ void travel_packs_menu(){
         else {
           change_travel_pack_menu(search_pack);
           /*if(*/agency.changeTravelPack(search_pack, id) ;/*== true) modified_travel_pack = true;
-          else std::cout<< "Failled to modify travel pack!\n";
-        }*/
+          else std::cout<< "Failled to modify travel pack!\n";*/
+        }
         break;
 
       default:
@@ -1357,7 +1357,7 @@ void travel_packs_menu(){
 //Begin Statistics
 
 void print_most_visited_places(){
-  multimap<unsigned int, std::string> mp = agency.mostVisitedPlaces();
+  std::multimap<unsigned int, std::string> mp = agency.mostVisitedPlaces();
   std::string str_aux;
   int number_places = -1;
 
@@ -1368,14 +1368,14 @@ void print_most_visited_places(){
   }
 
   auto iterator = mp.begin();
-  for(int i = 0; i < number_places && iterator != mp.std::endl(); i++, iterator++)
+  for(int i = 0; i < number_places && iterator != mp.end(); i++, iterator++)
     std::cout<< "Most visited place number " << i+1 << ": " << (*iterator).second << " visited a total of " << (*iterator).first << " times\n";
 
   std::cout<< std::endl;
 }
 
 void print_most_visited_places_clients(){
-  multimap<unsigned int, std::string> mp = agency.mostVisitedPlaces();
+  std::multimap<unsigned int, std::string> mp = agency.mostVisitedPlaces();
   std::string str_aux;
   int number_places = -1;
   std::vector <TravelPack> packs_with_city;
@@ -1391,7 +1391,7 @@ void print_most_visited_places_clients(){
   }
 
   auto iterator = mp.begin();
-  for(int i = 0; i < number_places && iterator != mp.std::endl(); i++, iterator++){
+  for(int i = 0; i < number_places && iterator != mp.end(); i++, iterator++){
     packs_with_city = agency.searchTravelPackCity((*iterator).second);
 
     for(size_t j = 0; j < clients.size(); j++){
@@ -1403,7 +1403,7 @@ void print_most_visited_places_clients(){
         if(!(clients_pack.at(j).getPeopleLimit != 0)) break;
         //find pack from all packs that have the city with same id as the pack bought by the client
 
-        if( find(packs_with_city.begin(), packs_with_city.std::endl(), packs_bought.at(k)) == packs_with_city.std::endl() ){
+        if( find(packs_with_city.begin(), packs_with_city.end(), packs_bought.at(k)) == packs_with_city.end() ){
         //could not find == client has not visited the city!
           if(packs_with_city.size() != 0){
             clients_pack.at(j) = packs_with_city.at(0);
