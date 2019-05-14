@@ -1,33 +1,11 @@
 #include "address.h"
 
 Address::Address() { 
-    this->street_name.resize(0);
     this->door_num = 0;
-    this->floor_num.resize(0);
-    this->postal_code.resize(0);
-    this->city.resize(0);
 }
 
 Address::Address(std::string address){
-    std::vector <std::string> elements;
-    std::vector <unsigned int> vec;
-
-    decompose(address, elements, '/');
-
-    if(elements.size() != 5) {
-        throw AddressException(NULL);
-    }
-
-    this->street_name = elements.at(0);
-    this->door_num    = stoi(elements.at(1));
-    this->floor_num   = elements.at(2);
-    
-    //verify postal code string
-    if(decompose(elements[3], vec, '-') == false || vec.size() != 2 || vec.at(0) > 9999 || vec.at(1) > 999) 
-        throw AddressException(NULL);
-
-    this->postal_code = elements.at(3);
-    this->city        = elements.at(4);
+    checkAddress(address, this->street_name, this->postal_code, this->city, this->floor_num, this->door_num);
 }
 
 Address::Address(std::string street_name, std::string postal_code, std::string city, std::string floor_num, unsigned int door_num){
@@ -39,23 +17,7 @@ Address::Address(std::string street_name, std::string postal_code, std::string c
 }
 
 void Address::setAddress(std::string address){
-    std::vector <std::string> elements;
-    std::vector <unsigned int> vec;
-
-    decompose(address, elements, '/');
-    if(elements.size() != 5)
-        throw AddressException(NULL);
-
-    this->street_name = elements[0];
-    this->door_num    = stoi(elements[1]);
-    this->floor_num   = elements[2];
-
-    //verify postal code string
-    if(decompose(elements[3], vec, '-') == false || vec.size() != 2 || vec.at(0) > 9999 || vec.at(1) > 999) 
-        throw AddressException(NULL);
-
-    this->postal_code = elements[3];
-    this->city        = elements[4];
+    checkAddress(address, this->street_name, this->postal_code, this->city, this->floor_num, this->door_num);
 }
 
 std::string Address::getStreet(void) const{ 
@@ -112,3 +74,24 @@ std::ostream& operator << (std::ostream& os, const Address &address){
 
   return os;
 }
+
+void Address::checkAddress(std::string &address, std::string &street_name, std::string &postal_code, std::string &city, std::string &floor_num, unsigned int &door_num) const{
+    std::vector <std::string> elements;
+    std::vector <unsigned int> vec;
+
+    decompose(address, elements, '/');
+    if(elements.size() != 5)
+        throw AddressException(NULL);
+
+    street_name = elements.at(0);
+    door_num    = stoi(elements.at(1));
+    floor_num   = elements.at(2);
+
+    //verify postal code string
+    if(decompose(elements[3], vec, '-') == false || vec.size() != 2 || vec.at(0) > 9999 || vec.at(1) > 999) 
+        throw AddressException(NULL);
+
+    postal_code = elements.at(3);
+    city        = elements.at(4);
+}
+
