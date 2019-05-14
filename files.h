@@ -2,6 +2,9 @@
 #include "agency.h"
 
 #define BUFFER_SIZE 50
+#define TEMPORARY_FILE_NAME "temp.txt" //used to write files
+#define FILE_SEPARATOR_STRING "::::::::::"
+#define FILE_SEPARATOR_LINE "::::::::::\n"
 
 bool last_line(std::string line);
 
