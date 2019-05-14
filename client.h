@@ -33,6 +33,8 @@ class Client {
         friend std::ofstream& operator << (std::ofstream& os, const Client &client); //acede aos parametros da classe
         friend std::ostream& operator << (std::ostream& os, const Client &client); //acede aos parametros da classe
 
+        friend std::ifstream& operator >> (std::ifstream& os, Client &client); //acede aos parametros da classe
+
     private:
         std::string client_name;
         Address client_address;
@@ -43,8 +45,7 @@ class Client {
         friend class Agency;
 
         //Private methods only inside public functions
-        bool repeatedPacks(std::vector<unsigned int> packs) const;
-        void checkClient(std::vector<unsigned int> tour_packs_bought);
+        void repeatedPacks(std::vector<unsigned int> packs) const;
 } ;
 
 class ClientException: public std::exception
