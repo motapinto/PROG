@@ -143,7 +143,6 @@ int read_clients(Agency &agency, string clients_file_name){
       case 4:
         /*if( */new_client.setTourPacks(str_aux, ';'); //== false) { //couldn't convert all values, vector might be empty
         //} 
-        agency.addClient(new_client.getName(), new_client.getAddress().getAddress(), new_client.getTourPacksBought(), new_client.getNif(), new_client.getNif());
         break;
 
       case 5:
@@ -157,6 +156,7 @@ int read_clients(Agency &agency, string clients_file_name){
         } 
         new_client.setMoneySpent(value_check);        
         value_check = -1;
+        agency.addClient(new_client.getName(), new_client.getAddress().getAddress(), new_client.getTourPacksBought(), new_client.getNif(), new_client.getNif());
         break;
 
       case 6:
