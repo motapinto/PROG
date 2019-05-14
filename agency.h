@@ -11,14 +11,14 @@ class Agency {
         void show(std::ostream &fp) const;
 
         int clientPos(unsigned int nif);
-        void addClient(std::string name, std::string address, std::vector <unsigned int> tour_packs_bought, unsigned int nif, unsigned int family_num);
-        void changeClient(Client &client, unsigned int nif);
-        void removeClient(unsigned int nif);
+        bool addClient(std::string name, std::string address, std::vector <unsigned int> tour_packs_bought, unsigned int nif, unsigned int family_num);
+        bool changeClient(Client &client, unsigned int nif);
+        bool removeClient(unsigned int nif);
         bool purchasePack(unsigned int client_nif, unsigned int pack_id);
 
-        void addTravelPack(std::string init_date, std::string final_date, std::string destination, std::vector<std::string> cities, bool available, unsigned int id, unsigned int price, unsigned int people_limit, unsigned int num_sold);
-        void changeTravelPack(TravelPack &pack, unsigned int id);
-        void removeTravelPack(unsigned int id);
+        bool addTravelPack(std::string init_date, std::string final_date, std::string destination, std::vector<std::string> cities, bool available, unsigned int id, unsigned int price, unsigned int people_limit, unsigned int num_sold);
+        bool changeTravelPack(TravelPack &pack, unsigned int id);
+        bool removeTravelPack(unsigned int id);
 
         bool searchClientNif(unsigned int nif, Client &client);
         std::vector<Client> searchClientName(std::string name);
