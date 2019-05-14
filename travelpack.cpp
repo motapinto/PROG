@@ -107,6 +107,10 @@ unsigned int TravelPack::getNumberSold(void) const{
   return this->num_sold; 
 }
 
+bool TravelPack::getAvailability(void) const{
+  return this->available;
+}
+
 void TravelPack::setInitDate(string init_date){ 
   checkPack(this->final_date, init_date, this->num_sold, this->people_limit, this->cities);
   this->init_date.setDate(init_date);
