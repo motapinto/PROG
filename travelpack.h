@@ -29,8 +29,9 @@ class TravelPack {
         void setNumberSold(unsigned int num_sold);
         void setAvailability(bool available);
 
-        TravelPack operator = (TravelPack pack);        
-        bool operator == (TravelPack pack);
+        TravelPack operator = (const TravelPack pack);        
+        bool operator == (const TravelPack pack);
+        bool operator == (const unsigned int);
 
     private:
         Date init_date, final_date;

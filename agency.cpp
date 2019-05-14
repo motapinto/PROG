@@ -119,6 +119,34 @@ void Agency::changeClient(Client &client, unsigned int old_nif) {
   client_list.at(pos).family_num = client.family_num;
 }
 
+bool Agency::purchasePack(unsigned int client_nif, unsigned int pack_id){
+  Client *client = NULL;
+  TravelPack *pack = NULL;
+  for(size_t i = 0; i < client_list.size(); i++)
+    if(client_list.at(i).nif == client_nif)
+      client = &client_list.at(i);
+    
+  if(client == NULL) return false;
+
+  for(size_t i = 0; i < client->tour_packs_bought.size(); i++)
+    if(client->tour_packs_bought.at(i) == pack_id)
+      return false;
+
+  for(size_t i = 0; i < tour_pack.size(); i++)
+    if(tour_pack.at(i).id == pack_id)
+      pack = &tour_pack.at(i);
+  
+  if(pack == NULL) return false;
+
+  if(!pack->available || pack->num_sold >= pack->people_limit) return false;
+
+  client->tour_packs_bought.push_back(pack_id);
+  client->money_spent += pack->price;
+  pack->num_sold++;
+
+  return true;
+}
+
 void Agency::addTravelPack(std::string init_date, std::string final_date, std::string destination, std::vector<std::string> cities, bool available, unsigned int id, unsigned int price, unsigned int people_limit, unsigned int num_sold){
   //Check if there is already a pack with the same id
   Date date_aux;

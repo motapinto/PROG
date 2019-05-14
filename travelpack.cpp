@@ -169,7 +169,7 @@ void TravelPack::checkPack(Date final_date, Date init_date, unsigned int num_sol
       throw new TPackException(NULL);
 }
 
-TravelPack TravelPack::operator = (TravelPack pack){
+TravelPack TravelPack::operator = (const TravelPack pack){
   this->init_date = pack.getInitDate();
   this->final_date = pack.getFinalDate();
   this->destination = pack.getDestination();
@@ -182,7 +182,7 @@ TravelPack TravelPack::operator = (TravelPack pack){
   return *this;
 }
 
-bool TravelPack::operator == (TravelPack pack){
+bool TravelPack::operator == (const TravelPack pack){
   if(this->init_date == pack.getInitDate() &&
       this->final_date == pack.getFinalDate() &&
       this->destination == pack.getDestination() &&
@@ -192,6 +192,12 @@ bool TravelPack::operator == (TravelPack pack){
       this->people_limit == pack.getPeopleLimit() &&
       this->num_sold == pack.getNumberSold() )
         return true; 
+
+  return false;
+}
+
+bool TravelPack::operator == (const unsigned int id){
+  if(this->id == id) return true;
 
   return false;
 }

@@ -720,8 +720,6 @@ bool purchase_pack(Client &client){
       std::cerr << "This client has already purchased this pack!\n";
       return false;
     }*/
-    pack.setNumberSold(pack.getNumberSold() + 1);
-    agency.changeTravelPack(pack, pack.getPackId());
     /*if(*/agency.changeClient(client, client.getNif());/* == false) {
       std::cerr << "Failled to purchase the pack for the client!\n";
       return false;
