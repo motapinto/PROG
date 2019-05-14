@@ -161,7 +161,7 @@ std::ifstream& operator >> (std::ifstream& is, Client &client){
   int value_check = -1;
   std::string str_aux;
 
-  while(getline(is, str_aux) && !is.eof()){
+  while(getline(is, str_aux)){
     if(str_aux.size() > 0){
       if(str_aux.at(str_aux.size() - 1) == '\r') str_aux.pop_back();
       if(str_aux.at(0) == '\r') str_aux.erase(0, 1);

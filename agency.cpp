@@ -328,10 +328,29 @@ void Agency::setAddress(const std::string &address){
 }
 
 void Agency::setTourPack(const std::vector<TravelPack> &tour_pack){ 
+  for(size_t i = 0; i < tour_pack.size(); i++){
+    if(!verifyCities(tour_pack.at(i).cities))
+      return; //ERROR
+    for(size_t j = i + 1; j < tour_pack.size(); j++)
+      if(tour_pack.at(i).id == tour_pack.at(j).id)
+        return; //ERROR
+  }
+  
   this->tour_pack = tour_pack; 
 }
 
 void Agency::setClientList(const std::vector<Client> &client_list){ 
+  for(size_t i = 0; i < client_list.size(); i++){
+    if(!verifyClientPacks(client_list.at(i).tour_packs_bought))
+      return; //ERROR
+    if(client_list.at(i).money_spent != sumSold(client_list.at(i).tour_packs_bought))
+      return; //ERROR
+
+    for(size_t j = i + 1; j < client_list.size(); j++)
+      if(client_list.at(i).nif == client_list.at(j).nif)
+        return; //ERROR
+  }
+
   this->client_list = client_list; 
 }
 
@@ -430,6 +449,24 @@ bool Agency::verifyPacks(const std::vector<unsigned int> &packs){
   return true;
 }
 
+bool Agency::verifyClientPacks(const std::vector<unsigned int> &packs){
+  TravelPack aux;
+
+  for(size_t i = 0; i < packs.size(); i++){
+    for(size_t j = 0; j < packs.size(); j++){
+      if(i == j) continue;
+      if(packs.at(i) == packs.at(j))
+        return false;
+    }
+  }
+
+  for(size_t i = 0; i < packs.size(); i++){
+      if(!searchTravelPackId(packs.at(i), aux)) return false;
+  }
+
+  return true;
+}
+
 std::ostream& operator << (std::ostream& os, const Agency &agency){
   os << "Name: " << agency.name << std::endl;
   os << "URL: " << agency.url << std::endl;
@@ -446,3 +483,43 @@ std::ofstream& operator << (std::ofstream& os, const Agency &agency){
 
   return os;
 } 
+
+std::ifstream& operator >> (std::ifstream& is, Agency &agency){
+  size_t line_count = 0;
+  int value_check = -1;
+  std::string str_aux;
+
+  while(getline(is, str_aux)){
+    if(str_aux.size() > 0){
+      if(str_aux.at(str_aux.size() - 1) == '\r') str_aux.pop_back();
+      if(str_aux.at(0) == '\r') str_aux.erase(0, 1);
+    } 
+    Trim(str_aux);
+    switch (line_count) {
+      case 0:
+        agency.name = str_aux;
+        break;
+
+      case 1:
+        if(string_to_int(str_aux, value_check) == false){
+          return is; //ERROR
+        } 
+        if(value_check <= -1){
+          return is; //ERROR
+        } 
+        agency.nif = value_check;
+        break;
+
+      case 2:
+        agency.url = str_aux;
+        break;
+
+      case 3:
+        agency.agency_address.setAddress(str_aux);
+        return is;
+    }
+  }
+
+  //ERROR
+  return is;
+}
