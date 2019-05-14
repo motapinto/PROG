@@ -88,17 +88,3 @@ int scan_single_int(){
   }
   return scan;
 }
-
-//Generic function to test and catch exceptions
-template <class T>
-bool Try(void func(T &param), T &param){
-  try{
-    func(param);
-    return true;
-  }
-  catch(std::string){
-    return false;
-  }
-
-  return false;
-}

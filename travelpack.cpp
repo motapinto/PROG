@@ -25,56 +25,6 @@ TravelPack::TravelPack(string init_date, string final_date, string destination, 
 
 } 
 
-int TravelPack::readPack(istream &input){ //reads from input file and fills client class
-    vector<string> elements;
-    string str_aux;
-    
-    input >> this->id; //Number of family members
-    input.ignore(); //ignore \n
-    if(input)
-      return 1;
-
-    getline(input, str_aux); //Inicial date
-    this->init_date.setDate(str_aux);
-    if(input)
-      return 2;
-
-    getline(input, str_aux); //Final date
-    this->final_date.setDate(str_aux);
-    if(input)
-      return 3;
-
-    getline(input, str_aux);
-    decompose(str_aux, elements, '-');
-    if(elements.size() != 2)
-      return 4;
-    this->destination = elements.at(0);
-
-    decompose(elements.at(1), elements, ',');
-    for(int i = 0; i < 0; i++)
-      this->cities.push_back(elements.at(i));
-    if(input) //test input
-      return 5;
-
-    input >> this->price; //Price of the pack
-    input.ignore(); //ignore \n
-    if(input)
-      return 6;
-
-    input >> this->people_limit; //Number of people that could go
-    input.ignore(); //ignore \n
-    if(input)
-      return 7;
-
-    input >> this->num_sold; //Number of people that have bought
-    input.ignore(); //ignore \n
-    if(input)
-      return 8;
-    
-
-    return 0;
-}
-
 Date TravelPack::getInitDate(void) const{ 
   return this->init_date; 
 }
@@ -214,25 +164,50 @@ bool TravelPack::operator == (const unsigned int id){
   return false;
 }
 
-void TravelPack::show(std::ostream &fp ) const{
+std::ostream& operator << (std::ostream& os, const TravelPack& pack){
   
-  fp << "ID: " << id << endl;
-  fp << "Destination: " << destination << endl;
-  fp << "Route: ";
-  if(cities.size() > 0){
-      fp  << cities.at(0);
-    for(size_t i = 1; i < cities.size(); i++)
-      fp  << ", " << cities.at(i);
+  os << "ID: " << pack.id << std::endl;
+  os << "Destination: " << pack.destination << std::endl;
+  os << "Route: ";
+  if(pack.cities.size() > 0){
+      os << pack.cities.at(0);
+    for(size_t i = 1; i < pack.cities.size(); i++)
+      os  << ", " << pack.cities.at(i);
   }
-  fp << endl;
-  fp << "Initial Date: "; init_date.show(fp);
-  fp << "Final Date: ";   final_date.show(fp);
-  fp << "Price: " << price << endl;
-  fp << "Number of seats total: " << people_limit << endl;
-  fp << "Number of seats sold: " << num_sold << endl;
-  fp << "Available: ";
-  if(getAvailability() == true) 
-    fp << "Yes\n";
+  os << std::endl;
+  os << "Initial Date: " << pack.init_date << std::endl;
+  os << "Final Date: " << pack.final_date << std::endl;
+  os << "Price: " << pack.price << std::endl;
+  os << "Number of seats total: " << pack.people_limit << std::endl;
+  os << "Number of seats sold: " << pack.num_sold << std::endl;
+  os << "Available: ";
+  if(pack.available) 
+    os << "Yes\n";
   else 
-    fp << "No\n";
+    os << "No\n";
+
+  return os;
+}
+
+std::ofstream& operator << (std::ofstream& os, const TravelPack& pack){
+  if(pack.available) os << pack.id << "\n";
+  else os << -pack.id << "\n";
+  os << pack.destination;
+  pack.cities;
+  if(pack.cities.size() != 0){
+    os << " - ";
+    if(pack.cities.size() > 0){
+      os << pack.cities.at(0);
+      for(size_t i = 1; i < pack.cities.size(); i++)
+        os << ", " << pack.cities.at(i);
+    }
+  }
+  os << "\n";
+  os << pack.init_date << "\n";
+  os << pack.final_date << "\n";
+  os << pack.price << "\n";
+  os << pack.people_limit << "\n";
+  os << pack.num_sold << "\n";
+
+  return os;
 }

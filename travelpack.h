@@ -33,6 +33,9 @@ class TravelPack {
         bool operator == (const TravelPack pack);
         bool operator == (const unsigned int id);
 
+        friend std::ofstream& operator << (std::ofstream& os, const TravelPack& pack); //acede aos parametros da classe
+        friend std::ostream& operator << (std::ostream& os, const TravelPack& pack); //acede aos parametros da classe
+
     private:
         Date init_date, final_date;
         std::string destination;

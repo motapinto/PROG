@@ -23,8 +23,5 @@ bool string_to_int(std::string s, int &ret);
 void read_string(std::string &str);
 
 void read_line(std::string &s);
-int scan_single_int();
 
-//Generic function to test and catch exceptions
-template <class T>
-bool Try(void func(T &param), T &param);
+int scan_single_int();

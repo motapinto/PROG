@@ -30,13 +30,13 @@ bool Agency::addClient(std::string name, std::string address, std::vector<unsign
   if(clientPos(nif) != -1)
     return false;
     
-  if(verifyPacksBought(tour_packs_bought) == false) 
+  if(verifyPacks(tour_packs_bought) == false) 
     return false;
 
   for(size_t i = 0; i < tour_packs_bought.size(); i++){ //increment number of sold packs
     for(size_t j = 0; j < tour_pack.size(); j++){
       if(tour_pack.at(j).getPackId() == tour_packs_bought.at(i))
-          tour_pack.at(j).setNumberSold(tour_pack.at(j).getNumberSold() + 1);
+          tour_pack.at(j).num_sold++;
     }
   }
 
@@ -80,29 +80,29 @@ bool Agency::changeClient(Client &client, unsigned int old_nif) {
   //remove old travel packs
   for(size_t k = 0; k < client_list.at(pos).tour_packs_bought.size(); k++){ //decrement number of sold packs
     for(size_t j = 0; j < tour_pack.size(); j++){
-      if(tour_pack.at(j).getPackId() == client_list.at(pos).tour_packs_bought.at(k)){
-            tour_pack.at(j).setNumberSold(tour_pack.at(j).getNumberSold() - 1);
+      if(tour_pack.at(j).id == client_list.at(pos).tour_packs_bought.at(k)){
+            tour_pack.at(j).num_sold--;
       }
     }
   }
-          
-  //add new travel packs
-  if(verifyPacksBought(client.tour_packs_bought) == false){
+
+  //verify new packs   
+  if(verifyPacks(client.tour_packs_bought) == false){
     for(size_t k = 0; k < client_list.at(pos).tour_packs_bought.size(); k++){ //decrement number of sold packs
       for(size_t j = 0; j < tour_pack.size(); j++){
-        if(tour_pack.at(j).getPackId() == client_list.at(pos).tour_packs_bought.at(k)){
-              tour_pack.at(j).setNumberSold(tour_pack.at(j).getNumberSold() - 1);
+        if(tour_pack.at(j).id == client_list.at(pos).tour_packs_bought.at(k)){
+              tour_pack.at(j).num_sold++;
         }
       }
     }
-    //ERROR
     return false;
   } 
           
+  //add new travel packs
   for(size_t i = 0; i < client.tour_packs_bought.size(); i++){ //increment number of sold packs
     for(size_t j = 0; j < tour_pack.size(); j++){
-      if(tour_pack.at(j).getPackId() == client.tour_packs_bought.at(i))
-        tour_pack.at(j).setNumberSold(tour_pack.at(j).getNumberSold() + 1);
+      if(tour_pack.at(j).id == client.tour_packs_bought.at(i))
+        tour_pack.at(j).num_sold++;
     }
   }
 
