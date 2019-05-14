@@ -204,7 +204,7 @@ std::ifstream& operator >> (std::ifstream& is, Client &client){
 
       case 4:
         value_check = is.peek();
-        if(value_check < '0' && value_check > '9'){
+        if(value_check < '0' || value_check > '9'){
           if(string_to_int(str_aux, value_check) == false)
             throw ClientException(NULL);
           if(value_check <= -1) //verify value
@@ -227,6 +227,7 @@ std::ifstream& operator >> (std::ifstream& is, Client &client){
         client.repeatedPacks(client.tour_packs_bought);
         return is;
     }
+    line_count++;
   }
 
   throw ClientException(NULL);
