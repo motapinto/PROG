@@ -111,13 +111,19 @@ bool TravelPack::getAvailability(void) const{
   return this->available;
 }
 
-void TravelPack::setInitDate(string init_date){ 
-  checkPack(this->final_date, init_date, this->num_sold, this->people_limit, this->cities);
+void TravelPack::setInitDate(string init_date, bool check){ 
+  Date init(init_date);
+
+  if(check)
+    checkPack(this->final_date, init, this->num_sold, this->people_limit, this->cities);
   this->init_date.setDate(init_date);
 }
 
-void TravelPack::setFinalDate(string final_date){ 
-  checkPack(final_date, this->init_date, this->num_sold, this->people_limit, this->cities);
+void TravelPack::setFinalDate(string final_date, bool check){ 
+  Date final(final_date);
+
+  if(check)
+    checkPack(final, this->init_date, this->num_sold, this->people_limit, this->cities);
   this->final_date.setDate(final_date);
 }
 
@@ -125,8 +131,9 @@ void TravelPack::setDestination(string destination){
   this->destination = destination; 
 }
 
-void TravelPack::setCities(vector<string> cities){ 
-  checkPack(this->final_date, this->init_date, this->num_sold, this->people_limit, cities);
+void TravelPack::setCities(vector<string> cities, bool check){
+  if(check) 
+    checkPack(this->final_date, this->init_date, this->num_sold, this->people_limit, cities);
   this->cities = cities; 
 }
 
@@ -138,13 +145,15 @@ void TravelPack::setPrice(unsigned int price){
   this->price = price; 
 }
 
-void TravelPack::setPeopleLimit(unsigned int people_limit){ 
-  checkPack(this->final_date, this->init_date, this->num_sold, people_limit, this->cities);
+void TravelPack::setPeopleLimit(unsigned int people_limit, bool check){ 
+  if(check)
+    checkPack(this->final_date, this->init_date, this->num_sold, people_limit, this->cities);
   this->people_limit = people_limit; 
 }
 
-void TravelPack::setNumberSold(unsigned int num_sold){ 
-  checkPack(this->final_date, this->init_date, num_sold, this->people_limit, this->cities);
+void TravelPack::setNumberSold(unsigned int num_sold, bool check){ 
+  if(check)
+    checkPack(this->final_date, this->init_date, num_sold, this->people_limit, this->cities);
   this->num_sold = num_sold; 
 }
 
@@ -163,12 +172,11 @@ bool TravelPack::repeatedCities(vector<string> cities) const {
 }
 
 void TravelPack::checkPack(Date final_date, Date init_date, unsigned int num_sold, unsigned int people_limit, vector<string> cities) const {
+        cout << init_date.getDay() << "\n" << init_date.getMonth() << "\n" << init_date.getYear() << endl;
     if( final_date < init_date)
       throw new TPackException(NULL);
-
     if(num_sold > people_limit)
       throw new TPackException(NULL);
-
     if(repeatedCities(cities))
       throw new TPackException(NULL);
 }

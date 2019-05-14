@@ -1064,7 +1064,7 @@ void change_travel_pack_init_date(TravelPack &travel_pack){
     cout<< "Initial Date: "; read_line(str_aux); 
 
     try {
-      travel_pack.setInitDate(str_aux);
+      travel_pack.setInitDate(str_aux, true);
       break;
     }
     catch(string) {
@@ -1083,7 +1083,7 @@ void change_travel_pack_final_date(TravelPack &travel_pack){
     cout<< "Final Date: "; read_line(str_aux); 
 
     try {
-      travel_pack.setFinalDate(str_aux);
+      travel_pack.setFinalDate(str_aux, true);
       break;
     }
     catch(string) {
@@ -1109,7 +1109,7 @@ void change_travel_pack_cities(TravelPack &travel_pack){
   if(str_aux.compare("-") == 0) cities.resize(0);
   else decompose(str_aux, cities, ',');
 
-  travel_pack.setCities(cities);
+  travel_pack.setCities(cities, true);
 }
 
 void change_travel_pack_price(TravelPack &travel_pack){
@@ -1133,7 +1133,7 @@ void change_travel_pack_people_limit(TravelPack &travel_pack){
     cout<< "Number of seats available: "; read_line(str_aux);
   }
 
-  travel_pack.setPeopleLimit(people_limit);
+  travel_pack.setPeopleLimit(people_limit, true);
 }
 
 void change_travel_pack_num_sold(TravelPack &travel_pack){
@@ -1146,7 +1146,7 @@ void change_travel_pack_num_sold(TravelPack &travel_pack){
     cout<< "Number of seats sold: "; read_line(str_aux);
   }
 
-  travel_pack.setNumberSold(num_sold);
+  travel_pack.setNumberSold(num_sold, true);
 }
 
 void change_travel_pack_available(TravelPack &travel_pack){

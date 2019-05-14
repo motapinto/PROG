@@ -19,14 +19,14 @@ class TravelPack {
         unsigned int getNumberSold(void) const;
         bool getAvailability(void) const;
         
-        void setInitDate(std::string init_date);
-        void setFinalDate(std::string final_date);
+        void setInitDate(std::string init_date, bool check);
+        void setFinalDate(std::string final_date, bool check);
         void setDestination(std::string destination);
-        void setCities(std::vector<std::string> cities);
+        void setCities(std::vector<std::string> cities, bool check);
         void setPackId(unsigned int id);
         void setPrice(unsigned int price);
-        void setPeopleLimit(unsigned int people_limit);
-        void setNumberSold(unsigned int num_sold);
+        void setPeopleLimit(unsigned int people_limit, bool check);
+        void setNumberSold(unsigned int num_sold, bool check);
         void setAvailability(bool available);
 
         TravelPack operator = (const TravelPack pack);        

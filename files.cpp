@@ -277,15 +277,15 @@ int read_packs(Agency &agency, string packs_file_name){
         //separate all cities if they exist
         if(cities.size() == 2) decompose(cities.at(1), cities, ',');
         else cities.resize(0); //eliminate all elements of cities
-        pack.setCities(cities);
+        pack.setCities(cities, false);
         break;
 
       case 2:
-        pack.setInitDate(str_aux);
+        pack.setInitDate(str_aux, false);
         break;
 
       case 3:
-        pack.setFinalDate(str_aux);
+        pack.setFinalDate(str_aux, false);
         break;
 
       case 4:
@@ -310,7 +310,7 @@ int read_packs(Agency &agency, string packs_file_name){
           packs_file.close();
           return total_line_count;
         }
-        pack.setPeopleLimit(value_check);
+        pack.setPeopleLimit(value_check, false);
         value_check = -1;
         break;
       
@@ -323,7 +323,7 @@ int read_packs(Agency &agency, string packs_file_name){
           packs_file.close();
           return total_line_count;
         }
-        pack.setNumberSold(value_check);
+        pack.setNumberSold(value_check, false);
         value_check = -1;
 
         agency.addTravelPack(pack.getInitDate().getDate(), pack.getFinalDate().getDate(), pack.getDestination(), pack.getCities(), pack.getAvailability(), pack.getPackId(), pack.getPrice(), pack.getPeopleLimit(), pack.getNumberSold());
