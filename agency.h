@@ -8,8 +8,6 @@ class Agency {
         Agency(); 
         Agency(std::string name, std::string url, std::string agency_address, std::vector <TravelPack> tour_pack, std::vector <Client> client_list, unsigned int nif);
         
-        void show(std::ostream &fp) const;
-
         int clientPos(unsigned int nif);
         bool addClient(std::string name, std::string address, std::vector <unsigned int> tour_packs_bought, unsigned int nif, unsigned int family_num);
         bool changeClient(Client &client, unsigned int nif);
@@ -46,6 +44,8 @@ class Agency {
         std::vector <Client> getClientList(void);
         unsigned int getNif(void);
 
+        friend std::ofstream& operator << (std::ofstream& os, const Agency& agency); //acede aos parametros da classe
+        friend std::ostream& operator << (std::ostream& os, const Agency& agency); //acede aos parametros da classe
 
     private:
         std::string name, url;
@@ -55,7 +55,6 @@ class Agency {
         unsigned int nif;
 
         bool verifyCities(const std::vector<std::string> cities);
-        bool verifyPacksBought(const std::vector<unsigned int> &packs);
         unsigned int sumSold(const unsigned int nif);
         unsigned int sumSold(const std::vector<unsigned int> &tour_packs);
         bool verifyPacks(const std::vector<unsigned int> &packs);

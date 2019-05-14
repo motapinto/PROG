@@ -18,19 +18,6 @@ Client::Client(std::string name, std::string address, std::vector<unsigned int> 
     this->money_spent = money_spent;
 }
 
-void Client::show(std::ostream &fp) const {
-  fp << "Name: " << client_name << std::endl;
-  fp << "Address: " ; client_address.show(fp);
-  fp << "Tour Packs Bought: ";
-  if(tour_packs_bought.size() == 0) fp << "None";
-  else for(size_t i = 0; i < tour_packs_bought.size(); i++){
-    fp << tour_packs_bought.at(i) << " ";
-  }
-  fp << std::endl;
-  fp << "NIF: " << nif << std::endl;
-  fp << "Family Number: " << family_num << std::endl;
-}
-
 int Client::packPos(unsigned int id) {
   for(size_t i = 0; i < this->tour_packs_bought.size(); i++)
       if(this->tour_packs_bought.at(i) == id)
@@ -141,4 +128,37 @@ void Client::checkClient(std::vector<unsigned int> tour_packs_bought) {
   //repeated packs
   if(repeatedPacks(tour_packs_bought))
       throw ClientException(NULL);
+}
+
+std::ostream& operator << (std::ostream& os, const Client &client){
+  os << "Name: " << client.client_name << std::endl;
+  os << "Address: " << client.client_address << std::endl;
+  os << "Tour Packs Bought: ";
+  if(client.tour_packs_bought.size() == 0) os << "None";
+  else for(size_t i = 0; i < client.tour_packs_bought.size(); i++){
+    os << client.tour_packs_bought.at(i) << " ";
+  }
+  os << std::endl;
+  os << "NIF: " << client.nif << std::endl;
+  os << "Family Number: " << client.family_num << std::endl;
+  os << "Money Spent: " << client.money_spent << std::endl;
+
+  return os;
+}
+
+std::ofstream& operator << (std::ofstream& os, const Client &client){
+  os << client.client_name << std::endl;
+  os << client.nif << std::endl;
+  os << client.family_num << std::endl;
+  os << client.client_address << std::endl;
+  if(client.tour_packs_bought.size() != 0) {
+    os << client.tour_packs_bought.at(0);
+    for(size_t i = 1; i < client.tour_packs_bought.size(); i++)
+      os << " ; " << client.tour_packs_bought.at(i);
+    
+    os << std::endl;
+  }
+  os << client.money_spent << std::endl;
+
+  return os;
 }

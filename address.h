@@ -5,8 +5,6 @@ class Address {
         Address(std::string street_name, std::string postal_code, std::string city, std::string floor_num, unsigned int door_num);
         Address(std::string address);
         Address();
-
-        void show(std::ostream &fp) const;
         
         void setAddress(std::string address);
         void setStreet(std::string street);
@@ -21,6 +19,8 @@ class Address {
         std::string getCity(void) const;
         std::string getFloorNum(void) const;
         unsigned int getDoorNum(void) const;
+
+        friend std::ostream& operator << (std::ostream& os, const Address &address); //acede aos parametros da classe
         
     private:
         std::string street_name, postal_code, city, floor_num;  //floor_num : ("-" se não aplicável)

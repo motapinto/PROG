@@ -9,8 +9,6 @@ class Client {
         Client();
         Client(std::string name, std::string address, std::vector<unsigned int> tour_packs_bought, unsigned int nif, unsigned int family_num, unsigned int money_spent);
 
-        void show(std::ostream &fp) const;
-
         int packPos(unsigned int id);
         void addPack(unsigned int pack_id);
         void removePack(int pack_id);
@@ -32,6 +30,8 @@ class Client {
         unsigned int getMoneySpent(void) const;
 
         Client operator = (Client client);
+        friend std::ofstream& operator << (std::ofstream& os, const Client &client); //acede aos parametros da classe
+        friend std::ostream& operator << (std::ostream& os, const Client &client); //acede aos parametros da classe
 
     private:
         std::string client_name;

@@ -25,13 +25,6 @@ int Agency::clientPos(unsigned int nif) {
   return -1;
 }
 
-void Agency::show(std::ostream &fp) const{
-  fp << "Name: " << name << std::endl;
-  fp << "URL: " << url << std::endl;
-  fp << "Address: " ; agency_address.show(fp);
-  fp << "NIF: " << nif << std::endl;
-}
-
 bool Agency::addClient(std::string name, std::string address, std::vector<unsigned int> tour_packs_bought, unsigned int nif, unsigned int family_num) {
   //Check if there is already a client with the same nif
   if(clientPos(nif) != -1)
@@ -410,6 +403,8 @@ bool Agency::verifyCities(const std::vector<std::string> cities){
 }
 
 bool Agency::verifyPacks(const std::vector<unsigned int> &packs){
+  TravelPack aux;
+
   for(size_t i = 0; i < packs.size(); i++){
     for(size_t j = 0; j < tour_pack.size(); j++){
       if(tour_pack.at(j).id == packs.at(i)){
@@ -419,12 +414,6 @@ bool Agency::verifyPacks(const std::vector<unsigned int> &packs){
       }
     }
   }
-
-  return true;
-}
-
-bool Agency::verifyPacksBought(const std::vector<unsigned int> &packs){
-  TravelPack aux;
 
   for(size_t i = 0; i < packs.size(); i++){
     for(size_t j = 0; j < packs.size(); j++){
@@ -440,3 +429,20 @@ bool Agency::verifyPacksBought(const std::vector<unsigned int> &packs){
 
   return true;
 }
+
+std::ostream& operator << (std::ostream& os, const Agency &agency){
+  os << "Name: " << agency.name << std::endl;
+  os << "URL: " << agency.url << std::endl;
+  os << "Address: " << agency.agency_address << std::endl;
+  os << "NIF: " << agency.nif << std::endl;
+
+  return os;
+} 
+std::ofstream& operator << (std::ofstream& os, const Agency &agency){
+  os << agency.name << "\n";
+  os << agency.nif << "\n";
+  os << agency.url << "\n";
+  os << agency.agency_address << "\n";
+
+  return os;
+} 

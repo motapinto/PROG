@@ -38,10 +38,6 @@ Address::Address(std::string street_name, std::string postal_code, std::string c
     this->door_num = door_num;
 }
 
-void Address::show(std::ostream &fp) const {
-    fp << getAddress() << std::endl;
-}
-
 void Address::setAddress(std::string address){
     std::vector <std::string> elements;
     std::vector <unsigned int> vec;
@@ -109,4 +105,10 @@ void Address::setFloorNum(std::string floor_num){
 
 void Address::setDoorNum(unsigned int door_num){
      this->door_num = door_num; 
+}
+
+std::ostream& operator << (std::ostream& os, const Address &address){
+  os << address.street_name << " / " << address.door_num << " / " << address.floor_num << " / " << address.postal_code << " / " << address.city;
+
+  return os;
 }
