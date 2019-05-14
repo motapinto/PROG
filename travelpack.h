@@ -31,7 +31,7 @@ class TravelPack {
 
         TravelPack operator = (const TravelPack pack);        
         bool operator == (const TravelPack pack);
-        bool operator == (const unsigned int);
+        bool operator == (const unsigned int id);
 
     private:
         Date init_date, final_date;
