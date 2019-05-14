@@ -32,15 +32,13 @@ void Agency::show(std::ostream &fp) const{
   fp << "NIF: " << nif << std::endl;
 }
 
-void Agency::addClient(std::string name, std::string address, std::vector<unsigned int> tour_packs_bought, unsigned int nif, unsigned int family_num) {
+bool Agency::addClient(std::string name, std::string address, std::vector<unsigned int> tour_packs_bought, unsigned int nif, unsigned int family_num) {
   //Check if there is already a client with the same nif
   if(clientPos(nif) != -1)
-    //ERROR
-    return;
+    return false;
     
   if(verifyPacksBought(tour_packs_bought) == false) 
-    //ERROR
-    return;
+    return false;
 
   for(size_t i = 0; i < tour_packs_bought.size(); i++){ //increment number of sold packs
     for(size_t j = 0; j < tour_pack.size(); j++){
@@ -51,9 +49,11 @@ void Agency::addClient(std::string name, std::string address, std::vector<unsign
 
   Client new_client(name, address, tour_packs_bought, nif, family_num, sumSold(tour_packs_bought));
   client_list.push_back(new_client);
+
+  return true;
 }
 
-void Agency::removeClient(unsigned int nif) {
+bool Agency::removeClient(unsigned int nif) {
 
   if(int pos = clientPos(nif) != -1) {
     for(size_t k = 0; k < client_list.at(pos).tour_packs_bought.size(); k++){ //decrement number of sold packs
@@ -64,22 +64,25 @@ void Agency::removeClient(unsigned int nif) {
     }
   
     client_list.erase(client_list.begin()+pos);
+    return true;
   }
+
+  return false;
 }
 
-void Agency::changeClient(Client &client, unsigned int old_nif) {
+bool Agency::changeClient(Client &client, unsigned int old_nif) {
   Client search_aux;
   int pos = clientPos(nif);
+
+  if(pos == -1) return false;
 
   for(size_t i = 0; i < client_list.size(); i++){
     if(client_list.at(i).nif == old_nif) continue;
 
-    if(client_list.at(i).nif == client.nif) //ERROR
-      return;
+    if(client_list.at(i).nif == client.nif)
+      return false;
   }
 
-  //ERROR
-  if(pos == -1) return;
     
   //remove old travel packs
   for(size_t k = 0; k < client_list.at(pos).tour_packs_bought.size(); k++){ //decrement number of sold packs
@@ -100,7 +103,7 @@ void Agency::changeClient(Client &client, unsigned int old_nif) {
       }
     }
     //ERROR
-    return;
+    return false;
   } 
           
   for(size_t i = 0; i < client.tour_packs_bought.size(); i++){ //increment number of sold packs
@@ -117,6 +120,8 @@ void Agency::changeClient(Client &client, unsigned int old_nif) {
 
   client_list.at(pos).tour_packs_bought = client.tour_packs_bought;
   client_list.at(pos).family_num = client.family_num;
+
+  return true;
 }
 
 bool Agency::purchasePack(unsigned int client_nif, unsigned int pack_id){
@@ -147,31 +152,30 @@ bool Agency::purchasePack(unsigned int client_nif, unsigned int pack_id){
   return true;
 }
 
-void Agency::addTravelPack(std::string init_date, std::string final_date, std::string destination, std::vector<std::string> cities, bool available, unsigned int id, unsigned int price, unsigned int people_limit, unsigned int num_sold){
+bool Agency::addTravelPack(std::string init_date, std::string final_date, std::string destination, std::vector<std::string> cities, bool available, unsigned int id, unsigned int price, unsigned int people_limit, unsigned int num_sold){
   //Check if there is already a pack with the same id
   Date date_aux;
 
   for(size_t i = 0; i < tour_pack.size(); i++)
     if(tour_pack.at(i).getPackId() == id) 
-      return;
-      //throw...
+      return false;
 
 
   if(!verifyCities(cities)) 
-    return;
-    //throw...
+    return false;;
 
   TravelPack pack(init_date, final_date, destination, cities, available, id, price, people_limit, num_sold);
   tour_pack.push_back(pack);
+
+  return true;
 }
 
-void Agency::changeTravelPack(TravelPack &pack, unsigned int id){
+bool Agency::changeTravelPack(TravelPack &pack, unsigned int id){
 
   for(size_t i= 0; i < tour_pack.size(); i++){
     if(tour_pack.at(i).getPackId() == id) {
-        //ERROR
-        if(!verifyCities(pack.cities)) return ;
-        if(pack.num_sold > pack.people_limit) return ;
+        if(!verifyCities(pack.cities)) return false;
+        if(pack.num_sold > pack.people_limit) return false;
         tour_pack.at(i).destination = pack.destination;
         tour_pack.at(i).init_date = pack.init_date;
         tour_pack.at(i).final_date = pack.final_date;
@@ -184,35 +188,30 @@ void Agency::changeTravelPack(TravelPack &pack, unsigned int id){
         tour_pack.at(i).price = pack.getPrice();
         tour_pack.at(i).people_limit = pack.people_limit;
         tour_pack.at(i).num_sold = pack.num_sold;
+        return true;
     }
   }
-
+  return false;
 }
 
-void Agency::removeTravelPack(unsigned int id) {
+bool Agency::removeTravelPack(unsigned int id) {
     //Remove from agency
     for(size_t i= 0; i < tour_pack.size(); i++){
       if(tour_pack.at(i).id == id) {
+
         for(size_t j = 0; j < client_list.size(); j++)
           for(size_t l = 0; l < client_list.at(j).tour_packs_bought.size(); l++)
-            if(client_list.at(j).tour_packs_bought.at(l) == tour_pack.at(i).id)
+            if(client_list.at(j).tour_packs_bought.at(l) == tour_pack.at(i).id){
               client_list.at(j).money_spent -= tour_pack.at(i).price;
+              client_list.at(j).tour_packs_bought.erase(client_list.at(j).tour_packs_bought.begin()+l);
+            }
 
         tour_pack.erase(tour_pack.begin()+i);
-        break;
+        return true;
       }
     }
-
-    //Remove from each client
-    for(size_t i= 0; i < client_list.size(); i++){
-        std::vector <unsigned int> client_packs = client_list.at(i).tour_packs_bought;
-        for(size_t j = 0; j < client_list.at(i).tour_packs_bought.size(); j++) {
-            if(client_list.at(i).tour_packs_bought.at(j) == id) { 
-                client_list.at(i).tour_packs_bought.erase(client_list.at(i).tour_packs_bought.begin()+j);
-            }
-        }
-    }
-    return;
+    
+  return false;
 }
 
 bool Agency::searchClientNif(unsigned int nif, Client &client){
