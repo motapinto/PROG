@@ -173,7 +173,7 @@ unsigned int Date::daysOf(unsigned int month, unsigned int &year) const{
 
 void Date::checkDate(std::string &date, unsigned int &day, unsigned int &month, unsigned int &year) const{
     std::vector <unsigned int> elements;
-
+    
     // decompose method already converts substrings delimited by '/' in uint vector
     if(!decompose(date, elements, '/')) {
         throw DateException(NULL);
@@ -183,7 +183,7 @@ void Date::checkDate(std::string &date, unsigned int &day, unsigned int &month, 
         throw DateException(NULL);
     }
 
-    if(elements.at(2) < 1 || elements.at(2) > daysOf(month, year) || 
+    if(elements.at(2) < 1 || elements.at(2) > daysOf(elements.at(1), elements.at(0)) || 
       elements.at(1) < 1 || elements.at(1) > 12 || 
       elements.at(0) < 2000 || elements.at(0) > 2100) { 
         throw new DateException(NULL);
@@ -192,4 +192,5 @@ void Date::checkDate(std::string &date, unsigned int &day, unsigned int &month, 
     day     = elements.at(2);
     month   = elements.at(1);
     year    = elements.at(0);
+
 }
