@@ -71,6 +71,12 @@ void read_line(std::string &s){
   std::cin.clear();
   fflush(stdin);
   getline(std::cin, s);
+
+  if(std::cin.eof()) {
+    s.resize(0);
+    return;
+  }
+
   while(s.size() == 0)
     getline(std::cin, s);  
 }
