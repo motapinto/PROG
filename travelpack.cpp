@@ -193,7 +193,6 @@ std::ofstream& operator << (std::ofstream& os, const TravelPack& pack){
   if(pack.available) os << pack.id << "\n";
   else os << -pack.id << "\n";
   os << pack.destination;
-  pack.cities;
   if(pack.cities.size() != 0){
     os << " - ";
     if(pack.cities.size() > 0){

@@ -244,7 +244,7 @@ void print_client_packs(Client &client){
   else{
     for(size_t i = 0; i < tour_packs_ids.size(); i++){
       if(agency.searchTravelPackId(tour_packs_ids.at(i), pack) == false) cout<< "Travel Pack with ID: " << tour_packs_ids.at(i) << " could not be found\n";
-      else pack.show(cout);
+      else cout << pack << endl;
     }
   }
 }
@@ -399,7 +399,7 @@ void print_clients_all_travel_packs(){
       if(pack_count == 5) print_wait_menu();
 
       if(!agency.searchTravelPackId(tour_packs_ids.at(i), pack)) cout<< "Travel Pack with ID: " << tour_packs_ids.at(i) << " could not be found\n";
-      else pack.show(cout);
+      else cout << pack << endl;
       cout<< endl;             
     }
   }
@@ -882,8 +882,7 @@ void print_all_travel_pack(){
       print_wait_menu();
       packs_counter = 0;
     }
-    vec.at(i).show(cout);
-    cout<< endl;
+    cout << vec.at(i) << endl;
   }
   print_wait_menu();
 }
@@ -900,7 +899,7 @@ void print_all_travel_pack_destination(){
   if(vec.size() == 0) cout<< "Travel Packs with destination:" << destination << " not found!\n";
   else
     for(size_t i = 0; i < vec.size(); i++)
-      vec.at(i).show(cout);
+      cout << vec.at(i) << endl;
 }
 
 void print_all_travel_pack_dates(){
@@ -945,7 +944,7 @@ void print_all_travel_pack_dates(){
   if(vec.size() == 0) cout<< "Travel Packs with dates raging from " << init_date << " to " << final_date << " not found!\n";
   else
     for(size_t i = 0; i < vec.size(); i++)
-      vec.at(i).show(cout);
+      cout << vec.at(i) << endl;
 
 }
 
@@ -993,7 +992,7 @@ void print_all_travel_pack_destination_dates(){
   else
     for(size_t i = 0; i < vec.size(); i++)
       if(vec.at(i).getDestination() == destination){
-        vec.at(i).show(cout);
+        cout << vec.at(i) << endl;
         found = true;
       }
 
@@ -1045,7 +1044,7 @@ void print_travel_pack_menu(){
       case 5:
         if(!search_travel_pack(id, search_pack)) cout<< "Travel Pack with ID: " << id << " not found!\n";
         else {
-          search_pack.show(cout);
+          cout << search_pack << endl;
           print_wait_menu();
         }
 
@@ -1418,7 +1417,7 @@ void print_most_visited_places_clients(){
     cout << clients.at(i) << endl;
     cout<< "Recommended pack: \n";
     if(clients_pack.at(i).getPeopleLimit() != 0)
-      clients_pack.at(i).show(cout);
+      cout << clients_pack.at(i) << endl;
     else
       cout<< "None\n";
 
