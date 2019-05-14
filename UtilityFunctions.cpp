@@ -56,17 +56,15 @@ bool decompose(std::string s, std::vector <unsigned int> &elements, char c='/'){
 }
 
 bool string_to_int(std::string s, int &value){
-  char *string_char, *ptr;
-  strcpy(string_char, s.c_str());
-
-  value = strtol(string_char, &ptr, 10);
+  char *ptr;
+  value = strtol(s.c_str(), &ptr, 10);
 
   //if no conversion is performed or there is a part of the string that contain char's
-  if(ptr != '\0' || errno == EINVAL) {
+  if(*ptr != '\0' || errno == EINVAL) {
     return false;
   }
 
-  return false;
+  return true;
 }
 
 void read_line(std::string &s){
