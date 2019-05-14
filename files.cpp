@@ -142,13 +142,6 @@ int read_clients(Agency &agency, string clients_file_name){
 
       case 4:
         /*if( */new_client.setTourPacks(str_aux, ';'); //== false) { //couldn't convert all values, vector might be empty
-          if( !(end_of_file = last_line(str_aux)) ){ //separator was read
-            line_count = -1;
-          }
-          else if(!client_file.eof()){ //end of file was not reached, error in string read
-            client_file.close();
-            return total_line_count;
-          }
         //} 
         agency.addClient(new_client.getName(), new_client.getAddress().getAddress(), new_client.getTourPacksBought(), new_client.getNif(), new_client.getNif());
         break;
@@ -183,33 +176,32 @@ int read_clients(Agency &agency, string clients_file_name){
     return 0;
   }
 
+
   if(end_of_file == true) //client separator not found
     if(client_file.eof() != true){ //not end of file, invalid file struct
       client_file.close();
       return total_line_count;
     }
 
-  if(line_count == 4 && str_aux.size() == 0){
+  if(line_count == 5 && str_aux.size() == 0){
     new_client.setTourPacks(str_aux, ';'); // str_aux will be empty so packs bought will be none
     agency.addClient(new_client.getName(), new_client.getAddress().getAddress(), new_client.getTourPacksBought(), new_client.getNif(), new_client.getNif());
     client_file.close();
     return 0;
   } 
 
-  if(line_count == 5){
+  if(line_count == 6){
     client_file.close();
     return 0; //filled every client
   } 
 
   client_file.close();
 
-
   return total_line_count;
 }
 
 int read_packs(Agency &agency, string packs_file_name){
   ifstream packs_file;
-
   string str_aux;
   size_t total_line_count = 1;
   size_t line_count = 0;
@@ -243,7 +235,7 @@ int read_packs(Agency &agency, string packs_file_name){
     packs_file.close();
     return total_line_count;
   }
-
+  
   while(getline(packs_file, str_aux) && end_of_file == false){
     total_line_count++;
     if(str_aux.size() > 0){
