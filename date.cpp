@@ -10,22 +10,36 @@ Date::Date(){
 }
 
 Date::Date(unsigned int year, unsigned int month,unsigned int day){
+    int value;
     std::string date;
     date = std::to_string(year) + "/" + std::to_string(month) + "/" + std::to_string(day);
     
     checkDate(date); //throws exceptions if date is not valid
 
-    this->day = stoi(date.substr(6,2)); //if no exceptions is thrown then associate day 
-    this->month = stoi(date.substr(4,2));//if no exceptions is thrown then associate month 
-    this->year = stoi(date.substr(0, 4));//if no exceptions is thrown then associate year 
+    if(string_to_int(date.substr(6,2), value)){ //if no exceptions is thrown then associate day
+      this->day = value;
+    } 
+    if(string_to_int(date.substr(4,2), value)){ //if no exceptions is thrown then associate month 
+      this->month = value;
+    }
+    if(string_to_int(date.substr(0,4), value)){ //if no exceptions is thrown then associate month 
+      this->year = value;
+    }
 }
 
 Date::Date(std::string date){
     checkDate(date); //throws exceptions if date is not valid
+    int value;
     
-    this->day = stoi(date.substr(6,2)); //if no exceptions is thrown then associate day 
-    this->month = stoi(date.substr(4,2)); //if no exceptions is thrown then associate day 
-    this->year = stoi(date.substr(0, 4)); //if no exceptions is thrown then associate day 
+    if(string_to_int(date.substr(6,2), value)){ //if no exceptions is thrown then associate day
+      this->day = value;
+    } 
+    if(string_to_int(date.substr(4,2), value)){ //if no exceptions is thrown then associate month 
+      this->month = value;
+    }
+    if(string_to_int(date.substr(0,4), value)){ //if no exceptions is thrown then associate month 
+      this->year = value;
+    }
 }
 
 bool Date::operator > (const Date date){
@@ -126,20 +140,35 @@ void Date::setDay (unsigned int day){
 
 void Date::setDate(std::string date){
     checkDate(date); //throws exceptions if date is not valid
-    this->day = stoi(date.substr(6,2));
-    this->month = stoi(date.substr(4,2));
-    this->year = stoi(date.substr(0, 4));
+    int value;
+    
+    if(string_to_int(date.substr(6,2), value)){ //if no exceptions is thrown then associate day
+      this->day = value;
+    } 
+    if(string_to_int(date.substr(4,2), value)){ //if no exceptions is thrown then associate month 
+      this->month = value;
+    }
+    if(string_to_int(date.substr(0,4), value)){ //if no exceptions is thrown then associate month 
+      this->year = value;
+    }
 }
 
 void Date::setDate (unsigned int year, unsigned int month, unsigned int day){
-    
+    int value;
     std::string date;
     date = std::to_string(year) + "/" + std::to_string(month) + "/" + std::to_string(day);
 
     checkDate(date); //throws exceptions if date is not valid
-    this->day = stoi(date.substr(6,2));
-    this->month = stoi(date.substr(4,2));
-    this->year = stoi(date.substr(0, 4));
+
+    if(string_to_int(date.substr(6,2), value)){ //if no exceptions is thrown then associate day
+      this->day = value;
+    } 
+    if(string_to_int(date.substr(4,2), value)){ //if no exceptions is thrown then associate month 
+      this->month = value;
+    }
+    if(string_to_int(date.substr(0,4), value)){ //if no exceptions is thrown then associate month 
+      this->year = value;
+    }
 }
 
 unsigned int Date::getYear() const{ 
@@ -194,11 +223,23 @@ unsigned int Date::daysOf(unsigned int month, unsigned int &year) const{
 
 void Date::checkDate(std::string date) const{
   unsigned int day, month, year;
+  int value;
 
   if (date.size() == 10 && date.at(4) == '/' && date.at(7) == '/') {
-      day = stoi(date.substr(8, 2));
-      month = stoi(date.substr(5, 2));
-      year = stoi(date.substr(0, 4));
+      if(string_to_int(date.substr(8, 2), value)){
+        day = value;  
+      }
+      else throw new DateException(NULL);
+
+      if(string_to_int(date.substr(5, 2), value)){
+        month = value;  
+      }
+      else throw new DateException(NULL);
+
+      if(string_to_int(date.substr(0, 4), value)){
+        year = value; 
+      }
+      else throw new DateException(NULL);
 
       if(day < 1 || day > daysOf(month, year) || 
       month < 1 || month > 12 || year < 2000 || year > 2100) { 
