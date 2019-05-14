@@ -55,114 +55,16 @@ bool decompose(std::string s, std::vector <unsigned int> &elements, char c='/'){
   return true;
 }
 
-bool string_to_int(std::string s, int &ret){
-  Trim(s);
-  ret = 0;
+bool string_to_int(std::string s, int &value){
+  char *string_char, *ptr;
+  strcpy(string_char, s.c_str());
 
-  if(s.size() == 0) return false;
+  value = strtol(string_char, &ptr, 10);
 
-  if(s.at(0) == '-'){
-    for(size_t i = 1; i < s.size(); i++){
-      switch (s.at(i))
-      {
-        case '0':
-          ret = ret*10;
-          break;
-      
-        case '1':
-          ret = ret*10 + 1;
-          break;
-      
-        case '2':
-          ret = ret*10 + 2;
-          break;
-      
-        case '3':
-          ret = ret*10 + 3;
-          break;
-      
-        case '4':
-          ret = ret*10 + 4;
-          break;
-      
-        case '5':
-          ret = ret*10 + 5;
-          break;
-      
-        case '6':
-          ret = ret*10 + 6;
-          break;
-      
-        case '7':
-          ret = ret*10 + 7;
-          break;
-      
-        case '8':
-          ret = ret*10 + 8;
-          break;
-      
-        case '9':
-          ret = ret*10 + 9;
-          break;
-      
-        default:
-          return false;
-      }
-    }
-    ret = -ret;
-    return true;
+  //if no conversion is performed or there is a part of the string that contain char's
+  if(ptr != '\0' || errno == EINVAL) {
+    return false;
   }
-  else{
-    for(size_t i = 0; i < s.size(); i++){
-      switch (s.at(i))
-      {
-        case '0':
-          ret = ret*10;
-          break;
-      
-        case '1':
-          ret = ret*10 + 1;
-          break;
-      
-        case '2':
-          ret = ret*10 + 2;
-          break;
-      
-        case '3':
-          ret = ret*10 + 3;
-          break;
-      
-        case '4':
-          ret = ret*10 + 4;
-          break;
-      
-        case '5':
-          ret = ret*10 + 5;
-          break;
-      
-        case '6':
-          ret = ret*10 + 6;
-          break;
-      
-        case '7':
-          ret = ret*10 + 7;
-          break;
-      
-        case '8':
-          ret = ret*10 + 8;
-          break;
-      
-        case '9':
-          ret = ret*10 + 9;
-          break;
-      
-        default:
-          return false;
-      }
-    }
-    return true;
-  }
-
 
   return false;
 }
