@@ -130,7 +130,6 @@ void TravelPack::repeatedCities(vector<string> cities) const {
 }
 
 void TravelPack::checkPack(Date final_date, Date init_date, unsigned int num_sold, unsigned int people_limit, vector<string> cities) const {
-        cout << init_date.getDay() << "\n" << init_date.getMonth() << "\n" << init_date.getYear() << endl;
     if( final_date < init_date)
       throw new TPackException(NULL);
     if(num_sold > people_limit)
