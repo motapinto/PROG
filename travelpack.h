@@ -36,6 +36,9 @@ class TravelPack {
         friend std::ofstream& operator << (std::ofstream& os, const TravelPack& pack); //acede aos parametros da classe
         friend std::ostream& operator << (std::ostream& os, const TravelPack& pack); //acede aos parametros da classe
 
+        friend std::ifstream& operator >> (std::ifstream& is, TravelPack &pack);
+
+
     private:
         Date init_date, final_date;
         std::string destination;
@@ -44,7 +47,7 @@ class TravelPack {
         bool available;
 
         //Private methods only inside public functions
-        bool repeatedCities(std::vector<std::string> cities) const;
+        void repeatedCities(std::vector<std::string> cities) const;
         void checkPack(Date final_date, Date init_date, unsigned int num_sold, unsigned int people_limit, std::vector<std::string> cities) const;
         //Class Agency can now access all private members of TravelPack
         friend class Agency;

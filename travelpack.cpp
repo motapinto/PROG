@@ -65,15 +65,19 @@ void TravelPack::setInitDate(string init_date, bool check){
   Date init(init_date);
 
   if(check)
-    checkPack(this->final_date, init, this->num_sold, this->people_limit, this->cities);
+    if(init > final_date)
+      throw TPackException(NULL);
+
   this->init_date.setDate(init_date);
 }
 
 void TravelPack::setFinalDate(string final_date, bool check){ 
-  Date final(final_date);
+  Date fin(final_date);
 
   if(check)
-    checkPack(final, this->init_date, this->num_sold, this->people_limit, this->cities);
+    if(init_date > fin)
+      throw TPackException(NULL);
+
   this->final_date.setDate(final_date);
 }
 
@@ -83,7 +87,8 @@ void TravelPack::setDestination(string destination){
 
 void TravelPack::setCities(vector<string> cities, bool check){
   if(check) 
-    checkPack(this->final_date, this->init_date, this->num_sold, this->people_limit, cities);
+    repeatedCities(cities);
+
   this->cities = cities; 
 }
 
@@ -97,13 +102,17 @@ void TravelPack::setPrice(unsigned int price){
 
 void TravelPack::setPeopleLimit(unsigned int people_limit, bool check){ 
   if(check)
-    checkPack(this->final_date, this->init_date, this->num_sold, people_limit, this->cities);
+    if(people_limit < num_sold)
+      throw TPackException(NULL);
+
   this->people_limit = people_limit; 
 }
 
 void TravelPack::setNumberSold(unsigned int num_sold, bool check){ 
   if(check)
-    checkPack(this->final_date, this->init_date, num_sold, this->people_limit, this->cities);
+    if(people_limit < num_sold)
+      throw TPackException(NULL);
+      
   this->num_sold = num_sold; 
 }
 
@@ -111,14 +120,13 @@ void TravelPack::setAvailability(bool available){
   this->available = available;
 }
 
-bool TravelPack::repeatedCities(vector<string> cities) const {
+void TravelPack::repeatedCities(vector<string> cities) const {
   for(size_t i = 0; i < cities.size(); i++){
     for(size_t j = i+1; j < cities.size(); j++){
       if(cities.at(i) == cities.at(j))
-        return true;
+        throw TPackException(NULL);
     }
   }
-  return false;
 }
 
 void TravelPack::checkPack(Date final_date, Date init_date, unsigned int num_sold, unsigned int people_limit, vector<string> cities) const {
@@ -127,8 +135,7 @@ void TravelPack::checkPack(Date final_date, Date init_date, unsigned int num_sol
       throw new TPackException(NULL);
     if(num_sold > people_limit)
       throw new TPackException(NULL);
-    if(repeatedCities(cities))
-      throw new TPackException(NULL);
+    repeatedCities(cities);
 }
 
 TravelPack TravelPack::operator = (const TravelPack pack){
@@ -193,7 +200,6 @@ std::ofstream& operator << (std::ofstream& os, const TravelPack& pack){
   if(pack.available) os << pack.id << "\n";
   else os << -pack.id << "\n";
   os << pack.destination;
-  pack.cities;
   if(pack.cities.size() != 0){
     os << " - ";
     if(pack.cities.size() > 0){
@@ -210,4 +216,88 @@ std::ofstream& operator << (std::ofstream& os, const TravelPack& pack){
   os << pack.num_sold << "\n";
 
   return os;
+}
+
+std::ifstream& operator >> (std::ifstream& is, TravelPack &pack){
+  size_t line_count = 0;
+  int value_check = -1;
+  std::string str_aux;
+
+  while(getline(is, str_aux) && !is.eof()){
+    if(str_aux.size() > 0){
+      if(str_aux.at(str_aux.size() - 1) == '\r') str_aux.pop_back();
+      if(str_aux.at(0) == '\r') str_aux.erase(0, 1);
+    } 
+    Trim(str_aux);
+    switch (line_count) {
+      case 0:
+        if(string_to_int(str_aux, value_check) == false)
+          throw TPackException(NULL);
+        if(value_check < 0){
+          pack.available = false;
+          pack.id = -value_check;
+        }
+        else {
+          pack.available = true;
+          pack.id = value_check;
+        }
+        value_check = -1;
+        break;
+
+      case 1:
+        //separate destination from cities
+        decompose(str_aux, pack.cities, '-'); 
+        if(pack.cities.size() == 0 || pack.cities.size() > 2) throw TPackException(NULL);
+        pack.destination = pack.cities.at(0);
+
+        //separate all cities if they exist
+        if(pack.cities.size() == 2) decompose(pack.cities.at(1), pack.cities, ',');
+        else pack.cities.resize(0); //eliminate all elements of cities
+        break;
+
+      case 2:
+        pack.init_date.setDate(str_aux);
+        break;
+
+      case 3:
+        pack.final_date.setDate(str_aux);
+        break;
+
+      case 4:
+        if(string_to_int(str_aux, value_check) == false)
+          throw TPackException(NULL);
+        if(value_check <= -1)
+          throw TPackException(NULL);
+        pack.price = value_check;
+        value_check = -1;
+        break;
+      
+      case 5:
+        if(string_to_int(str_aux, value_check) == false)
+          throw TPackException(NULL);
+        if(value_check <= -1)
+          throw TPackException(NULL);
+        pack.people_limit = value_check;
+        value_check = -1;
+        break;
+      
+      case 6:
+        if(string_to_int(str_aux, value_check) == false)
+          throw TPackException(NULL);
+        if(value_check <= -1)
+          throw TPackException(NULL);
+        pack.num_sold = value_check;
+        value_check = -1;
+
+        pack.checkPack(pack.final_date, pack.init_date, pack.num_sold, pack.people_limit, pack.cities);
+
+        return is;
+    }
+
+    line_count++;
+  }
+
+  throw TPackException(NULL);
+
+  return is;
 }

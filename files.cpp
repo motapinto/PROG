@@ -150,7 +150,6 @@ int read_clients(Agency &agency, string clients_file_name){
             return total_line_count;
           }
         //} 
-        agency.addClient(new_client.getName(), new_client.getAddress().getAddress(), new_client.getTourPacksBought(), new_client.getNif(), new_client.getNif());
         break;
 
       case 5:
@@ -164,6 +163,7 @@ int read_clients(Agency &agency, string clients_file_name){
         } 
         new_client.setMoneySpent(value_check);        
         value_check = -1;
+        agency.addClient(new_client.getName(), new_client.getAddress().getAddress(), new_client.getTourPacksBought(), new_client.getNif(), new_client.getNif());
         break;
 
       case 6:
