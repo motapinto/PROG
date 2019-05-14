@@ -1400,7 +1400,7 @@ void print_most_visited_places_clients(){
       packs_bought = clients.at(j).getTourPacksBought();
 
       for(size_t k = 0; k < packs_bought.size(); k++){
-        if(!(clients_pack.at(j).getPeopleLimit != 0)) break;
+        if(!(clients_pack.at(j).getPeopleLimit() != 0)) break;
         //find pack from all packs that have the city with same id as the pack bought by the client
 
         if( find(packs_with_city.begin(), packs_with_city.end(), packs_bought.at(k)) == packs_with_city.end() ){
@@ -1435,7 +1435,6 @@ void print_most_visited_places_clients(){
 void statistics_menu(){
   TravelPack search_pack;
   int answer = 0;
-  int id = 0;
 
   while(1){ //only std::endls when 0 is typed
     print_first_lines("Statistics Menu");
