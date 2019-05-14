@@ -16,65 +16,39 @@ bool last_line(string line){
 int read_agency(Agency &agency, string agency_file_name, string &clients_file_name, string &packs_file_name){
   ifstream agency_file;
 
-  string str_aux; //string used to read the file
-  size_t total_line_count = 1; //total line counter
-  size_t line_count = 0; //line counter
-  int value_check = -1; //used to check if value read is unsigned or if it can be converted
-
   agency_file.open(agency_file_name);
   if(!agency_file.is_open())
       return -1;
 
-  while(getline(agency_file, str_aux)){
-    total_line_count++;
-    if(str_aux.size() > 0){
-      if(str_aux.at(str_aux.size() - 1) == '\r') str_aux.pop_back();
-      if(str_aux.at(0) == '\r') str_aux.erase(0, 1);
+  try{
+    agency_file >> agency;
+  }
+  catch (string){
+    return 1;
+  }
+
+  if(!agency_file.eof()){
+    getline(agency_file, clients_file_name);
+    if(clients_file_name.size() > 0){
+      if(clients_file_name.at(clients_file_name.size() - 1) == '\r') clients_file_name.pop_back();
+      if(clients_file_name.at(0) == '\r') clients_file_name.erase(0, 1);
     } 
-    Trim(str_aux);
-    switch (line_count) {
-      case 0:
-        agency.setName(str_aux);
-        break;
+    Trim(clients_file_name);
+    if(clients_file_name.size() == 0) return 2;
+  }
 
-      case 1:
-        if(string_to_int(str_aux, value_check) == false){
-          agency_file.close();
-          return total_line_count;
-        } 
-        if(value_check <= -1){
-          agency_file.close();
-          return total_line_count;
-        } 
-        else value_check = -1;
-        agency.setNif(stoi(str_aux));
-        break;
-
-      case 2:
-        agency.setUrl(str_aux);
-        break;
-
-      case 3:
-        agency.setAddress(str_aux);
-        break;
-
-      case 4:
-        clients_file_name = str_aux;
-        break;
-
-      case 5:
-        packs_file_name = str_aux;
-        break;
-
-      default:
-        break;
-    }
-    line_count++;
+  if(!agency_file.eof()){
+    getline(agency_file, packs_file_name);
+    if(packs_file_name.size() > 0){
+      if(packs_file_name.at(packs_file_name.size() - 1) == '\r') packs_file_name.pop_back();
+      if(packs_file_name.at(0) == '\r') packs_file_name.erase(0, 1);
+    } 
+    Trim(packs_file_name);
+    if(packs_file_name.size() == 0) return 3;
   }
 
   agency_file.close();
 
-  if(line_count != 6) return total_line_count;
 
   return 0;
 }
@@ -97,10 +71,22 @@ int read_clients(Agency &agency, string clients_file_name){
   }
 
   do{
+    //Clear unwanted information
+    if(str_aux.size() > 0){
+      if(str_aux.at(str_aux.size() - 1) == '\r') str_aux.pop_back();
+      if(str_aux.at(0) == '\r') str_aux.erase(0, 1);
+    } 
+    Trim(str_aux);
     if(last_line(str_aux))
       break;
     
-    client_file >> new_client;
+    try{
+      client_file >> new_client;
+    }
+    catch(string){
+      client_file.close();
+      return client_list.size();
+    }
     client_list.push_back(new_client);
 
   } while(getline(client_file, str_aux));
@@ -114,151 +100,48 @@ int read_clients(Agency &agency, string clients_file_name){
 
 int read_packs(Agency &agency, string packs_file_name){
   ifstream packs_file;
-  string str_aux;
-  size_t total_line_count = 1;
-  size_t line_count = 0;
-  int value_check = -1;
-  int last_pack_id = 0;
 
-  //auxiliar variables to fill packs class
-  TravelPack pack;
-  vector<string>cities;
-  bool end_of_file = false;
+  string str_aux = "::::::::::";
+  TravelPack new_pack;
+  vector <TravelPack> packs;
 
-  //read packs file
+  //read client file
   packs_file.open(packs_file_name);
+
   if(!packs_file.is_open())
     return -1;
 
-  getline(packs_file, str_aux);
-  if(str_aux.size() > 0){
-    if(str_aux.at(str_aux.size() - 1) == '\r') str_aux.pop_back();
-    if(str_aux.at(0) == '\r') str_aux.erase(0, 1);
-  } 
-  Trim(str_aux);
-
-  if(str_aux.size() == 0 && packs_file.eof() && total_line_count == 1){
-    packs_file.close();
+  if(packs_file.peek() == ifstream::traits_type::eof()){
     return 0;
   }
 
-
-  if(string_to_int(str_aux, last_pack_id) == false) {
-    packs_file.close();
-    return total_line_count;
-  }
-  
-  while(getline(packs_file, str_aux) && end_of_file == false){
-    total_line_count++;
+  do{   
+    //Clear unwanted information
     if(str_aux.size() > 0){
       if(str_aux.at(str_aux.size() - 1) == '\r') str_aux.pop_back();
       if(str_aux.at(0) == '\r') str_aux.erase(0, 1);
     } 
     Trim(str_aux);
-    switch (line_count) {
-      case 0:
-        if(string_to_int(str_aux, value_check) == false) {
-          packs_file.close();
-          return total_line_count;
-        }
-        if(value_check < 0){
-          pack.setAvailability(false);
-          pack.setPackId(-value_check);
-        }
-        else {
-          pack.setAvailability(true);
-          pack.setPackId(value_check);
-        }
-        value_check = -1;
-        break;
 
-      case 1:
-        //separate destination from cities
-        decompose(str_aux, cities, '-'); 
-        if(cities.size() == 0 || cities.size() > 2) return total_line_count;
-        pack.setDestination(cities.at(0));
-
-        //separate all cities if they exist
-        if(cities.size() == 2) decompose(cities.at(1), cities, ',');
-        else cities.resize(0); //eliminate all elements of cities
-        pack.setCities(cities, false);
-        break;
-
-      case 2:
-        pack.setInitDate(str_aux, false);
-        break;
-
-      case 3:
-        pack.setFinalDate(str_aux, false);
-        break;
-
-      case 4:
-        if(string_to_int(str_aux, value_check) == false){
-          packs_file.close();
-          return 1;
-        } 
-        if(value_check <= -1){
-          packs_file.close();
-          return 1;
-        }
-        pack.setPrice(value_check);
-        value_check = -1;
-        break;
-      
-      case 5:
-        if(string_to_int(str_aux, value_check) == false){
-          packs_file.close();
-          return total_line_count;
-        } 
-        if(value_check <= -1){
-          packs_file.close();
-          return total_line_count;
-        }
-        pack.setPeopleLimit(value_check, false);
-        value_check = -1;
-        break;
-      
-      case 6:
-        if(string_to_int(str_aux, value_check) == false){
-          packs_file.close();
-          return total_line_count;
-        } 
-        if(value_check <= -1){
-          packs_file.close();
-          return total_line_count;
-        }
-        pack.setNumberSold(value_check, false);
-        value_check = -1;
-
-        agency.addTravelPack(pack.getInitDate().getDate(), pack.getFinalDate().getDate(), pack.getDestination(), pack.getCities(), pack.getAvailability(), pack.getPackId(), pack.getPrice(), pack.getPeopleLimit(), pack.getNumberSold());
-        cities.resize(0); //eliminate all elements for next iteration
-        break;
+    if(last_line(str_aux))
+      break;
     
-      case 7: // packs separtor ::::::::::
-        end_of_file = last_line(str_aux);
-        line_count = -1; //reset line_count, it will increment to 0 for next iteration
-        break;
-
-      default:
-        break;
+    try{
+      packs_file >> new_pack;
     }
-    line_count++;
-  }
-
-  if (last_pack_id < 0){
-    if(pack.getPackId() != (unsigned int)(-last_pack_id)) return total_line_count;
-  } 
-  else if(pack.getPackId() != (unsigned int)last_pack_id) return total_line_count;
-
-  if(end_of_file == true) //client separator not found
-    if(packs_file.eof() != true){ //not end of file, invalid file struct
+    catch(string){
       packs_file.close();
-      return total_line_count;
+      return packs.size();
     }
+    packs.push_back(new_pack);
 
-  if(line_count == 7) return 0; //filled every pack
+  } while(getline(packs_file, str_aux));
 
-  return total_line_count;
+  agency.setTourPack(packs);
+
+  packs_file.close();
+
+  return 0;
 }
 
 int read_files(Agency &agency, string agency_file_name, string &clients_file_name, string &packs_file_name){ //reads agency file and fills agency class
