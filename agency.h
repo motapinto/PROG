@@ -47,6 +47,8 @@ class Agency {
         friend std::ofstream& operator << (std::ofstream& os, const Agency& agency); //acede aos parametros da classe
         friend std::ostream& operator << (std::ostream& os, const Agency& agency); //acede aos parametros da classe
 
+        friend std::ifstream& operator >> (std::ifstream& is, Agency &agency);
+
     private:
         std::string name, url;
         Address agency_address;
@@ -58,4 +60,5 @@ class Agency {
         unsigned int sumSold(const unsigned int nif);
         unsigned int sumSold(const std::vector<unsigned int> &tour_packs);
         bool verifyPacks(const std::vector<unsigned int> &packs);
+        bool verifyClientPacks(const std::vector<unsigned int> &packs);
 } ;

@@ -1358,16 +1358,18 @@ void print_most_visited_places(){
   int number_places = -1;
 
   cout<< "Number of Places: "; read_line(str_aux);
-  while(!string_to_int(str_aux, number_places) || number_places < 0){
+  while(!string_to_int(str_aux, number_places) || number_places <= 0){
     cerr << "Invalid intput!\n\n";
     cout<< "Number of Places: "; read_line(str_aux);
   }
 
-  auto it = mp.begin();
-  for(int i = 0; i < number_places && it != mp.end(); i++, it++)
+  auto it = mp.rbegin();
+  for(int i = 0; i < number_places && it != mp.rend(); i++, it++)
     cout<< "Most visited place number " << i+1 << ": " << (*it).second << " visited a total of " << (*it).first << " times\n";
 
   cout<< endl;
+
+  print_wait_menu();
 }
 
 void print_most_visited_places_clients(){
@@ -1377,55 +1379,47 @@ void print_most_visited_places_clients(){
   vector <TravelPack> packs_with_city;
   vector <Client> clients = agency.getClientList();
   vector <unsigned int> packs_bought;
-  vector <TravelPack> clients_pack(clients.size()); //pack for every client people_limit = 0 == none
   
 
-  cout<< "Number of Places: "; read_line(str_aux);
-  while(!string_to_int(str_aux, number_places) || number_places < 0){
+  cout << "Number of Places: "; read_line(str_aux);
+  while(!string_to_int(str_aux, number_places) || number_places <= 0){
     cerr << "Invalid intput!\n\n";
-    cout<< "Number of Places: "; read_line(str_aux);
+    cout << "Number of Places: "; read_line(str_aux);
   }
 
-  auto it = mp.begin();
-  for(int i = 0; i < number_places && it != mp.end(); i++, it++){
-    packs_with_city = agency.searchTravelPackCity((*it).second);
+  for(size_t client_count = 0; client_count < clients.size(); client_count++){
+    bool found = false;
+    cout << clients.at(client_count) << endl;
+    cout << "Recommended pack: \n";
+    packs_bought = clients.at(client_count).getTourPacksBought();
 
-    for(size_t j = 0; j < clients.size(); j++){
+    auto it = mp.rbegin();
+    for(int i = 0; i < number_places && it != mp.rend() && !found; i++, it++){
+      packs_with_city = agency.searchTravelPackCity((*it).second);
 
-      if(!(clients_pack.at(j).getPeopleLimit() != 0)) continue;
-      packs_bought = clients.at(j).getTourPacksBought();
-
-      for(size_t k = 0; k < packs_bought.size(); k++){
-        if(!(clients_pack.at(j).getPeopleLimit() != 0)) break;
-        //find pack from all packs that have the city with same id as the pack bought by the client
-
-        if( find(packs_with_city.begin(), packs_with_city.end(), packs_bought.at(k)) == packs_with_city.end() ){
-        //could not find == client has not visited the city!
-          if(packs_with_city.size() != 0){
-            clients_pack.at(j) = packs_with_city.at(0);
-            break;
+        for(size_t k = 0; k < packs_bought.size() && !found; k++){
+          //find pack from all packs that have the city with same id as the pack bought by the client
+          if( find(packs_with_city.begin(), packs_with_city.end(), packs_bought.at(k)) == packs_with_city.end() ){
+          //could not find == client has not visited the city!
+            for(size_t j = 0; j < packs_with_city.size() && !found; j++)
+              if(packs_with_city.at(j).getNumberSold() < packs_with_city.at(j).getPeopleLimit() && packs_with_city.at(j).getAvailability()){
+                found = true;
+                cout << packs_with_city.at(j) << endl;
+                print_wait_menu();
+              }
+            
           }
         }
-
-      }
-
+      
     }
-    
+
+    if(!found){
+      cout << "None\n";
+      print_wait_menu();
+    } 
   }
 
-  for(size_t i = 0; i < clients.size(); i++){
-    cout << clients.at(i) << endl;
-    cout<< "Recommended pack: \n";
-    if(clients_pack.at(i).getPeopleLimit() != 0)
-      cout << clients_pack.at(i) << endl;
-    else
-      cout<< "None\n";
-
-    cout<< endl;
-  }
-
-
-  cout<< endl;
+  cout << endl;
 }
 
 void statistics_menu(){
