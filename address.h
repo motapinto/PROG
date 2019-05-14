@@ -21,13 +21,13 @@ class Address {
         unsigned int getDoorNum(void) const;
 
         friend std::ostream& operator << (std::ostream& os, const Address &address); //acede aos parametros da classe
-
-        void checkAddress(std::string &address, std::string &street_name, std::string &postal_code, std::string &city, std::string &floor_num, unsigned int &door_num) const;
-
         
+
     private:
         std::string street_name, postal_code, city, floor_num;  //floor_num : ("-" se não aplicável)
         unsigned int door_num;
+
+        void checkAddress(std::string &address, std::string &street_name, std::string &postal_code, std::string &city, std::string &floor_num, unsigned int &door_num) const;
 } ;
 
 class AddressException: public std::exception
