@@ -206,7 +206,7 @@ int search_client_name(Client &client){
   vector<Client> vec;
   string name;
 
-  cout<< "Name: "; read_line(name); if(name.size() == 0) return;
+  cout<< "Name: "; read_line(name);
 
   vec = agency.searchClientName(name);
   
@@ -222,11 +222,11 @@ int search_client_nif(Client &client){
   string str_aux;
 
   cout<< "NIF: ";
-  read_line(str_aux); if(str_aux.size() == 0) return;
+  read_line(str_aux);
   while(!string_to_int(str_aux, nif) || nif < 0 || nif > MAX_NIF){
     cerr << "Invalid intput!\n\n";
     cout<< "NIF: ";
-    read_line(str_aux); if(str_aux.size() == 0) return;
+    read_line(str_aux); 
   }
 
 
@@ -494,11 +494,11 @@ bool change_client_nif(Client &client){
   string str_aux;
   Client search_aux;
 
-  cout<< "NIF: "; read_line(str_aux); if(str_aux.size() == 0) return;
+  cout<< "NIF: "; 
 
   while(!string_to_int(str_aux, nif) || nif < 0 || nif > MAX_NIF){
     cerr << "Invalid intput!\n\n";
-    cout<< "NIF: "; read_line(str_aux); if(str_aux.size() == 0) return;
+    cout<< "NIF: "; 
   }
 
   if(agency.searchClientNif((unsigned int)nif, search_aux) == true){
@@ -697,11 +697,11 @@ bool purchase_pack(Client &client){
   vector <unsigned int> packs_bought;
 
   cout<< "Travel Pack ID: ";
-  read_line(str_aux); if(str_aux.size() == 0) return;
+  read_line(str_aux);
   while(string_to_int(str_aux, id) == false || id < 0){
     cerr << "Invalid intput!\n\n";
     cout<< "Travel Pack ID: ";
-    read_line(str_aux); if(str_aux.size() == 0) return;
+    read_line(str_aux);
   }
 
   if(!agency.searchTravelPackId(id, pack)) cout<< "Travel Pack with ID: " << id << " not found!\n";
@@ -863,11 +863,11 @@ bool search_travel_pack(int &id, TravelPack &pack){
   string str_aux;
 
   cout<< "Travel Pack ID: ";
-  read_line(str_aux); if(str_aux.size() == 0) return;
+  read_line(str_aux);
   while(string_to_int(str_aux, id) == false || id < 0){
     cerr << "Invalid intput!\n\n";
     cout<< "Travel Pack ID: ";
-    read_line(str_aux); if(str_aux.size() == 0) return;
+    read_line(str_aux); 
   }
 
   return agency.searchTravelPackId(id, pack);
