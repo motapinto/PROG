@@ -348,7 +348,6 @@ void Agency::setClientList(const std::vector<Client> &client_list){
       return; //ERROR
     if(client_list.at(i).money_spent != sumSold(client_list.at(i).packs_purchased, client_list.at(i).family_num))
       return; //ERROR
-
     for(size_t j = i + 1; j < client_list.size(); j++)
       if(client_list.at(i).nif == client_list.at(j).nif)
         return; //ERROR
@@ -500,7 +499,7 @@ bool Agency::verifyClientPacks(const std::set<unsigned int> &packs){
   TravelPack aux;
 
   for(auto it = packs.begin(); it != packs.end(); it++){
-      if(!searchTravelPackId(*it, aux)) return false;
+      if(searchTravelPackId(*it, aux)) return false;
   }
 
   return true;

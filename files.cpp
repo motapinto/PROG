@@ -88,7 +88,7 @@ int read_clients(Agency &agency, string clients_file_name){
       return client_list.size();
     }
     client_list.push_back(new_client);
-
+    
   } while(getline(client_file, str_aux));
 
   agency.setClientList(client_list);
