@@ -9,7 +9,7 @@ class Client {
         Client();
         Client(std::string name, std::string address, std::vector<unsigned int> tour_packs_bought, unsigned int nif, unsigned int family_num, unsigned int money_spent);
 
-        int packPos(unsigned int id);
+        std::set<uint>::iterator packPos(unsigned int id);
         void addPack(unsigned int pack_id);
         void removePack(int pack_id);
 
@@ -32,20 +32,16 @@ class Client {
         Client operator = (Client client);
         friend std::ofstream& operator << (std::ofstream& os, const Client &client); //acede aos parametros da classe
         friend std::ostream& operator << (std::ostream& os, const Client &client); //acede aos parametros da classe
-
         friend std::ifstream& operator >> (std::ifstream& os, Client &client); //acede aos parametros da classe
 
     private:
         std::string client_name;
         Address client_address;
-        std::vector<unsigned int> tour_packs_bought;
+        std::set <unsigned int> tour_packs_bought_set;
         unsigned int nif, family_num, money_spent;
 
         //Class Agency can now access all private members of Client
         friend class Agency;
-
-        //Private methods only inside public functions
-        void repeatedPacks(std::vector<unsigned int> packs) const;
 } ;
 
 class ClientException: public std::exception
