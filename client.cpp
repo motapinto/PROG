@@ -6,14 +6,14 @@ Client::Client() {
     this->money_spent = 0;
 }
 
-Client::Client(std::string name, std::string address, std::vector<uint> tour_packs_bought, uint nif, uint family_num, uint money_spent) {    
+Client::Client(std::string name, std::string address, std::vector<unsigned int> tour_packs_bought, unsigned int nif, unsigned int family_num, unsigned int money_spent) {    
     this->client_name = name;
     this->client_address.setAddress(address);
     this->nif = nif;
     this->family_num = family_num;
     this->money_spent = money_spent;
 
-    for(uint i = 0; i < tour_packs_bought.size(); i++) {
+    for(unsigned int i = 0; i < tour_packs_bought.size(); i++) {
       packs_purchased.insert(tour_packs_bought.at(i));
     }
 }
@@ -26,21 +26,21 @@ void Client::setAddress(std::string address) {
     this->client_address.setAddress(address); 
 }
 
-void Client::setTourPacks(std::vector <uint> packs) { 
-    for(uint i = 0; i < packs.size(); i++) {
+void Client::setTourPacks(std::vector <unsigned int> packs) { 
+    for(unsigned int i = 0; i < packs.size(); i++) {
       packs_purchased.insert(packs.at(i));
     }
 }
 
 void Client::setTourPacks(std::string packs, char delim) { 
-    std::vector<uint> packs_bought;
+    std::vector<unsigned int> packs_bought;
 
     if(packs.compare("-") == 0){
         throw ClientException(NULL);
     } 
 
     if(decompose(packs, packs_bought, delim) == true){
-        for(uint i = 0; i < packs.size(); i++) {
+        for(unsigned int i = 0; i < packs.size(); i++) {
             packs_purchased.insert(packs.at(i));
         }
     }
@@ -49,15 +49,15 @@ void Client::setTourPacks(std::string packs, char delim) {
     }
 }
 
-void Client::setNif(uint nif) { 
+void Client::setNif(unsigned int nif) { 
     this->nif = nif; 
 }
 
-void Client::setFamilyNum(uint family_num) {
+void Client::setFamilyNum(unsigned int family_num) {
     this->family_num = family_num;
 }
 
-void Client::setMoneySpent(uint money_spent) {
+void Client::setMoneySpent(unsigned int money_spent) {
     this->money_spent = money_spent;
 }
 
@@ -69,9 +69,9 @@ Address Client::getAddress(void) const{
     return this->client_address; 
 }
 
-std::vector <uint> Client::getTourPacksBought(void) const{ 
-    std::vector <uint> packs;
-    std::set <uint>::iterator it;
+std::vector <unsigned int> Client::getTourPacksBought(void) const{ 
+    std::vector <unsigned int> packs;
+    std::set <unsigned int>::iterator it;
 
     for(it = packs_purchased.begin(); it != packs_purchased.end(); it++) {
         packs.push_back(*it);
@@ -80,19 +80,19 @@ std::vector <uint> Client::getTourPacksBought(void) const{
     return packs; 
 }
 
-uint Client::getNif(void) const{ 
+unsigned int Client::getNif(void) const{ 
     return this->nif; 
 }
 
-uint Client::getFamilyNum(void) const{ 
+unsigned int Client::getFamilyNum(void) const{ 
     return this->family_num; 
 }
 
-uint Client::getNumOfBuys(void) const{ 
+unsigned int Client::getNumOfBuys(void) const{ 
     return this->packs_purchased.size(); 
 }
 
-uint Client::getMoneySpent(void) const{ 
+unsigned int Client::getMoneySpent(void) const{ 
     return this->money_spent; 
 }
 
@@ -111,7 +111,7 @@ std::ostream& operator << (std::ostream& os, const Client &client){
     os << "Address: " << client.client_address << std::endl;
     os << "Tour Packs Bought: ";
     if(client.packs_purchased.size() == 0) os << "None";
-    else for(std::set<uint>::iterator it = client.packs_purchased.begin(); it != client.packs_purchased.end(); it++){
+    else for(std::set<unsigned int>::iterator it = client.packs_purchased.begin(); it != client.packs_purchased.end(); it++){
       os << *it << " ";
     }
     os << std::endl;
@@ -123,7 +123,7 @@ std::ostream& operator << (std::ostream& os, const Client &client){
 }
 
 std::ofstream& operator << (std::ofstream& os, const Client &client){
-    std::set<uint>::iterator it = client.packs_purchased.begin();
+    std::set<unsigned int>::iterator it = client.packs_purchased.begin();
 
     os << client.client_name << std::endl;
     os << client.nif << std::endl;
@@ -131,7 +131,7 @@ std::ofstream& operator << (std::ofstream& os, const Client &client){
     os << client.client_address << std::endl;
     if(client.packs_purchased.size() != 0) {
       os << *it; it++;
-      for(it; it != client.packs_purchased.end(); it++)
+      for(auto it = client.packs_purchased.begin(); it != client.packs_purchased.end(); it++)
             os << " ; " << *it;
       
       os << std::endl;

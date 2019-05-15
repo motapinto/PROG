@@ -2,20 +2,5 @@ Rui Manuel
 234987156
 4
 Rua Sem Fim / 200 / 5Esq / 1200-001 / Lisboa
-10 ; 36 ; 2
-::::::::::
-Belmiro Miguel
-111987666
-2
-Avenida dos Grilos / 100 / - / 2300-101 / Coimbra
-123 ; 4 ; 1
-::::::::::
-Edu Macedo
-987654321
-20
-Rua Ok / 2 / 20Esq / 4480-274 / Coimbra
-::::::::::
-Angela Costa
-122112213
-2
-Travessa da Igreja / 133 / - / 4480-516 / Touguinha
+1
+300

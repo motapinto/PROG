@@ -7,6 +7,7 @@
 #include <iomanip>
 #include <ctime>
 #include <exception>
+#include <set>
 
 void TrimLeft(std::string &str);
 

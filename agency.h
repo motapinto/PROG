@@ -58,7 +58,10 @@ class Agency {
 
         bool verifyCities(const std::vector<std::string> cities);
         unsigned int sumSold(const unsigned int nif);
+        unsigned int sumSold(const std::set<unsigned int> &tour_packs, const unsigned int family_num);
         unsigned int sumSold(const std::vector<unsigned int> &tour_packs, const unsigned int family_num);
         bool verifyPacks(const std::vector<unsigned int> &packs, const unsigned int family_num);
         bool verifyClientPacks(const std::vector<unsigned int> &packs);
+        bool verifyPacks(const std::set<unsigned int> &packs, const unsigned int family_num);
+        bool verifyClientPacks(const std::set<unsigned int> &packs);
 } ;

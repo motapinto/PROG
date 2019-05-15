@@ -101,9 +101,10 @@ int read_clients(Agency &agency, string clients_file_name){
 int read_packs(Agency &agency, string packs_file_name){
   ifstream packs_file;
 
-  string str_aux = "::::::::::";
+  string str_aux;
   TravelPack new_pack;
   vector <TravelPack> packs;
+  int first_id;
 
   //read client file
   packs_file.open(packs_file_name);
@@ -115,6 +116,18 @@ int read_packs(Agency &agency, string packs_file_name){
     return 0;
   }
 
+  getline(packs_file, str_aux);
+  if(str_aux.size() > 0){
+    if(str_aux.at(str_aux.size() - 1) == '\r') str_aux.pop_back();
+    if(str_aux.at(0) == '\r') str_aux.erase(0, 1);
+  } 
+  Trim(str_aux);
+  if(!string_to_int(str_aux, first_id) || first_id < 0)
+    return -2;
+
+  //setting str_aux to pass first last_line check
+  str_aux = "::::::::::";
+
   do{   
     //Clear unwanted information
     if(str_aux.size() > 0){
@@ -125,7 +138,7 @@ int read_packs(Agency &agency, string packs_file_name){
 
     if(last_line(str_aux))
       break;
-    
+
     try{
       packs_file >> new_pack;
     }
@@ -136,6 +149,10 @@ int read_packs(Agency &agency, string packs_file_name){
     packs.push_back(new_pack);
 
   } while(getline(packs_file, str_aux));
+
+  //first id does not match last pack id
+  if(packs.at(packs.size() - 1).getPackId() != (unsigned int)first_id)
+    return -3;
 
   agency.setTourPack(packs);
 
@@ -230,7 +247,7 @@ void write_clients(Agency &agency, const string clients_file_name){
   temp_file << clients.at(0);
 
   for(size_t i = 1; i < clients.size(); i++){
-    temp_file << FILE_SEPARATOR_LINE;
+    temp_file << FILE_SEPARATOR_STRING << endl;
     temp_file << clients.at(i);
   }
 
@@ -263,7 +280,7 @@ void write_packs(Agency &agency, const string packs_file_name){
   temp_file << packs.at(0);
 
   for(size_t i = 1; i < packs.size(); i++){
-    temp_file << FILE_SEPARATOR_LINE;
+    temp_file << FILE_SEPARATOR_STRING << endl;
     temp_file << packs.at(i);
   }
 
