@@ -56,7 +56,7 @@ int read_agency(Agency &agency, string agency_file_name, string &clients_file_na
 int read_clients(Agency &agency, string clients_file_name){
   ifstream client_file;
 
-  string str_aux = "::::::::::";
+  string str_aux = FILE_SEPARATOR_STRING;
   Client new_client;
   vector <Client> client_list;
 
@@ -90,6 +90,8 @@ int read_clients(Agency &agency, string clients_file_name){
     client_list.push_back(new_client);
 
   } while(getline(client_file, str_aux));
+
+  cout << client_list.size();
 
   agency.setClientList(client_list);
 
@@ -126,7 +128,7 @@ int read_packs(Agency &agency, string packs_file_name){
     return -2;
 
   //setting str_aux to pass first last_line check
-  str_aux = "::::::::::";
+  str_aux = FILE_SEPARATOR_STRING;
 
   do{   
     //Clear unwanted information
