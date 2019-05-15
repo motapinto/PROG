@@ -580,48 +580,34 @@ void change_client_menu(Client &client){
         change_client_packs_bought(client);
         change_client_family_num(client);
 
-        try {
-          agency.changeClient(client, old_nif);
-          modified_client = true;
-        }
-        catch(string) {
-          cerr << "Failled to modify client: some parameters were invalid!\n";
-        }
-
         break;
 
       case 2:
-        change_client_name(client);
-       /* if(*/agency.changeClient(client, old_nif); //== true) modified_client = true;
-        //else cerr << "Failled to modify client: some parameters were invalid!\n";
-        break;
+        change_client_name(client); break;
 
       case 3:
         if(change_client_nif(client) == false) break;
-        /*if(*/agency.changeClient(client, old_nif);// == true) modified_client = true;
-        //else cerr << "Failled to modify client: some parameters were invalid!\n";
-        break;
 
       case 4:
-        change_client_address(client);
-        /*if(*/agency.changeClient(client, old_nif);// == true) modified_client = true;
-        //else cerr << "Failled to modify client: some parameters were invalid!\n";
-        break;
+        change_client_address(client);  break;
 
       case 5:
-        change_client_packs_bought(client);
-        /*if(*/agency.changeClient(client, old_nif);// == true) modified_client = true;
-        //else cerr << "Failled to modify client: invalid packs entered!\n";
-        break;
+        change_client_packs_bought(client); break;
 
       case 6:
-        change_client_family_num(client);
-        /*if(*/agency.changeClient(client, old_nif);// == true) modified_client = true;
-        //else cerr << "Failled to modify client: some parameters were invalid!\n";
+        change_client_family_num(client); break;
+
         break;
 
       default:
         break;
+      
+      try {
+              agency.changeClient(client, old_nif);
+          }
+          catch(string) {
+              cerr << "Failled to modify client: some parameters were invalid!\n";
+          }
     }
   }
 }
