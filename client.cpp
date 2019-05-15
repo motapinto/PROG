@@ -34,19 +34,19 @@ void Client::setTourPacks(std::vector <unsigned int> packs) {
 
 void Client::setTourPacks(std::string packs, char delim) { 
     std::vector<unsigned int> packs_bought;
+    packs_purchased.clear();
 
     if(packs.compare("-") == 0){
         throw ClientException(NULL);
     } 
 
     if(decompose(packs, packs_bought, delim) == true){
-        for(unsigned int i = 0; i < packs.size(); i++) {
-            packs_purchased.insert(packs.at(i));
-        }
+      packs_purchased.insert(packs_bought.begin(), packs_bought.end());
     }
     else {
       throw ClientException(NULL);
     }
+
 }
 
 void Client::setNif(unsigned int nif) { 
@@ -111,8 +111,9 @@ std::ostream& operator << (std::ostream& os, const Client &client){
     os << "Address: " << client.client_address << std::endl;
     os << "Tour Packs Bought: ";
     if(client.packs_purchased.size() == 0) os << "None";
-    else for(std::set<unsigned int>::iterator it = client.packs_purchased.begin(); it != client.packs_purchased.end(); it++){
-      os << *it << " ";
+    else 
+      for(auto it = client.packs_purchased.begin(); it != client.packs_purchased.end(); it++){
+        os << *it << " ";
     }
     os << std::endl;
     os << "NIF: " << client.nif << std::endl;

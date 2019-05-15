@@ -91,11 +91,14 @@ int read_clients(Agency &agency, string clients_file_name){
 
   } while(getline(client_file, str_aux));
 
-  cout << client_list.size();
-
-  agency.setClientList(client_list);
-
   client_file.close();
+
+  try {
+    agency.setClientList(client_list);
+  } 
+  catch(string) {
+    return client_list.size();
+  }
 
   return 0;
 }
@@ -152,13 +155,14 @@ int read_packs(Agency &agency, string packs_file_name){
 
   } while(getline(packs_file, str_aux));
 
+  packs_file.close();
+
   //first id does not match last pack id
   if(packs.at(packs.size() - 1).getPackId() != (unsigned int)first_id)
     return -3;
 
   agency.setTourPack(packs);
 
-  packs_file.close();
 
   return 0;
 }

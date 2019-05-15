@@ -348,7 +348,6 @@ void Agency::setClientList(const std::vector<Client> &client_list){
       return; //ERROR
     if(client_list.at(i).money_spent != sumSold(client_list.at(i).packs_purchased, client_list.at(i).family_num))
       return; //ERROR
-
     for(size_t j = i + 1; j < client_list.size(); j++)
       if(client_list.at(i).nif == client_list.at(j).nif)
         return; //ERROR
@@ -399,9 +398,9 @@ unsigned int Agency::sumSold(const std::set<unsigned int> &tour_packs, const uns
   unsigned int n_sold = 0;
 
   for(size_t k = 0; k < this->tour_pack.size(); k++)
-    for(size_t j = 0; j < tour_packs.size(); j++){
-      if(tour_pack.at(j).id == this->tour_pack.at(k).id)
-        n_sold+= this->tour_pack.at(k).price * family_num;
+    for(auto it : tour_packs){
+      if(it == this->tour_pack.at(k).id)
+        n_sold += this->tour_pack.at(k).price * family_num;
     }
 
   return n_sold;
