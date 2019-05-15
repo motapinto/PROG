@@ -14,20 +14,8 @@ Client::Client(std::string name, std::string address, std::vector<uint> tour_pac
     this->money_spent = money_spent;
 
     for(uint i = 0; i < tour_packs_bought.size(); i++) {
-      tour_packs_bought_set.insert(tour_packs_bought.at(i));
+      packs_purchased.insert(tour_packs_bought.at(i));
     }
-}
-
-void Client::addPack(uint pack_id){
-    if(tour_packs_bought_set.find(pack_id) == tour_packs_bought_set.end())
-        this->tour_packs_bought.push_back(pack_id);
-}
-
-void Client::removePack(int pack_id){
-    std::set <uint>::iterator it = tour_packs_bought_set.find(pack_id);
-
-    if(it != tour_packs_bought_set.end())
-      this->tour_packs_bought_set.erase(it);
 }
 
 void Client::setName (std::string new_name) { 
@@ -39,19 +27,22 @@ void Client::setAddress(std::string address) {
 }
 
 void Client::setTourPacks(std::vector <uint> packs) { 
-    this->tour_packs_bought = packs; 
+    for(uint i = 0; i < packs.size(); i++) {
+      packs_purchased.insert(packs.at(i));
+    }
 }
 
 void Client::setTourPacks(std::string packs, char delim) { 
     std::vector<uint> packs_bought;
 
     if(packs.compare("-") == 0){
-        this->tour_packs_bought.resize(0); //eliminate previous values
         throw ClientException(NULL);
     } 
 
     if(decompose(packs, packs_bought, delim) == true){
-        this->tour_packs_bought = packs_bought;
+        for(uint i = 0; i < packs.size(); i++) {
+            packs_purchased.insert(packs.at(i));
+        }
     }
     else {
       throw ClientException(NULL);
@@ -82,7 +73,7 @@ std::vector <uint> Client::getTourPacksBought(void) const{
     std::vector <uint> packs;
     std::set <uint>::iterator it;
 
-    for(it = tour_packs_bought_set.begin(); it != tour_packs_bought_set.end(); it++) {
+    for(it = packs_purchased.begin(); it != packs_purchased.end(); it++) {
         packs.push_back(*it);
     }
 
@@ -98,7 +89,7 @@ uint Client::getFamilyNum(void) const{
 }
 
 uint Client::getNumOfBuys(void) const{ 
-    return this->tour_packs_bought.size(); 
+    return this->packs_purchased.size(); 
 }
 
 uint Client::getMoneySpent(void) const{ 
@@ -108,7 +99,7 @@ uint Client::getMoneySpent(void) const{
 Client Client::operator = (Client client){
     this->client_name = client.getName();
     this->client_address = client.getAddress();
-    this->tour_packs_bought = client.getTourPacksBought();
+    setTourPacks(client.getTourPacksBought());
     this->nif = client.getNif();
     this->family_num = client.getNumOfBuys();
 
@@ -119,9 +110,9 @@ std::ostream& operator << (std::ostream& os, const Client &client){
     os << "Name: " << client.client_name << std::endl;
     os << "Address: " << client.client_address << std::endl;
     os << "Tour Packs Bought: ";
-    if(client.tour_packs_bought.size() == 0) os << "None";
-    else for(size_t i = 0; i < client.tour_packs_bought.size(); i++){
-      os << client.tour_packs_bought.at(i) << " ";
+    if(client.packs_purchased.size() == 0) os << "None";
+    else for(std::set<uint>::iterator it = client.packs_purchased.begin(); it != client.packs_purchased.end(); it++){
+      os << *it << " ";
     }
     os << std::endl;
     os << "NIF: " << client.nif << std::endl;
@@ -132,14 +123,16 @@ std::ostream& operator << (std::ostream& os, const Client &client){
 }
 
 std::ofstream& operator << (std::ofstream& os, const Client &client){
+    std::set<uint>::iterator it = client.packs_purchased.begin();
+
     os << client.client_name << std::endl;
     os << client.nif << std::endl;
     os << client.family_num << std::endl;
     os << client.client_address << std::endl;
-    if(client.tour_packs_bought.size() != 0) {
-      os << client.tour_packs_bought.at(0);
-      for(size_t i = 1; i < client.tour_packs_bought.size(); i++)
-        os << " ; " << client.tour_packs_bought.at(i);
+    if(client.packs_purchased.size() != 0) {
+      os << *it; it++;
+      for(it; it != client.packs_purchased.end(); it++)
+            os << " ; " << *it;
       
       os << std::endl;
     }

@@ -9,10 +9,6 @@ class Client {
         Client();
         Client(std::string name, std::string address, std::vector<unsigned int> tour_packs_bought, unsigned int nif, unsigned int family_num, unsigned int money_spent);
 
-        std::set<uint>::iterator packPos(unsigned int id);
-        void addPack(unsigned int pack_id);
-        void removePack(int pack_id);
-
         void setName (std::string new_name);
         void setAddress(std::string address);
         void setTourPacks(std::vector <unsigned int> packs);
@@ -37,7 +33,7 @@ class Client {
     private:
         std::string client_name;
         Address client_address;
-        std::set <unsigned int> tour_packs_bought_set;
+        std::set <unsigned int> packs_purchased;
         unsigned int nif, family_num, money_spent;
 
         //Class Agency can now access all private members of Client
