@@ -494,17 +494,18 @@ bool change_client_nif(Client &client){
   string str_aux;
   Client search_aux;
 
-  cout<< "NIF: "; 
+  cout<< "NIF: "; read_line(str_aux); if(str_aux.size() == 0) return false;
 
-  while(!string_to_int(str_aux, nif) || nif < 0 || nif > MAX_NIF){
-    cerr << "Invalid intput!\n\n";
-    cout<< "NIF: "; 
-  }
+  do{
+    while(!string_to_int(str_aux, nif) || nif < 0 || nif > MAX_NIF){
+      cerr << "Invalid intput!\n\n";
+      cout<< "NIF: "; read_line(str_aux); if(str_aux.size() == 0) return false;
+    }
 
-  if(agency.searchClientNif((unsigned int)nif, search_aux) == true){
-    cerr << "Invalid Input!\nClient with NIF: " << nif << " already exists!\n";
-    return false;
-  }
+    if(agency.searchClientNif((unsigned int)nif, search_aux) == true){
+      cerr << "Client with NIF: " << nif << " already exists!\n";
+    }
+  }while(agency.searchClientNif((unsigned int)nif, search_aux) == true);
 
   client.setNif(nif);
   return true;
@@ -586,7 +587,7 @@ void change_client_menu(Client &client){
         change_client_name(client); break;
 
       case 3:
-        if(change_client_nif(client) == false) break;
+        change_client_nif(client); break;
 
       case 4:
         change_client_address(client);  break;
@@ -597,13 +598,12 @@ void change_client_menu(Client &client){
       case 6:
         change_client_family_num(client); break;
 
-        break;
-
       default:
         break;
       
       try {
               agency.changeClient(client, old_nif);
+              modified_client = true;
           }
           catch(string) {
               cerr << "Failled to modify client: some parameters were invalid!\n";
