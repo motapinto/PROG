@@ -44,7 +44,7 @@ bool Date::operator >= (const Date date){
 }
 
 bool Date::operator < (const Date date){
-    if(this->year == date.getYear()){
+    if(this->year == date.year){
         if(this->month > date.getMonth()) return false;
         if(this->month < date.getMonth()) return true;
 
@@ -55,9 +55,9 @@ bool Date::operator < (const Date date){
     if(this->year < date.getYear()) return true;
 
     return false;
-    }
+}
 
-  bool Date::operator <= (const Date date){
+bool Date::operator <= (const Date date){
     if(*this == date) return true;
     if(*this < date) return true;
 
@@ -65,22 +65,18 @@ bool Date::operator < (const Date date){
 }
 
 bool Date::operator == (const Date date){
-    if(this->year != date.getYear()) return false;
-    if(this->month != date.getMonth()) return false;
-    if(this->day != date.getDay()) return false;
-
-    return true;
+    return (year == date.year &&
+      month == date.month && 
+      day == date.day);
 }
 
 bool Date::operator != (const Date date){
-    if(this->year != date.getYear()) return true;
-    if(this->month != date.getMonth()) return true;
-    if(this->day != date.getDay()) return true;
-
-    return false;
+    return (year != date.year ||
+      month != date.month ||
+      day != date.day);
 }
 
-Date Date::operator = (const Date date){
+Date& Date::operator = (const Date date){
     this->day = date.getDay();
     this->month = date.getMonth();
     this->year = date.getYear();

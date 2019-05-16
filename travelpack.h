@@ -29,9 +29,10 @@ class TravelPack {
         void setNumberSold(unsigned int num_sold, bool check);
         void setAvailability(bool available);
 
-        TravelPack operator = (const TravelPack pack);        
+        TravelPack& operator = (const TravelPack pack);        
         bool operator == (const TravelPack pack);
         bool operator == (const unsigned int id);
+        bool operator < (const TravelPack pack);
 
         friend std::ofstream& operator << (std::ofstream& os, const TravelPack& pack); //acede aos parametros da classe
         friend std::ostream& operator << (std::ostream& os, const TravelPack& pack); //acede aos parametros da classe

@@ -25,7 +25,9 @@ class Client {
         unsigned int getNumOfBuys(void) const;
         unsigned int getMoneySpent(void) const;
 
-        Client operator = (Client client);
+        Client& operator = (Client client);
+        bool operator == (Client client);
+        bool operator == (unsigned int nif);
         friend std::ofstream& operator << (std::ofstream& os, const Client &client); //acede aos parametros da classe
         friend std::ostream& operator << (std::ostream& os, const Client &client); //acede aos parametros da classe
         friend std::ifstream& operator >> (std::ifstream& os, Client &client); //acede aos parametros da classe

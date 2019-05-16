@@ -211,13 +211,13 @@ bool Agency::removeTravelPack(unsigned int id) {
 }
 
 bool Agency::searchClientNif(unsigned int nif, Client &client){
-  for(size_t i = 0; i < client_list.size(); i++)
-    if(client_list.at(i).getNif() == nif){
-      client = client_list.at(i);
-      return true;
-    }
+  auto it = std::find(client_list.begin(), client_list.end(), nif);
 
-  return false;
+  if(it == client_list.end()) return false;
+
+  client = *it;
+
+  return true;
 }
 
 std::vector<Client> Agency::searchClientName(std::string name){
@@ -230,19 +230,19 @@ std::vector<Client> Agency::searchClientName(std::string name){
 }
 
 bool Agency::searchTravelPackId(unsigned int id, TravelPack &pack){
-  for(size_t i = 0; i < tour_pack.size(); i++)
-    if(tour_pack.at(i).getPackId() == id){
-      pack = tour_pack.at(i);
-      return true;
-    }
+  auto it = std::find(tour_pack.begin(), tour_pack.end(), id);
 
-  return false;
+  if(it == tour_pack.end()) return false;
+
+  pack = *it;
+
+  return true;
 }
 
 std::vector <TravelPack> Agency::searchTravelPackDestination(std::string destination){
   std::vector<TravelPack> vec;
   for(size_t i = 0; i < tour_pack.size(); i++)
-    if(tour_pack.at(i).getDestination() == destination)
+    if(tour_pack.at(i).destination == destination)
       vec.push_back(tour_pack.at(i));
 
   return vec;
@@ -340,6 +340,7 @@ void Agency::setTourPack(const std::vector<TravelPack> &tour_pack){
   }
   
   this->tour_pack = tour_pack; 
+  std::sort(this->tour_pack.begin(), this->tour_pack.end());
 }
 
 void Agency::setClientList(const std::vector<Client> &client_list){ 

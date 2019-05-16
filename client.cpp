@@ -36,8 +36,8 @@ void Client::setTourPacks(std::string packs, char delim) {
     std::vector<unsigned int> packs_bought;
     packs_purchased.clear();
 
-    if(packs.compare("-") == 0){
-        throw ClientException(NULL);
+    if(packs == "-"){
+        return;
     } 
 
     if(decompose(packs, packs_bought, delim) == true){
@@ -96,15 +96,31 @@ unsigned int Client::getMoneySpent(void) const{
     return this->money_spent; 
 }
 
-Client Client::operator = (Client client){
-    this->client_name = client.getName();
-    this->client_address = client.getAddress();
-    setTourPacks(client.getTourPacksBought());
-    this->nif = client.getNif();
-    this->family_num = client.getNumOfBuys();
+Client &Client::operator = (Client client){
+    client_name = client.client_name;
+    client_address = client.client_address;
+    packs_purchased = client.packs_purchased;
+    nif = client.nif;
+    family_num = client.family_num;
+    money_spent = client.money_spent;
 
     return *this;
 }
+
+bool Client::operator == (Client client){
+    return (client_name == client.client_name &&
+        client_address == client.client_address &&
+        packs_purchased == client.packs_purchased &&
+        nif == client.nif &&
+        family_num == client.family_num &&
+        money_spent == client.money_spent);
+}
+
+bool Client::operator == (unsigned int nif){
+  return nif == this->nif;
+}
+
+
 
 std::ostream& operator << (std::ostream& os, const Client &client){
     os << "Name: " << client.client_name << std::endl;

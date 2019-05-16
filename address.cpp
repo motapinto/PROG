@@ -69,6 +69,24 @@ void Address::setDoorNum(unsigned int door_num){
      this->door_num = door_num; 
 }
 
+Address& Address::operator = (const Address address){
+  street_name = address.street_name;
+  postal_code = address.postal_code;
+  city = address.city;
+  floor_num = address.floor_num;
+  door_num = address.door_num;
+
+  return *this;
+}
+
+bool Address::operator == (const Address address){
+  return(  street_name == address.street_name &&
+        postal_code == address.postal_code &&
+        city == address.city &&
+        floor_num == address.floor_num &&
+        door_num == address.door_num);
+}
+
 std::ostream& operator << (std::ostream& os, const Address &address){
   os << address.street_name << " / " << address.door_num << " / " << address.floor_num << " / " << address.postal_code << " / " << address.city;
 

@@ -7,14 +7,6 @@ Madeira - Funchal, Porto Santo
 30
 9
 ::::::::::
--2
-Veneza
-2019/03/02
-2019/03/05
-300
-24
-24
-::::::::::
 3
 Douro vinhateiro - Porto, Regua, Pinhao, Vila Real
 2019/09/21
@@ -22,6 +14,14 @@ Douro vinhateiro - Porto, Regua, Pinhao, Vila Real
 100
 62
 12
+::::::::::
+-2
+Veneza
+2019/03/02
+2019/03/05
+300
+24
+24
 ::::::::::
 4
 Junqueira

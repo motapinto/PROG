@@ -14,7 +14,7 @@ class Date
     bool operator <= (const Date date);
     bool operator == (const Date date);
     bool operator != (const Date date);
-    Date operator = (const Date date);
+    Date& operator = (const Date date);
     friend std::ostream& operator << (std::ostream& os, const Date& date); //acede aos parametros da classe
 
     void setYear(unsigned int year) ;

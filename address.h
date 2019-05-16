@@ -21,7 +21,8 @@ class Address {
         unsigned int getDoorNum(void) const;
 
         friend std::ostream& operator << (std::ostream& os, const Address &address); //acede aos parametros da classe
-        
+        Address& operator = (const Address address);
+        bool operator == (const Address address);
 
     private:
         std::string street_name, postal_code, city, floor_num;  //floor_num : ("-" se não aplicável)

@@ -8,6 +8,7 @@
 #include <ctime>
 #include <exception>
 #include <set>
+#include <algorithm>
 
 void TrimLeft(std::string &str);
 
