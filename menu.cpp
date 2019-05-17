@@ -693,8 +693,7 @@ bool purchase_pack(Client &client){
   if(!agency.searchTravelPackId(id, pack)) cout<< "Travel Pack with ID: " << id << " not found!\n";
   else {
     packs_bought = client.getTourPacksBought();
-    
-    if(pack.getAvailability() == false) {
+    if(!pack.getAvailability()) {
       cout<< "This pack is not available for purchase!\n";
       return false;
     }

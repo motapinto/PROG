@@ -146,6 +146,7 @@ TravelPack& TravelPack::operator = (const TravelPack pack){
   this->price = pack.getPrice();
   this->people_limit = pack.getPeopleLimit();
   this->num_sold = pack.getNumberSold();
+  this->available = pack.getAvailability();
 
   return *this;
 }

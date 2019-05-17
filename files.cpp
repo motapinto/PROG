@@ -111,7 +111,7 @@ int read_packs(Agency &agency, string packs_file_name){
   vector <TravelPack> packs;
   int first_id;
 
-  //read client file
+  //read pack file
   packs_file.open(packs_file_name);
 
   if(!packs_file.is_open())

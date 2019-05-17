@@ -147,9 +147,13 @@ std::ofstream& operator << (std::ofstream& os, const Client &client){
     os << client.family_num << std::endl;
     os << client.client_address << std::endl;
     if(client.packs_purchased.size() != 0) {
-      os << *it; it++;
-      for(auto it = client.packs_purchased.begin(); it != client.packs_purchased.end(); it++)
+      for(auto it = client.packs_purchased.begin(); it != client.packs_purchased.end(); it++){
+          if(it == client.packs_purchased.begin()){
+            os << *it;
+          }
+          else 
             os << " ; " << *it;
+      }
       
       os << std::endl;
     }
