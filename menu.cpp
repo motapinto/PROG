@@ -1042,8 +1042,50 @@ void print_travel_pack_menu(){
   }
 }
 
+void change_travel_pack_date(TravelPack &travel_pack){
+  string str_aux;
+  Date init_date, final_date;
+
+  do {
+    cout<< "Initial Date: "; read_line(str_aux); if(str_aux.size() == 0) return; 
+
+    try {
+      init_date.setDate(str_aux);
+      break;
+    }
+    catch(string) {
+      cout<< "Invalid intput!\nDate must follow format: (Year)/(Month)/(Day)\n";
+      cout<< "Initial Date: ";  read_line(str_aux); if(str_aux.size() == 0) return;
+    }
+  }  while(1);
+
+  do {
+    cout<< "Final Date: "; read_line(str_aux); if(str_aux.size() == 0) return; 
+
+    try {
+      final_date.setDate(str_aux);
+      break;
+    }
+    catch(string) {
+      cout<< "Invalid intput!\nDate must follow format: (Year)/(Month)/(Day)\n";
+      cout<< "Final Date: ";  read_line(str_aux); if(str_aux.size() == 0) return;
+    }
+  }  while(1);
+
+  if(travel_pack.getInitDate() > init_date){
+    travel_pack.setInitDate(init_date.getDate(), true);
+    travel_pack.setFinalDate(final_date.getDate(), true);
+  }
+  else{
+    travel_pack.setFinalDate(final_date.getDate(), true);
+    travel_pack.setInitDate(init_date.getDate(), true);
+  }
+
+}
+
 void change_travel_pack_init_date(TravelPack &travel_pack){
   string str_aux;
+  Date date_aux;
 
   do {
     cout<< "Initial Date: "; read_line(str_aux); if(str_aux.size() == 0) return; 
@@ -1054,10 +1096,9 @@ void change_travel_pack_init_date(TravelPack &travel_pack){
     }
     catch(string) {
       cout<< "Invalid intput!\nDate must follow format: (Year)/(Month)/(Day)\n";
-      cout<< "Initial Date: ";  read_line(str_aux); if(str_aux.size() == 0) return;
+      cout<< "Initial Date: "; read_line(str_aux); if(str_aux.size() == 0) return;
     }
   }  while(1);
-
 }
 
 void change_travel_pack_final_date(TravelPack &travel_pack){
@@ -1169,8 +1210,7 @@ void add_travel_pack(){
 
   change_travel_pack_destination(new_pack);
   change_travel_pack_cities(new_pack);
-  change_travel_pack_init_date(new_pack);
-  change_travel_pack_final_date(new_pack);
+  change_travel_pack_date(new_pack);
   if(new_pack.getInitDate() > new_pack.getFinalDate()){
     cerr << "Invalid dates: initial date must be before final date!\n";
     print_wait_menu();
@@ -1225,8 +1265,7 @@ void change_travel_pack_menu(TravelPack &travel_pack){
       case 1:
         change_travel_pack_destination(travel_pack);
         change_travel_pack_cities(travel_pack);
-        change_travel_pack_init_date(travel_pack);
-        change_travel_pack_final_date(travel_pack);
+        change_travel_pack_date(travel_pack);
         change_travel_pack_price(travel_pack);
         change_travel_pack_people_limit(travel_pack);
         change_travel_pack_num_sold(travel_pack);
