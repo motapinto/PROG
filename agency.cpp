@@ -87,18 +87,18 @@ bool Agency::removeClient(unsigned int nif) {
 
 bool Agency::changeClient(Client &client, unsigned int old_nif) {
   Client search_aux;
-  int pos = clientPos(nif);
+  int pos = clientPos(old_nif);
 
   if(pos == -1) return false;
 
-  for(size_t i = 0; i < client_list.size(); i++){
-    if(client_list.at(i).nif == old_nif) continue;
+  if(old_nif != client.nif)
+    for(size_t i = 0; i < client_list.size(); i++){
+      if(client_list.at(i).nif == old_nif) continue;
 
-    if(client_list.at(i).nif == client.nif)
-      return false;
-  }
+      if(client_list.at(i).nif == client.nif)
+        return false;
+    }
 
-    
   //remove old travel packs
   for(auto it = client_list.at(pos).packs_purchased.begin(); it != client_list.at(pos).packs_purchased.end(); it++){ //decrement number of sold packs
     for(size_t j = 0; j < tour_pack.size(); j++){
@@ -121,12 +121,10 @@ bool Agency::changeClient(Client &client, unsigned int old_nif) {
   } 
           
   //add new travel packs
-  client.money_spent = 0;
   for(auto it = client.packs_purchased.begin(); it != client.packs_purchased.end(); it++){ 
     for(size_t j = 0; j < tour_pack.size(); j++){
       if(tour_pack.at(j).id == *it){
         tour_pack.at(j).num_sold += client.family_num;
-        client.money_spent += tour_pack.at(j).price * client.family_num;
       }
     }
   }
@@ -138,6 +136,7 @@ bool Agency::changeClient(Client &client, unsigned int old_nif) {
 
   client_list.at(pos).packs_purchased = client.packs_purchased;
   client_list.at(pos).family_num = client.family_num;
+  client_list.at(pos).money_spent = sumSold(client.packs_purchased, client.family_num);
 
   return true;
 }
