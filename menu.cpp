@@ -11,7 +11,7 @@
 using namespace std;
 
 extern Agency agency;
-extern bool modified_agency, modified_client, modified_travel_pack;
+extern bool modified;
 
 void print_first_lines(const char *array){
   cout << "\n==============================\n";
@@ -46,7 +46,7 @@ int change_agency_name(Agency &agency_to_change){
   string str_aux;
   cout<< "Name: "; read_line(str_aux); if(str_aux.find(ESC_KEY) != string::npos) return 1; //if ESC returns to previous menu
   agency_to_change.setName(str_aux);
-  modified_agency = true;
+  modified = true;
   return 0;
 }
 
@@ -62,7 +62,7 @@ int change_agency_nif(Agency &agency_to_change){
   }
 
   agency_to_change.setNif(nif);
-  modified_agency = true;
+  modified = true;
   return 0;
 }
 
@@ -74,7 +74,7 @@ int change_agency_address(Agency &agency_to_change){
 
     try {
       agency_to_change.setAddress(str_aux);
-      modified_agency = true;
+      modified = true;
       break;
     }
 
@@ -100,7 +100,7 @@ int change_agency_url(Agency &agency_to_change){
   cout<< "URL: "; read_line(str_aux); if(str_aux.find(ESC_KEY) != string::npos) return 1; //if ESC goes back to menu
 
   agency_to_change.setUrl(str_aux);  
-  modified_agency = true;
+  modified = true;
   return 0;
 }
 
@@ -576,7 +576,7 @@ void add_client(){
     print_wait_menu();
   }
 
-  modified_client = true;
+  modified = true;
   print_wait_menu();
 }
 
@@ -613,7 +613,7 @@ void change_client_menu(Client &client){
         if(change_client_packs_bought(client)) break;
         if(change_client_family_num(client)) break;
         if(agency.changeClient(client, old_nif))
-          modified_client = true;
+          modified = true;
         else
           cerr << "Failled to modify client: some parameters were invalid!\n";
         break;
@@ -621,7 +621,7 @@ void change_client_menu(Client &client){
       case 2:
         if(change_client_name(client)) break;
         if(agency.changeClient(client, old_nif))
-          modified_client = true;
+          modified = true;
         else
           cerr << "Failled to modify client: name is invalid!\n";
         break;
@@ -629,7 +629,7 @@ void change_client_menu(Client &client){
       case 3:
         if(change_client_nif(client)) break;
         if(agency.changeClient(client, old_nif))
-          modified_client = true;
+          modified = true;
         else
           cerr << "Failled to modify client: NIF is invalid!\n";
         break;
@@ -637,7 +637,7 @@ void change_client_menu(Client &client){
       case 4:
         if(change_client_address(client)) break;
         if(agency.changeClient(client, old_nif))
-          modified_client = true;
+          modified = true;
         else
           cerr << "Failled to modify client: address is invalid!\n";
         break;
@@ -645,7 +645,7 @@ void change_client_menu(Client &client){
       case 5:
         if(change_client_packs_bought(client)) break;
         if(agency.changeClient(client, old_nif))
-          modified_client = true;
+          modified = true;
         else
           cerr << "Failled to modify client: packs are invalid!\n";
         break;
@@ -653,7 +653,7 @@ void change_client_menu(Client &client){
       case 6:
         if(change_client_family_num(client)) break;
         if(agency.changeClient(client, old_nif))
-          modified_client = true;
+          modified = true;
         else
           cerr << "Failled to modify client: family number invalid!\n";
         break;
@@ -783,7 +783,7 @@ void purchase_client_nif(){
   if(agency.searchClientNif((unsigned int)nif, client) == true){
     if(purchase_pack(client) == true){
       agency.changeClient(client, nif);
-      modified_client = true;
+      modified = true;
     } 
     print_wait_menu();
   }
@@ -802,7 +802,7 @@ void purchase_client_name(){
   else if(vec.size() == 0) cout<< "Client with name:" << name << " not found!\n";
   else if(purchase_pack(vec.at(0)) == true){
     agency.changeClient(vec.at(0), vec.at(0).getNif());
-    modified_client = true;
+    modified = true;
   } 
   
   print_wait_menu();
@@ -1350,7 +1350,7 @@ void add_travel_pack(){
   if(agency.addTravelPack(new_pack) == false){
     cerr << "Failled to add travel pack\n";
   }
-  else modified_travel_pack = true;
+  else modified = true;
 
   print_wait_menu();
 }
@@ -1465,7 +1465,7 @@ void travel_packs_menu(){
           
           case 1:
             change_travel_pack_menu(search_pack);
-            if(agency.changeTravelPack(search_pack, id)) modified_travel_pack = true;
+            if(agency.changeTravelPack(search_pack, id)) modified = true;
             else cout<< "Failled to modify travel pack!\n";
             break;
 
@@ -1488,10 +1488,10 @@ void print_most_visited_places(){
   string str_aux;
   int number_places = -1;
 
-  cout<< "Number of Places: "; read_line(str_aux); if(str_aux.find(ESC_KEY) != string::npos) return; //if ESC returns to previous menu
+  cout<< "Number of Most Visited Places: "; read_line(str_aux); if(str_aux.find(ESC_KEY) != string::npos) return; //if ESC returns to previous menu
   while(!string_to_int(str_aux, number_places) || number_places <= 0){
     cerr << "Invalid intput!\n\n";
-    cout<< "Number of Places: "; read_line(str_aux); if(str_aux.find(ESC_KEY) != string::npos) return; //if ESC returns to previous menu
+    cout<< "Number of Most Visited Places: "; read_line(str_aux); if(str_aux.find(ESC_KEY) != string::npos) return; //if ESC returns to previous menu
   }
 
   auto it = mp.rbegin();
@@ -1512,10 +1512,10 @@ void print_most_visited_places_clients(){
   vector <unsigned int> packs_bought;
   
 
-  cout << "Number of Places: "; read_line(str_aux); if(str_aux.find(ESC_KEY) != string::npos) return; //if ESC returns to previous menu
+  cout << "Number of Most Visited Places: "; read_line(str_aux); if(str_aux.find(ESC_KEY) != string::npos) return; //if ESC returns to previous menu
   while(!string_to_int(str_aux, number_places) || number_places <= 0){
     cerr << "Invalid intput!\n\n";
-    cout << "Number of Places: "; read_line(str_aux); if(str_aux.find(ESC_KEY) != string::npos) return; //if ESC returns to previous menu
+    cout << "Number of Most Visited Places: "; read_line(str_aux); if(str_aux.find(ESC_KEY) != string::npos) return; //if ESC returns to previous menu
   }
 
   for(size_t client_count = 0; client_count < clients.size(); client_count++){

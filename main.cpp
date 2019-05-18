@@ -7,7 +7,7 @@
 using namespace std;
 
 Agency agency;
-bool modified_agency = false, modified_client = false, modified_travel_pack = false;
+bool modified = false;
 
 int main() {
   string agency_file;
@@ -22,9 +22,11 @@ int main() {
 
   start_menu();
 
-  if(modified_agency == true) write_agency(agency, agency_file, client_file, packs_file);
-  if(modified_client == true) write_clients(agency, client_file);
-  if(modified_travel_pack == true) write_packs(agency, packs_file);
+  if(modified == true) {
+    write_agency(agency, agency_file, client_file, packs_file);
+    write_clients(agency, client_file);
+    write_packs(agency, packs_file);
+  }
 
   return 0;
 }

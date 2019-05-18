@@ -210,7 +210,7 @@ std::ostream& operator << (std::ostream& os, const TravelPack& pack){
 
 std::ofstream& operator << (std::ofstream& os, const TravelPack& pack){
   if(pack.available) os << pack.id << "\n";
-  else os << -pack.id << "\n";
+  else os << -(int)pack.id << "\n";
   os << pack.destination;
   if(pack.cities.size() != 0){
     os << " - ";
