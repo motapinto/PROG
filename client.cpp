@@ -27,25 +27,27 @@ void Client::setAddress(std::string address) {
 }
 
 void Client::setTourPacks(std::vector <unsigned int> packs) { 
-    for(unsigned int i = 0; i < packs.size(); i++) {
-      packs_purchased.insert(packs.at(i));
-    }
+  packs_purchased.clear();
+
+  for(unsigned int i = 0; i < packs.size(); i++) {
+    packs_purchased.insert(packs.at(i));
+  }
 }
 
 void Client::setTourPacks(std::string packs, char delim) { 
-    std::vector<unsigned int> packs_bought;
-    packs_purchased.clear();
+  std::vector<unsigned int> packs_bought;
+  packs_purchased.clear();
 
-    if(packs == "-"){
-        return;
-    } 
+  if(packs == "-"){
+      return;
+  } 
 
-    if(decompose(packs, packs_bought, delim) == true){
-      packs_purchased.insert(packs_bought.begin(), packs_bought.end());
-    }
-    else {
-      throw ClientException(NULL);
-    }
+  if(decompose(packs, packs_bought, delim) == true){
+    packs_purchased.insert(packs_bought.begin(), packs_bought.end());
+  }
+  else {
+    throw ClientException(NULL);
+  }
 
 }
 

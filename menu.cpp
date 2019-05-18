@@ -521,10 +521,10 @@ int change_client_nif(Client &client){
 
   cout<< "NIF: "; read_line(str_aux); if(str_aux.size() == 0) return 1;
 
-    while(!string_to_int(str_aux, nif) || nif < 0 || nif > MAX_NIF){
-      cerr << "Invalid intput!\n\n";
-      cout<< "NIF: "; read_line(str_aux); if(str_aux.size() == 0) return 1;
-    }
+  while(!string_to_int(str_aux, nif) || nif < 0 || nif > MAX_NIF){
+    cerr << "Invalid intput!\n\n";
+    cout<< "NIF: "; read_line(str_aux); if(str_aux.size() == 0) return 1;
+  }
 
   client.setNif(nif);
   return 0;
@@ -553,15 +553,9 @@ void add_client(){
   if(change_client_family_num(new_client)) return;
 
 
-  try {
-    agency.addClient(new_client);
-  }
-
-  catch(string) {
+  if(!agency.addClient(new_client)){
     cerr << "Failled to add client: some parameters were wrong\n";
-  }
-  catch(std::logic_error) {
-    cerr << "Failled to add client: some parameters were wrong\n";
+    print_wait_menu();
   }
 
   modified_client = true;

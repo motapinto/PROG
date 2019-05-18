@@ -63,6 +63,7 @@ bool Agency::addClient(Client &client) {
     }
   }
 
+  client.money_spent = sumSold(client.packs_purchased, client.family_num);
   client_list.push_back(client);
 
   return true;
@@ -465,10 +466,12 @@ bool Agency::verifyCities(const std::vector<std::string> cities){
 bool Agency::verifyPacks(const std::vector<unsigned int> &packs, const unsigned int family_num){
   TravelPack aux;
 
+  if(packs.size() == 0) return true;
+
   for(size_t i = 0; i < packs.size(); i++){
     for(size_t j = 0; j < tour_pack.size(); j++){
       if(tour_pack.at(j).id == packs.at(i)){
-        if( !((tour_pack.at(j).num_sold + family_num) > tour_pack.at(j).people_limit) ){
+        if( (tour_pack.at(j).num_sold + family_num) > tour_pack.at(j).people_limit ){
           return false;
         }
       }
@@ -511,10 +514,12 @@ bool Agency::verifyClientPacks(const std::vector<unsigned int> &packs){
 bool Agency::verifyPacks(const std::set<unsigned int> &packs, const unsigned int family_num){
   TravelPack aux;
 
+  if(packs.size() == 0) return true;
+
   for(auto it = packs.begin(); it != packs.end(); it++){
     for(size_t j = 0; j < tour_pack.size(); j++){
       if(tour_pack.at(j).id == *it){
-        if( !((tour_pack.at(j).num_sold + family_num) > tour_pack.at(j).people_limit) ){
+        if( (tour_pack.at(j).num_sold + family_num) > tour_pack.at(j).people_limit ){
           return false;
         }
       }
