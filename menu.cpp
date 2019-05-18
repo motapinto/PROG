@@ -44,7 +44,7 @@ void print_date_struct(){
 
 int change_agency_name(Agency &agency_to_change){
   string str_aux;
-  cout<< "Name: "; read_line(str_aux); if(str_aux.find(ESC_KEY) != string::npos) return 1; 
+  cout<< "Name: "; read_line(str_aux); if(str_aux.find(ESC_KEY) != string::npos) return 1; //if ESC returns to previous menu
   agency_to_change.setName(str_aux);
   modified_agency = true;
   return 0;
@@ -54,11 +54,11 @@ int change_agency_nif(Agency &agency_to_change){
   int nif = -1;
   string str_aux;
 
-  cout<< "NIF: "; read_line(str_aux); if(str_aux.find(ESC_KEY) != string::npos) return 1;
+  cout<< "NIF: "; read_line(str_aux); if(str_aux.find(ESC_KEY) != string::npos) return 1; //if ESC returns to previous menu
   //check if string is valid
   while(!string_to_int(str_aux, nif) || nif < 0 || nif > MAX_NIF){
     cerr << "Invalid intput!\n\n";
-    cout<< "NIF: "; read_line(str_aux); if(str_aux.find(ESC_KEY) != string::npos) return 1;
+    cout<< "NIF: "; read_line(str_aux); if(str_aux.find(ESC_KEY) != string::npos) return 1; //if ESC returns to previous menu
   }
 
   agency_to_change.setNif(nif);
@@ -68,7 +68,7 @@ int change_agency_nif(Agency &agency_to_change){
 
 int change_agency_address(Agency &agency_to_change){
   string str_aux;
-  cout<< "Address: "; read_line(str_aux); if(str_aux.find(ESC_KEY) != string::npos) return 1;
+  cout<< "Address: "; read_line(str_aux); if(str_aux.find(ESC_KEY) != string::npos) return 1; //if ESC returns to previous menu
 
   while(1) {
 
@@ -81,13 +81,13 @@ int change_agency_address(Agency &agency_to_change){
     catch(string) {
       cout<< "Invalid input!\nAddress must be typed in the following way: \n";
       print_address_struct();
-      cout<< "Address: "; read_line(str_aux); if(str_aux.find(ESC_KEY) != string::npos) return 1;
+      cout<< "Address: "; read_line(str_aux); if(str_aux.find(ESC_KEY) != string::npos) return 1; //if ESC returns to previous menu
     }
 
     catch(std::logic_error) {
       cout<< "Invalid input!\nAddress must be typed in the following way: \n";
       print_address_struct();
-      cout<< "Address: "; read_line(str_aux); if(str_aux.find(ESC_KEY) != string::npos) return 1;
+      cout<< "Address: "; read_line(str_aux); if(str_aux.find(ESC_KEY) != string::npos) return 1; //if ESC returns to previous menu
     }
   }
 
