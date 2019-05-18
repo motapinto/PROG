@@ -30,8 +30,9 @@ bool Agency::addClient(std::string name, std::string address, std::vector<unsign
   if(clientPos(nif) != -1)
     return false;
     
-  if(verifyPacks(tour_packs_bought, family_num) == false) 
+  if(verifyPacks(tour_packs_bought, family_num) == false) {
     return false;
+  } 
 
   for(size_t i = 0; i < tour_packs_bought.size(); i++){ //increment number of sold packs
     for(size_t j = 0; j < tour_pack.size(); j++){
@@ -436,7 +437,7 @@ bool Agency::verifyPacks(const std::vector<unsigned int> &packs, const unsigned 
   for(size_t i = 0; i < packs.size(); i++){
     for(size_t j = 0; j < tour_pack.size(); j++){
       if(tour_pack.at(j).id == packs.at(i)){
-        if( !((tour_pack.at(j).num_sold + family_num) <= tour_pack.at(j).people_limit) ){
+        if( !((tour_pack.at(j).num_sold + family_num) > tour_pack.at(j).people_limit) ){
           return false;
         }
       }
@@ -514,6 +515,7 @@ std::ostream& operator << (std::ostream& os, const Agency &agency){
 
   return os;
 } 
+
 std::ofstream& operator << (std::ofstream& os, const Agency &agency){
   os << agency.name << "\n";
   os << agency.nif << "\n";
