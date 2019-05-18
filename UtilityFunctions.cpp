@@ -70,15 +70,14 @@ bool string_to_int(std::string s, int &value){
 void read_line(std::string &s){
   std::cin.clear();
   fflush(stdin);
-  getline(std::cin, s);
 
-  if(std::cin.eof()) {
-    s.resize(0);
-    return;
+  while(s.size() == 0) {
+    while(!getline(std::cin, s)) {
+      std::cin.clear();
+      std::cin.ignore();
+      s.resize(0);
+    }
   }
-
-  while(s.size() == 0)
-    getline(std::cin, s);  
 }
 
 int scan_single_int(){
@@ -86,7 +85,7 @@ int scan_single_int(){
   std::string str_aux;
 
   std::cout << "Please type in a number: ";
-  read_line(str_aux);  
+  read_line(str_aux);  std::cout << std::endl;
   while(string_to_int(str_aux, scan) == false || scan < 0 || scan > 9){
     std::cerr << "Invalid intput!\n\n";
     std::cout << "Please type in a number: ";
