@@ -1384,12 +1384,6 @@ void change_travel_pack_menu(TravelPack &travel_pack){
 
       case 1:
         change_travel_pack_all(travel_pack);
-        if(change_travel_pack_destination(travel_pack)) break;
-        if(change_travel_pack_cities(travel_pack)) break;
-        if(change_travel_pack_dates(travel_pack)) break;
-        if(change_travel_pack_price(travel_pack)) break;
-        if(change_travel_pack_people_limit(travel_pack)) break;
-        if(change_travel_pack_num_sold(travel_pack)) break;
         break;
 
       case 2:
