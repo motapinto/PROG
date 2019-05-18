@@ -183,6 +183,7 @@ bool Agency::addTravelPack(std::string init_date, std::string final_date, std::s
   TravelPack pack(init_date, final_date, destination, cities, available, id, price, people_limit, num_sold);
   tour_pack.push_back(pack);
 
+  std::sort(this->tour_pack.begin(), this->tour_pack.end());
   return true;
 }
 
@@ -196,6 +197,7 @@ bool Agency::addTravelPack(TravelPack &pack){
 
   tour_pack.push_back(pack);
 
+  std::sort(this->tour_pack.begin(), this->tour_pack.end());
   return true;
 }
 

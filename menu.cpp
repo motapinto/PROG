@@ -1320,7 +1320,8 @@ int change_travel_pack_all(TravelPack &travel_pack){
   if(change_travel_pack_dates(travel_pack)) return 1;
   if(change_travel_pack_price(travel_pack)) return 1;
   if(change_travel_pack_people_limit(travel_pack)) return 1;
-  return change_travel_pack_num_sold(travel_pack);
+  if(change_travel_pack_num_sold(travel_pack)) return 1;
+  return change_travel_pack_available(travel_pack);
 }
 
 void add_travel_pack(){
@@ -1601,6 +1602,7 @@ void statistics_menu(){
 void print_help(){//writes the instructions to operate the menus
   cout << "Use keys from 1 to 0 to move through the menus.\n";
   cout << "At any point during any input you can just press ESC followed by enter to go to previous menu.\n";
+  cout << "When view all packs or all clients, only 5 will be printed at a time!\n";
   cout << "Address must follow format: "; print_address_struct();
   cout << "Date must follow format: "; print_date_struct();
 
