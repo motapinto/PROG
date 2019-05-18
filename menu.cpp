@@ -55,6 +55,7 @@ int change_agency_nif(Agency &agency_to_change){
   string str_aux;
 
   cout<< "NIF: "; read_line(str_aux); if(str_aux.find(ESC_KEY) != string::npos) return 1;
+  //check if string is valid
   while(!string_to_int(str_aux, nif) || nif < 0 || nif > MAX_NIF){
     cerr << "Invalid intput!\n\n";
     cout<< "NIF: "; read_line(str_aux); if(str_aux.find(ESC_KEY) != string::npos) return 1;
@@ -95,7 +96,7 @@ int change_agency_address(Agency &agency_to_change){
 int change_agency_url(Agency &agency_to_change){
   string str_aux;
 
-  cout<< "URL: "; read_line(str_aux); if(str_aux.find(ESC_KEY) != string::npos) return 1;
+  cout<< "URL: "; read_line(str_aux); if(str_aux.find(ESC_KEY) != string::npos) return 1; //if ESC goes back to menu
 
   agency_to_change.setUrl(str_aux);  
   modified_agency = true;
@@ -129,7 +130,7 @@ void change_agency_menu(){
       cerr << "Invalid intput!\n\n";
       answer = scan_single_int(); if(answer == INT_MAX) return;
     }
-    
+    //menu options
     switch (answer)
     {
       case 0:
@@ -195,7 +196,7 @@ void agency_menu(){
       cerr << "Invalid intput!\n\n";
       answer = scan_single_int(); if(answer == INT_MAX) return;
     }
-    
+    //menu options
     switch (answer)
     {
       case 0:
@@ -231,9 +232,9 @@ int search_client_name(Client &client){
 
   vec = agency.searchClientName(name);
   
-  if(vec.size() == 1) client = vec.at(0);
-  else if(vec.size() > 1) return 1;
-  else return -1;
+  if(vec.size() == 1) client = vec.at(0); //found client 
+  else if(vec.size() > 1) return 1; 
+  else return -1; 
 
   return 0;
 }
@@ -244,6 +245,8 @@ int search_client_nif(Client &client){
 
   cout<< "NIF: ";
   read_line(str_aux);
+
+  //waits for valid input
   while(!string_to_int(str_aux, nif) || nif < 0 || nif > MAX_NIF){
     cerr << "Invalid intput!\n\n";
     cout<< "NIF: ";
@@ -252,7 +255,7 @@ int search_client_nif(Client &client){
 
 
 
-  if(!agency.searchClientNif(nif, client)) return -1;
+  if(!agency.searchClientNif(nif, client)) return -1; //didn't find client
 
   return 0;
 }
@@ -285,7 +288,7 @@ void print_client_selected(Client &client){
       cerr << "Invalid intput!\n\n";
       answer = scan_single_int(); if(answer == INT_MAX) return;
     }
-    
+    //menu options
     switch (answer)
     {
       case 0:
@@ -327,7 +330,7 @@ void print_single_client(){
       cerr << "Invalid intput!\n\n";
       answer = scan_single_int(); if(answer == INT_MAX) return;
     }
-    
+    //menu options
     switch (answer)
     {
       case 0:
@@ -443,7 +446,7 @@ void print_clients_menu(){
       cerr << "Invalid intput!\n\n";
       answer = scan_single_int(); if(answer == INT_MAX) return;
     }
-    
+    //menu options
     switch (answer)
     {
       case 0:
@@ -466,7 +469,7 @@ void print_clients_menu(){
 int change_client_name(Client &client){
   string str_aux;
   cout<< "Name: "; 
-  read_line(str_aux); if(str_aux.find(ESC_KEY) != string::npos) return 1; 
+  read_line(str_aux); if(str_aux.find(ESC_KEY) != string::npos) return 1; //if ESC returns to previous menu
 
   client.setName(str_aux);
   return 0;
@@ -474,7 +477,7 @@ int change_client_name(Client &client){
 
 int change_client_address(Client &client){
   string str_aux;
-  cout<< "Address: "; read_line(str_aux); if(str_aux.find(ESC_KEY) != string::npos) return 1;
+  cout<< "Address: "; read_line(str_aux); if(str_aux.find(ESC_KEY) != string::npos) return 1; //if ESC returns to previous menu
 
   while(1){
 
@@ -502,7 +505,7 @@ int change_client_address(Client &client){
 int change_client_packs_bought(Client &client){
   string str_aux;
 
-  cout<< "Tour packs bought (Separated by ; or - for none): "; read_line(str_aux); if(str_aux.find(ESC_KEY) != string::npos) return 1;
+  cout<< "Tour packs bought (Separated by ; or - for none): "; read_line(str_aux); if(str_aux.find(ESC_KEY) != string::npos) return 1; //if ESC returns to previous menu
 
   while(1) {
       try {
@@ -533,11 +536,11 @@ int change_client_nif(Client &client){
   string str_aux;
   Client search_aux;
 
-  cout<< "NIF: "; read_line(str_aux); if(str_aux.find(ESC_KEY) != string::npos) return 1;
+  cout<< "NIF: "; read_line(str_aux); if(str_aux.find(ESC_KEY) != string::npos) return 1; //if ESC returns to previous menu
 
   while(!string_to_int(str_aux, nif) || nif < 0 || nif > MAX_NIF){
     cerr << "Invalid intput!\n\n";
-    cout<< "NIF: "; read_line(str_aux); if(str_aux.find(ESC_KEY) != string::npos) return 1;
+    cout<< "NIF: "; read_line(str_aux); if(str_aux.find(ESC_KEY) != string::npos) return 1; //if ESC returns to previous menu
   }
 
   client.setNif(nif);
@@ -548,10 +551,10 @@ int change_client_family_num(Client &client){
   int family_num = -1;
   string str_aux;
 
-  cout<< "Family Number: "; read_line(str_aux); if(str_aux.find(ESC_KEY) != string::npos) return 1;
+  cout<< "Family Number: "; read_line(str_aux); if(str_aux.find(ESC_KEY) != string::npos) return 1; //if ESC returns to previous menu
   while(string_to_int(str_aux, family_num) == false || family_num <= 0){
     cerr << "Invalid intput!\n\n";
-    cout<< "Family Number: "; read_line(str_aux); if(str_aux.find(ESC_KEY) != string::npos) return 1;
+    cout<< "Family Number: "; read_line(str_aux); if(str_aux.find(ESC_KEY) != string::npos) return 1; //if ESC returns to previous menu
   }
 
   client.setFamilyNum(family_num);
@@ -596,7 +599,7 @@ void change_client_menu(Client &client){
       cerr << "Invalid intput!\n\n";
       answer = scan_single_int(); if(answer == INT_MAX) return;
     }
-    
+    //menu options
     switch (answer)
     {
       case 0:
@@ -677,7 +680,7 @@ void change_clients_menu(){
       cerr << "Invalid intput!\n\n";
       answer = scan_single_int(); if(answer == INT_MAX) return;
     }
-    
+    //menu options
     switch (answer)
     {
       case 0:
@@ -742,11 +745,12 @@ bool purchase_pack(Client &client){
   if(!agency.searchTravelPackId(id, pack)) cout<< "Travel Pack with ID: " << id << " not found!\n";
   else {
     packs_bought = client.getTourPacksBought();
+    //check if pack is available
     if(!pack.getAvailability()) {
       cout<< "This pack is not available for purchase!\n";
       return false;
     }
-    
+    //check if pack has tickets to sell
     if( (pack.getPeopleLimit() - (pack.getNumberSold() + client.getFamilyNum())) <= 0 ) {
       cout<< "This pack has no more tickets available for purchase!\n";
       return false;
@@ -768,14 +772,12 @@ void purchase_client_nif(){
   Client client;
 
   cout<< "NIF: ";
-  read_line(str_aux); if(str_aux.find(ESC_KEY) != string::npos) return;
+  read_line(str_aux); if(str_aux.find(ESC_KEY) != string::npos) return; //if ESC returns to previous menu
   while(!string_to_int(str_aux, nif) || nif < 0 || nif > MAX_NIF){
     cerr << "Invalid intput!\n\n";
     cout<< "NIF: ";
-    read_line(str_aux); if(str_aux.find(ESC_KEY) != string::npos) return;
+    read_line(str_aux); if(str_aux.find(ESC_KEY) != string::npos) return;//if ESC returns to previous menu
   }
-
-  
 
   if(agency.searchClientNif((unsigned int)nif, client) == true){
     if(purchase_pack(client) == true){
@@ -820,7 +822,7 @@ void purchase_client_menu(){
       cerr << "Invalid intput!\n\n";
       answer = scan_single_int(); if(answer == INT_MAX) return;
     }
-    
+    //menu options
     switch (answer)
     {
       case 0:
@@ -858,7 +860,7 @@ void clients_menu(){
       cerr << "Invalid intput!\n\n";
       answer = scan_single_int(); if(answer == INT_MAX) return;
     }
-    
+    //menu options
     switch (answer)
     {
       case 0:
@@ -897,11 +899,11 @@ int search_travel_pack(int &id, TravelPack &pack){
   string str_aux;
 
   cout<< "Travel Pack ID: ";
-  read_line(str_aux); if(str_aux.find(ESC_KEY) != string::npos) return 2; 
+  read_line(str_aux); if(str_aux.find(ESC_KEY) != string::npos) return 2; //if ESC returns to previous menu
   while(string_to_int(str_aux, id) == false || id < 0){
     cerr << "Invalid intput!\n\n";
     cout<< "Travel Pack ID: ";
-    read_line(str_aux); if(str_aux.find(ESC_KEY) != string::npos) return 2; 
+    read_line(str_aux); if(str_aux.find(ESC_KEY) != string::npos) return 2; //if ESC returns to previous menu
   }
 
   return agency.searchTravelPackId(id, pack);
@@ -912,9 +914,9 @@ void print_all_travel_pack(){
   int packs_counter = 0;
   
   for(size_t i = 0; i < vec.size(); i++, packs_counter++){
-    if(packs_counter == 5){
+    if(packs_counter == 5){ //only prints 5 packs at a time
       print_wait_menu();
-      packs_counter = 0;
+      packs_counter = 0; //reset counter
     }
     cout << vec.at(i) << endl;
   }
@@ -1061,7 +1063,7 @@ void print_travel_pack_menu(){
       cerr << "Invalid intput!\n\n";
       answer = scan_single_int(); if(answer == INT_MAX) return;
     }
-    
+    //menu options
     switch (answer)
     {
       case 0:
@@ -1112,7 +1114,7 @@ int change_travel_pack_dates(TravelPack &travel_pack){
 
   do{
     do {
-      cout<< "Initial Date: "; read_line(str_aux); if(str_aux.find(ESC_KEY) != string::npos) return 1; 
+      cout<< "Initial Date: "; read_line(str_aux); if(str_aux.find(ESC_KEY) != string::npos) return 1; //if ESC returns to previous menu
 
       try {
         init_date.setDate(str_aux);
@@ -1128,7 +1130,7 @@ int change_travel_pack_dates(TravelPack &travel_pack){
 
     not_valid = true;
     do {
-      cout<< "Final Date: "; read_line(str_aux); if(str_aux.find(ESC_KEY) != string::npos) return 1; 
+      cout<< "Final Date: "; read_line(str_aux); if(str_aux.find(ESC_KEY) != string::npos) return 1; //if ESC returns to previous menu
 
       try {
         final_date.setDate(str_aux);
@@ -1163,7 +1165,7 @@ int change_travel_pack_init_date(TravelPack &travel_pack){
   Date date_aux;
 
   do {
-    cout<< "Initial Date: "; read_line(str_aux); if(str_aux.find(ESC_KEY) != string::npos) return 1; 
+    cout<< "Initial Date: "; read_line(str_aux); if(str_aux.find(ESC_KEY) != string::npos) return 1; //if ESC returns to previous menu
 
     try {
       travel_pack.setInitDate(str_aux);
@@ -1184,7 +1186,7 @@ int change_travel_pack_final_date(TravelPack &travel_pack){
   Date date_aux;
 
   do {
-    cout<< "Final Date: "; read_line(str_aux); if(str_aux.find(ESC_KEY) != string::npos) return 1; 
+    cout<< "Final Date: "; read_line(str_aux); if(str_aux.find(ESC_KEY) != string::npos) return 1; //if ESC returns to previous menu
 
     try {
       travel_pack.setFinalDate(str_aux);
@@ -1202,7 +1204,7 @@ int change_travel_pack_final_date(TravelPack &travel_pack){
 
 int change_travel_pack_destination(TravelPack &travel_pack){
   string str_aux;
-  cout<< "Destination: "; read_line(str_aux); if(str_aux.find(ESC_KEY) != string::npos) return 1;
+  cout<< "Destination: "; read_line(str_aux); if(str_aux.find(ESC_KEY) != string::npos) return 1; //if ESC returns to previous menu
 
   travel_pack.setDestination(str_aux);
   return 0;
@@ -1212,10 +1214,10 @@ int change_travel_pack_cities(TravelPack &travel_pack){
   string str_aux;
   vector<string> cities;
 
-  cout<< "Cities (Separated by , or - for none): "; read_line(str_aux); if(str_aux.find(ESC_KEY) != string::npos) return 1;
+  cout<< "Cities (Separated by , or - for none): "; read_line(str_aux); if(str_aux.find(ESC_KEY) != string::npos) return 1; //if ESC returns to previous menu
 
   if(str_aux.compare("-") == 0) cities.resize(0);
-  else decompose(str_aux, cities, ',');
+  else decompose(str_aux, cities, ','); //divides string at each ','
 
   travel_pack.setCities(cities);
   return 0;
@@ -1224,10 +1226,10 @@ int change_travel_pack_cities(TravelPack &travel_pack){
 int change_travel_pack_price(TravelPack &travel_pack){
   int price = -1;
   string str_aux;
-  cout<< "Price: "; read_line(str_aux); if(str_aux.find(ESC_KEY) != string::npos) return 1;
+  cout<< "Price: "; read_line(str_aux); if(str_aux.find(ESC_KEY) != string::npos) return 1; //if ESC returns to previous menu
   while(string_to_int(str_aux, price) == false || price < 0){
     cerr << "Invalid intput!\n\n";
-    cout<< "Price: "; read_line(str_aux); if(str_aux.find(ESC_KEY) != string::npos) return 1;
+    cout<< "Price: "; read_line(str_aux); if(str_aux.find(ESC_KEY) != string::npos) return 1; //if ESC returns to previous menu
   }
 
   travel_pack.setPrice(price);
@@ -1241,23 +1243,23 @@ int change_travel_pack_people_limit_and_num_sold(TravelPack &travel_pack){
   string str_aux;
 
   do{
-    cout<< "Number of tickets available: "; read_line(str_aux); if(str_aux.find(ESC_KEY) != string::npos) return 1;
+    cout<< "Number of tickets available: "; read_line(str_aux); if(str_aux.find(ESC_KEY) != string::npos) return 1; //if ESC returns to previous menu
     while(string_to_int(str_aux, people_limit) == false || people_limit < 0){
       cerr << "Invalid intput!\n\n";
-      cout<< "Number of tickets available: "; read_line(str_aux); if(str_aux.find(ESC_KEY) != string::npos) return 1;
+      cout<< "Number of tickets available: "; read_line(str_aux); if(str_aux.find(ESC_KEY) != string::npos) return 1; //if ESC returns to previous menu
     }
 
-    cout<< "Number of tickets sold: "; read_line(str_aux); if(str_aux.find(ESC_KEY) != string::npos) return 1;
+    cout<< "Number of tickets sold: "; read_line(str_aux); if(str_aux.find(ESC_KEY) != string::npos) return 1; //if ESC returns to previous menu
     while(!string_to_int(str_aux, num_sold) || num_sold < 0){
       cerr << "Invalid intput!\n\n";
-      cout<< "Number of tickets sold: "; read_line(str_aux); if(str_aux.find(ESC_KEY) != string::npos) return 1;
+      cout<< "Number of tickets sold: "; read_line(str_aux); if(str_aux.find(ESC_KEY) != string::npos) return 1; //if ESC returns to previous menu
     }
     if( (not_valid = num_sold > people_limit) )
       cerr << "Number of tickets available must be higher then tickets sold!\n";
 
   }while(not_valid);
 
-  if(travel_pack.getNumberSold() > people_limit){
+  if(travel_pack.getNumberSold() > (unsigned int)people_limit){
     travel_pack.setNumberSold(num_sold);
     travel_pack.setPeopleLimit(people_limit);
   }
@@ -1272,10 +1274,10 @@ int change_travel_pack_people_limit_and_num_sold(TravelPack &travel_pack){
 int change_travel_pack_people_limit(TravelPack &travel_pack){
   int people_limit = -1;
   string str_aux;
-  cout<< "Number of tickets available: "; read_line(str_aux); if(str_aux.find(ESC_KEY) != string::npos) return 1;
+  cout<< "Number of tickets available: "; read_line(str_aux); if(str_aux.find(ESC_KEY) != string::npos) return 1; //if ESC returns to previous menu
   while(string_to_int(str_aux, people_limit) == false || people_limit < 0){
     cerr << "Invalid intput!\n\n";
-    cout<< "Number of tickets available: "; read_line(str_aux); if(str_aux.find(ESC_KEY) != string::npos) return 1;
+    cout<< "Number of tickets available: "; read_line(str_aux); if(str_aux.find(ESC_KEY) != string::npos) return 1; //if ESC returns to previous menu
   }
 
   travel_pack.setPeopleLimit(people_limit);
@@ -1286,10 +1288,10 @@ int change_travel_pack_num_sold(TravelPack &travel_pack){
   int num_sold = -1;
   string str_aux;
 
-  cout<< "Number of tickets sold: "; read_line(str_aux); if(str_aux.find(ESC_KEY) != string::npos) return 1;
+  cout<< "Number of tickets sold: "; read_line(str_aux); if(str_aux.find(ESC_KEY) != string::npos) return 1; //if ESC returns to previous menu
   while(!string_to_int(str_aux, num_sold) || num_sold < 0){
     cerr << "Invalid intput!\n\n";
-    cout<< "Number of tickets sold: "; read_line(str_aux); if(str_aux.find(ESC_KEY) != string::npos) return 1;
+    cout<< "Number of tickets sold: "; read_line(str_aux); if(str_aux.find(ESC_KEY) != string::npos) return 1; //if ESC returns to previous menu
   }
 
   travel_pack.setNumberSold(num_sold);
@@ -1298,10 +1300,10 @@ int change_travel_pack_num_sold(TravelPack &travel_pack){
 
 int change_travel_pack_available(TravelPack &travel_pack){
   string str_aux;
-  cout<< "Available(Yes/No): "; read_line(str_aux); if(str_aux.find(ESC_KEY) != string::npos) return 1; 
+  cout<< "Available(Yes/No): "; read_line(str_aux); if(str_aux.find(ESC_KEY) != string::npos) return 1; //if ESC returns to previous menu
   while(str_aux.compare("Yes") != 0 && str_aux.compare("No") != 0){
     cout<< "Invalid Input\n";
-    cout<< "Available(Yes/No): "; read_line(str_aux); if(str_aux.find(ESC_KEY) != string::npos) return 1;
+    cout<< "Available(Yes/No): "; read_line(str_aux); if(str_aux.find(ESC_KEY) != string::npos) return 1; //if ESC returns to previous menu
   }
 
   if(str_aux.compare("Yes") == 0) travel_pack.setAvailability(true);
@@ -1325,11 +1327,11 @@ void add_travel_pack(){
   string str_aux;
 
   cout<< "Travel Pack ID: ";
-  read_line(str_aux); if(str_aux.find(ESC_KEY) != string::npos) return;
+  read_line(str_aux); if(str_aux.find(ESC_KEY) != string::npos) return; //if ESC returns to previous menu
   while(string_to_int(str_aux, id) == false || id < 0){
     cerr << "Invalid intput!\n\n";
     cout<< "Travel Pack ID: ";
-    read_line(str_aux); if(str_aux.find(ESC_KEY) != string::npos) return;
+    read_line(str_aux); if(str_aux.find(ESC_KEY) != string::npos) return; //if ESC returns to previous menu
   }
   new_pack.setPackId(id);
 
@@ -1371,7 +1373,7 @@ void change_travel_pack_menu(TravelPack &travel_pack){
       cerr << "Invalid intput!\n\n";
       answer = scan_single_int(); if(answer == INT_MAX) return;
     }
-    
+    //menu options
     switch (answer)
     {
       case 0:
@@ -1443,7 +1445,7 @@ void travel_packs_menu(){
       cerr << "Invalid intput!\n\n";
       answer = scan_single_int(); if(answer == INT_MAX) return;
     }
-    
+    //menu options
     switch (answer)
     {
       case 0:
@@ -1488,10 +1490,10 @@ void print_most_visited_places(){
   string str_aux;
   int number_places = -1;
 
-  cout<< "Number of Places: "; read_line(str_aux); if(str_aux.find(ESC_KEY) != string::npos) return;
+  cout<< "Number of Places: "; read_line(str_aux); if(str_aux.find(ESC_KEY) != string::npos) return; //if ESC returns to previous menu
   while(!string_to_int(str_aux, number_places) || number_places <= 0){
     cerr << "Invalid intput!\n\n";
-    cout<< "Number of Places: "; read_line(str_aux); if(str_aux.find(ESC_KEY) != string::npos) return;
+    cout<< "Number of Places: "; read_line(str_aux); if(str_aux.find(ESC_KEY) != string::npos) return; //if ESC returns to previous menu
   }
 
   auto it = mp.rbegin();
@@ -1512,10 +1514,10 @@ void print_most_visited_places_clients(){
   vector <unsigned int> packs_bought;
   
 
-  cout << "Number of Places: "; read_line(str_aux); if(str_aux.find(ESC_KEY) != string::npos) return;
+  cout << "Number of Places: "; read_line(str_aux); if(str_aux.find(ESC_KEY) != string::npos) return; //if ESC returns to previous menu
   while(!string_to_int(str_aux, number_places) || number_places <= 0){
     cerr << "Invalid intput!\n\n";
-    cout << "Number of Places: "; read_line(str_aux); if(str_aux.find(ESC_KEY) != string::npos) return;
+    cout << "Number of Places: "; read_line(str_aux); if(str_aux.find(ESC_KEY) != string::npos) return; //if ESC returns to previous menu
   }
 
   for(size_t client_count = 0; client_count < clients.size(); client_count++){
@@ -1577,7 +1579,7 @@ void statistics_menu(){
       cerr << "Invalid intput!\n\n";
       answer = scan_single_int(); if(answer == INT_MAX) return;
     }
-    
+    //menu options
     switch (answer)
     {
       case 0:
@@ -1599,7 +1601,7 @@ void statistics_menu(){
 
 //End Statistics
 
-void print_help(){
+void print_help(){//writes the instructions to operate the menus
   cout << "Use keys from 1 to 0 to move through the menus.\n";
   cout << "At any point during any input you can just press ESC followed by enter to go to previous menu.\n";
   cout << "Address must follow format: "; print_address_struct();
@@ -1626,7 +1628,7 @@ void start_menu(){
       cerr << "Invalid intput!\n\n";
       answer = scan_single_int(); if(answer == INT_MAX) return;
     }
-    
+    //menu options
     switch (answer){
       case 0:
         return;
