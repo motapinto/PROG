@@ -9,15 +9,21 @@ Address::Address(std::string address){
 }
 
 Address::Address(std::string street_name, std::string postal_code, std::string city, std::string floor_num, unsigned int door_num){
-    this->street_name = street_name;
-    this->postal_code = postal_code;
-    this->city = city;
-    this->floor_num = floor_num;
-    this->door_num = door_num;
+    std::string address;
+
+    address = this->street_name + " / " + std::to_string(this->door_num) + " / " + this->floor_num  
+    + " / " + this->postal_code + " / " +  this->city;
+
+    checkAddress(address, this->street_name, this->postal_code, this->city, this->floor_num, this->door_num);
 }
 
-void Address::setAddress(std::string address){
-    checkAddress(address, this->street_name, this->postal_code, this->city, this->floor_num, this->door_num);
+std::string Address::getAddress(void) const{
+  std::string address;
+
+  address = this->street_name + " / " + std::to_string(this->door_num) + " / " + this->floor_num  
+  + " / " + this->postal_code + " / " +  this->city;
+
+  return address; 
 }
 
 std::string Address::getStreet(void) const{ 
@@ -40,13 +46,8 @@ unsigned int Address::getDoorNum(void) const{
     return this->door_num; 
 }
 
-std::string Address::getAddress(void) const{
-  std::string address;
-
-  address = this->street_name + " / " + std::to_string(this->door_num) + " / " + this->floor_num  
-  + " / " + this->postal_code + " / " +  this->city;
-
-  return address; 
+void Address::setAddress(std::string address){
+    checkAddress(address, this->street_name, this->postal_code, this->city, this->floor_num, this->door_num);
 }
 
 void Address::setStreet(std::string street){ 
@@ -54,7 +55,12 @@ void Address::setStreet(std::string street){
 }
 
 void Address::setPostalCode(std::string postal_code){ 
-    this->postal_code = postal_code; 
+    std::string address;
+
+    address = this->street_name + " / " + std::to_string(this->door_num) + " / " + this->floor_num  
+    + " / " + postal_code + " / " +  this->city;
+
+    checkAddress(address, this->street_name, postal_code, this->city, this->floor_num, this->door_num);
 }
 
 void Address::setCity(std::string city){ 
