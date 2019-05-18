@@ -516,22 +516,15 @@ int change_client_packs_bought(Client &client){
 
 int change_client_nif(Client &client){
   int nif = -1;
-  bool not_valid;
   string str_aux;
   Client search_aux;
 
   cout<< "NIF: "; read_line(str_aux); if(str_aux.size() == 0) return 1;
 
-  do{
     while(!string_to_int(str_aux, nif) || nif < 0 || nif > MAX_NIF){
       cerr << "Invalid intput!\n\n";
       cout<< "NIF: "; read_line(str_aux); if(str_aux.size() == 0) return 1;
     }
-
-    if((not_valid = agency.searchClientNif((unsigned int)nif, search_aux)) == true){
-      cerr << "Client with NIF: " << nif << " already exists!\n";
-    }
-  }while(not_valid);
 
   client.setNif(nif);
   return 0;
