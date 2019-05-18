@@ -27,6 +27,7 @@ int read_agency(Agency &agency, string agency_file_name, string &clients_file_na
     return 1;
   }
 
+  //if file is not at the end reads client file name
   if(!agency_file.eof()){
     getline(agency_file, clients_file_name);
     if(clients_file_name.size() > 0){
@@ -37,6 +38,7 @@ int read_agency(Agency &agency, string agency_file_name, string &clients_file_na
     if(clients_file_name.size() == 0) return 2;
   }
 
+  //if file is not at the end reads packs file name
   if(!agency_file.eof()){
     getline(agency_file, packs_file_name);
     if(packs_file_name.size() > 0){
@@ -87,14 +89,14 @@ int read_clients(Agency &agency, string clients_file_name){
       client_file.close();
       return client_list.size();
     }
-    client_list.push_back(new_client);
+    client_list.push_back(new_client); //adds client to client vector
 
   } while(getline(client_file, str_aux));
 
   client_file.close();
 
   try {
-    agency.setClientList(client_list);
+    agency.setClientList(client_list); //adds client vector to agency
   } 
   catch(string) {
     return client_list.size();
@@ -151,7 +153,7 @@ int read_packs(Agency &agency, string packs_file_name){
       packs_file.close();
       return packs.size();
     }
-    packs.push_back(new_pack);
+    packs.push_back(new_pack); //adds pack to packs vector
 
   } while(getline(packs_file, str_aux));
 
@@ -161,7 +163,7 @@ int read_packs(Agency &agency, string packs_file_name){
   if(packs.at(packs.size() - 1).getPackId() != (unsigned int)first_id)
     return -3;
 
-  agency.setTourPack(packs);
+  agency.setTourPack(packs); //adds packs vector to agency
 
 
   return 0;
