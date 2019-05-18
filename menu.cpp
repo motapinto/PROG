@@ -65,17 +65,24 @@ void change_agency_address(){
   cout<< "Address: "; read_line(str_aux); if(str_aux.size() == 0) return;
 
   while(1) {
+
     try {
       agency.setAddress(str_aux);
+      modified_agency = true;
     }
+
     catch(string) {
       cout<< "Invalid input!\nAddress must be typed in the following way: \n";
       print_address_struct();
       cout<< "Address: "; read_line(str_aux); if(str_aux.size() == 0) return;
     }
+
+    catch(std::logic_error) {
+      cout<< "Invalid input!\nAddress must be typed in the following way: \n";
+      print_address_struct();
+      cout<< "Address: "; read_line(str_aux); if(str_aux.size() == 0) return;
+    }
   }
-  agency.setAddress(str_aux);
-  modified_agency = true;
 }
 
 void change_agency_url(){
@@ -456,11 +463,19 @@ int change_client_address(Client &client){
   cout<< "Address: "; read_line(str_aux); if(str_aux.size() == 0) return 1;
 
   while(1){
+
     try {
       client.setAddress(str_aux);
       break;
     }
+
     catch(string) {
+      cout<< "Invalid input!\nAddress must be typed in the following way: \n";
+      print_address_struct();
+      cout<< "Address: "; read_line(str_aux); if(str_aux.size() == 0) return 1;
+    }
+
+    catch(std::logic_error) {
       cout<< "Invalid input!\nAddress must be typed in the following way: \n";
       print_address_struct();
       cout<< "Address: "; read_line(str_aux); if(str_aux.size() == 0) return 1;
@@ -487,6 +502,13 @@ int change_client_packs_bought(Client &client){
         cout<< "Tour packs bought: ";
         read_line(str_aux); if(str_aux.size() == 0) return 1;
       }
+
+      catch(std::logic_error) {
+        cout<< "Invalid intput!\nPlease type tour packs bought in the following order:\n";
+        cout<< "(Tour Pack Id 1) ; (Tour Pack Id 2); ... ; (Tour Pack Id n) or - for no packs\n";
+        cout<< "Tour packs bought: ";
+        read_line(str_aux); if(str_aux.size() == 0) return 1;
+    }
 
   }
   return 0;
@@ -543,6 +565,9 @@ void add_client(){
   }
 
   catch(string) {
+    cerr << "Failled to add client: some parameters were wrong\n";
+  }
+  catch(std::logic_error) {
     cerr << "Failled to add client: some parameters were wrong\n";
   }
 
@@ -926,6 +951,10 @@ void print_all_travel_pack_dates(){
       cout<< "Invalid intput!\nDate must follow format: (Year)/(Month)/(Day)\n";
       cout<< "Initial Date: ";  read_line(str_aux); if(str_aux.size() == 0) return;
     }
+    catch(logic_error) {
+      cout<< "Invalid intput!\nDate must follow format: (Year)/(Month)/(Day)\n";
+      cout<< "Initial Date: ";  read_line(str_aux); if(str_aux.size() == 0) return;
+    }
   }  while(1);
 
   init_date.setDate(str_aux);
@@ -938,6 +967,10 @@ void print_all_travel_pack_dates(){
       break;
     }
     catch(string) {
+      cout<< "Invalid intput!\nDate must follow format: (Year)/(Month)/(Day)\n";
+      cout<< "Final Date: "; read_line(str_aux); if(str_aux.size() == 0) return;
+    }
+    catch(logic_error) {
       cout<< "Invalid intput!\nDate must follow format: (Year)/(Month)/(Day)\n";
       cout<< "Final Date: "; read_line(str_aux); if(str_aux.size() == 0) return;
     }
@@ -976,6 +1009,10 @@ void print_all_travel_pack_destination_dates(){
       cout<< "Invalid intput!\nDate must follow format: (Year)/(Month)/(Day)\n";
       cout<< "Initial Date: ";  read_line(str_aux); if(str_aux.size() == 0) return;
     }
+    catch(logic_error) {
+      cout<< "Invalid intput!\nDate must follow format: (Year)/(Month)/(Day)\n";
+      cout<< "Initial Date: ";  read_line(str_aux); if(str_aux.size() == 0) return;
+    }
   }  while(1);
 
   do {
@@ -986,6 +1023,10 @@ void print_all_travel_pack_destination_dates(){
       break;
     }
     catch(string) {
+      cout<< "Invalid intput!\nDate must follow format: (Year)/(Month)/(Day)\n";
+      cout<< "Final Date: "; read_line(str_aux); if(str_aux.size() == 0) return;
+    }
+    catch(logic_error) {
       cout<< "Invalid intput!\nDate must follow format: (Year)/(Month)/(Day)\n";
       cout<< "Final Date: "; read_line(str_aux); if(str_aux.size() == 0) return;
     }
@@ -1087,6 +1128,10 @@ int change_travel_pack_dates(TravelPack &travel_pack){
         cout<< "Invalid intput!\nDate must follow format: (Year)/(Month)/(Day)\n";
         cout<< "Initial Date: ";  read_line(str_aux); if(str_aux.size() == 0) return 1;
       }
+      catch(logic_error) {
+        cout<< "Invalid intput!\nDate must follow format: (Year)/(Month)/(Day)\n";
+        cout<< "Initial Date: ";  read_line(str_aux); if(str_aux.size() == 0) return 1;
+      }
     }  while(1);
 
     do {
@@ -1096,6 +1141,10 @@ int change_travel_pack_dates(TravelPack &travel_pack){
         final_date.setDate(str_aux);
       }
       catch(string) {
+        cout<< "Invalid intput!\nDate must follow format: (Year)/(Month)/(Day)\n";
+        cout<< "Final Date: ";  read_line(str_aux); if(str_aux.size() == 0) return 1;
+      }
+      catch(logic_error) {
         cout<< "Invalid intput!\nDate must follow format: (Year)/(Month)/(Day)\n";
         cout<< "Final Date: ";  read_line(str_aux); if(str_aux.size() == 0) return 1;
       }
@@ -1131,6 +1180,10 @@ int change_travel_pack_init_date(TravelPack &travel_pack){
       cout<< "Invalid intput!\nDate must follow format: (Year)/(Month)/(Day)\n";
       cout<< "Initial Date: "; read_line(str_aux); if(str_aux.size() == 0) return 1;
     }
+    catch(logic_error) {
+        cout<< "Invalid intput!\nDate must follow format: (Year)/(Month)/(Day)\n";
+        cout<< "Initial Date: "; read_line(str_aux); if(str_aux.size() == 0) return 1;
+      }
   }  while(1);
   return 0;
 }
@@ -1150,6 +1203,10 @@ int change_travel_pack_final_date(TravelPack &travel_pack){
       cout<< "Invalid intput!\nDate must follow format: (Year)/(Month)/(Day)\n";
       cout<< "Final Date: "; read_line(str_aux); if(str_aux.size() == 0) return 1;
     }
+    catch(logic_error) {
+        cout<< "Invalid intput!\nDate must follow format: (Year)/(Month)/(Day)\n";
+        cout<< "Final Date: "; read_line(str_aux); if(str_aux.size() == 0) return 1;
+      }
   }  while(1);
   return 0;
 }
