@@ -47,6 +47,27 @@ bool Agency::addClient(std::string name, std::string address, std::vector<unsign
   return true;
 }
 
+bool Agency::addClient(Client &client) {
+  //Check if there is already a client with the same nif
+  if(clientPos(nif) != -1)
+    return false;
+    
+  if(verifyPacks(client.packs_purchased, client.family_num) == false) {
+    return false;
+  } 
+
+  for(auto it = client.packs_purchased.begin(); it != client.packs_purchased.end(); it++){ //increment number of sold packs
+    for(size_t j = 0; j < tour_pack.size(); j++){
+      if(tour_pack.at(j).getPackId() == *it)
+          tour_pack.at(j).num_sold += client.family_num;
+    }
+  }
+
+  client_list.push_back(client);
+
+  return true;
+}
+
 bool Agency::removeClient(unsigned int nif) {
 
   if(int pos = clientPos(nif) != -1) {
@@ -153,10 +174,8 @@ bool Agency::addTravelPack(std::string init_date, std::string final_date, std::s
   //Check if there is already a pack with the same id
   Date date_aux;
 
-  for(size_t i = 0; i < tour_pack.size(); i++)
-    if(tour_pack.at(i).getPackId() == id) 
-      return false;
-
+  if(std::find(tour_pack.begin(), tour_pack.end(), id) != tour_pack.end())
+    return false;
 
   if(!verifyCities(cities)) 
     return false;;
@@ -167,27 +186,40 @@ bool Agency::addTravelPack(std::string init_date, std::string final_date, std::s
   return true;
 }
 
+bool Agency::addTravelPack(TravelPack &pack){
+  //Check if there is already a pack with the same id
+  if(std::find(tour_pack.begin(), tour_pack.end(), pack.id) != tour_pack.end())
+    return false;
+
+  if(!verifyCities(pack.cities)) 
+    return false;;
+
+  tour_pack.push_back(pack);
+
+  return true;
+}
+
 bool Agency::changeTravelPack(TravelPack &pack, unsigned int id){
+  std::vector<TravelPack>::iterator tour_it;
+  //find pack with same id
+  if((tour_it = std::find(tour_pack.begin(), tour_pack.end(), id)) != tour_pack.end()){
+    if(!verifyCities(pack.cities)) return false;
+    if(pack.num_sold > pack.people_limit) return false;
+    tour_it->destination = pack.destination;
+    tour_it->init_date = pack.init_date;
+    tour_it->final_date = pack.final_date;
+    tour_it->cities = pack.cities;
+    for(size_t j = 0; j < client_list.size(); j++)
+      for(auto it = client_list.at(j).packs_purchased.begin(); it != client_list.at(j).packs_purchased.end(); it++)
+        if(*it == tour_it->id)
+          client_list.at(j).money_spent += pack.price - tour_it->price;
 
-  for(size_t i= 0; i < tour_pack.size(); i++){
-    if(tour_pack.at(i).getPackId() == id) {
-        if(!verifyCities(pack.cities)) return false;
-        if(pack.num_sold > pack.people_limit) return false;
-        tour_pack.at(i).destination = pack.destination;
-        tour_pack.at(i).init_date = pack.init_date;
-        tour_pack.at(i).final_date = pack.final_date;
-        tour_pack.at(i).cities = pack.cities;
-        for(size_t j = 0; j < client_list.size(); j++)
-          for(auto it = client_list.at(j).packs_purchased.begin(); it != client_list.at(j).packs_purchased.end(); it++)
-            if(*it == tour_pack.at(i).id)
-              client_list.at(j).money_spent += pack.price - tour_pack.at(i).price;
-
-        tour_pack.at(i).price = pack.getPrice();
-        tour_pack.at(i).people_limit = pack.people_limit;
-        tour_pack.at(i).num_sold = pack.num_sold;
-        return true;
-    }
+    tour_it->price = pack.getPrice();
+    tour_it->people_limit = pack.people_limit;
+    tour_it->num_sold = pack.num_sold;
+    return true;
   }
+
   return false;
 }
 

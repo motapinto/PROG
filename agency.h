@@ -10,11 +10,13 @@ class Agency {
         
         int clientPos(unsigned int nif);
         bool addClient(std::string name, std::string address, std::vector <unsigned int> tour_packs_bought, unsigned int nif, unsigned int family_num);
+        bool addClient(Client &client);
         bool changeClient(Client &client, unsigned int nif);
         bool removeClient(unsigned int nif);
         bool purchasePack(unsigned int client_nif, unsigned int pack_id);
 
         bool addTravelPack(std::string init_date, std::string final_date, std::string destination, std::vector<std::string> cities, bool available, unsigned int id, unsigned int price, unsigned int people_limit, unsigned int num_sold);
+        bool addTravelPack(TravelPack &pack);
         bool changeTravelPack(TravelPack &pack, unsigned int id);
         bool removeTravelPack(unsigned int id);
 

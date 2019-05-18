@@ -539,7 +539,7 @@ void add_client(){
 
 
   try {
-    agency.addClient(new_client.getName(), new_client.getAddress().getAddress(), new_client.getTourPacksBought(), new_client.getNif(), new_client.getNif());
+    agency.addClient(new_client);
   }
 
   catch(string) {
@@ -1262,7 +1262,7 @@ void add_travel_pack(){
   }
   change_travel_pack_available(new_pack);
 
-  if(agency.addTravelPack(new_pack.getInitDate().getDate(), new_pack.getFinalDate().getDate(), new_pack.getDestination(), new_pack.getCities(), new_pack.getAvailability(), new_pack.getPackId(), new_pack.getPrice(), new_pack.getPeopleLimit(), new_pack.getNumberSold()) == false){
+  if(agency.addTravelPack(new_pack) == false){
     cerr << "Failled to add travel pack\n";
   }
   else modified_travel_pack = true;
