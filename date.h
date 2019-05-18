@@ -8,14 +8,10 @@ class Date
     Date(unsigned int year, unsigned int month,unsigned int day);
     Date(std::string date); // yearMonthDay must be in format "yyyy/mm/dd"
 
-    bool operator > (const Date date);
-    bool operator >= (const Date date);
-    bool operator < (const Date date);
-    bool operator <= (const Date date);
-    bool operator == (const Date date);
-    bool operator != (const Date date);
-    Date& operator = (const Date date);
-    friend std::ostream& operator << (std::ostream& os, const Date& date); //acede aos parametros da classe
+    unsigned int getYear() const;
+    unsigned int getMonth() const;
+    unsigned int getDay() const;
+    std::string getDate() const; // returns the date in format "yyyy/mm/dd"
 
     void setYear(unsigned int year) ;
     void setMonth(unsigned int month) ;
@@ -23,11 +19,16 @@ class Date
     void setDate(unsigned int year, unsigned int month, unsigned int day) ;
     void setDate(std::string date);
 
-    unsigned int getYear() const;
-    unsigned int getMonth() const;
-    unsigned int getDay() const;
-    std::string getDate() const; // returns the date in format "yyyy/mm/dd"
-
+    bool operator > (const Date date);
+    bool operator >= (const Date date);
+    bool operator < (const Date date);
+    bool operator <= (const Date date);
+    bool operator == (const Date date);
+    bool operator != (const Date date);
+    Date& operator = (const Date date);
+    
+    friend std::ostream& operator << (std::ostream& os, const Date& date); //acede aos parametros da classe
+    
   private:
     unsigned int year;
     unsigned int month;

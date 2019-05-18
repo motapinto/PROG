@@ -8,7 +8,7 @@ Address::Address(std::string address){
     checkAddress(address, this->street_name, this->postal_code, this->city, this->floor_num, this->door_num);
 }
 
-Address::Address(std::string street_name, std::string postal_code, std::string city, std::string floor_num, unsigned int door_num){
+Address::Address(std::string street_name, std::string postal_code, std::string city, std::string floor_num, unsigned int door_num){ 
     std::string address;
 
     address = street_name + " / " + std::to_string(door_num) + " / " + floor_num  
