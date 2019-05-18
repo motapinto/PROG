@@ -172,9 +172,9 @@ int read_packs(Agency &agency, string packs_file_name){
 int read_files(Agency &agency, string agency_file_name, string &clients_file_name, string &packs_file_name){ //reads agency file and fills agency class
   
   ifstream agency_file, client_file, packs_file; //input file from where to read
-  int line;
+  int count;
   
-  switch (line = read_agency(agency, agency_file_name, clients_file_name, packs_file_name))
+  switch (count = read_agency(agency, agency_file_name, clients_file_name, packs_file_name))
   {
     case -1:
       cerr << "Error: failled to open " << agency_file_name << "!\n";
@@ -183,11 +183,11 @@ int read_files(Agency &agency, string agency_file_name, string &clients_file_nam
     case 0:
       break;
     default:
-      cerr << "Error: invalid struct of data in "<< agency_file_name << " on line: " << line << "!\n";      
+      cerr << "Error: invalid struct of data in "<< agency_file_name << "!\n";      
       return 1;
   }
 
-  switch (line = read_packs(agency, packs_file_name))
+  switch (count = read_packs(agency, packs_file_name))
   {
     case -1:
       cerr << "Error: failled to open " << packs_file_name << "!\n";
@@ -196,11 +196,11 @@ int read_files(Agency &agency, string agency_file_name, string &clients_file_nam
     case 0:
       break;
     default:
-      cerr << "Error: invalid struct of data in "<< packs_file_name << " on line: " << line << "!\n";      
+      cerr << "Error: invalid struct of data in "<< packs_file_name << " on pack number: " << count << "!\n";      
       return 3;
   }
 
-  switch (line = read_clients(agency, clients_file_name))
+  switch (count = read_clients(agency, clients_file_name))
   {
     case -1:
       cerr << "Error: failled to open " << clients_file_name << "!\n";
@@ -209,7 +209,7 @@ int read_files(Agency &agency, string agency_file_name, string &clients_file_nam
     case 0:
       break;
     default:
-      cerr << "Error: invalid struct of data in "<< clients_file_name << " on line: " << line << "!\n";      
+      cerr << "Error: invalid struct of data in "<< clients_file_name << " on client number: " << count << "!\n";      
       return 2;
   }
 
