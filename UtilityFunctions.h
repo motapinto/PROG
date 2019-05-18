@@ -10,6 +10,10 @@
 #include <set>
 #include <algorithm>
 
+#define INT_MAX 2147483647
+#define ESC_KEY 27
+
+
 void TrimLeft(std::string &str);
 
 void TrimRight(std::string &str);

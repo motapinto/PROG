@@ -61,33 +61,45 @@ bool TravelPack::getAvailability(void) const{
   return this->available;
 }
 
-void TravelPack::setInitDate(string init_date, bool check){ 
+void TravelPack::setInitDate(string init_date){ 
   Date init(init_date);
 
-  if(check)
-    if(init > final_date)
-      throw TPackException(NULL);
+  if(init > final_date)
+    throw TPackException(NULL);
 
   this->init_date.setDate(init_date);
 }
 
-void TravelPack::setFinalDate(string final_date, bool check){ 
+void TravelPack::setInitDate(Date init_date){ 
+
+  if(init_date > final_date)
+    throw TPackException(NULL);
+
+  this->init_date = init_date;
+}
+
+void TravelPack::setFinalDate(string final_date){ 
   Date fin(final_date);
 
-  if(check)
-    if(init_date > fin)
-      throw TPackException(NULL);
+  if(init_date > fin)
+    throw TPackException(NULL);
 
   this->final_date.setDate(final_date);
+}
+
+void TravelPack::setFinalDate(Date final_date){ 
+  if(init_date > final_date)
+    throw TPackException(NULL);
+
+  this->final_date = final_date;
 }
 
 void TravelPack::setDestination(string destination){ 
   this->destination = destination; 
 }
 
-void TravelPack::setCities(vector<string> cities, bool check){
-  if(check) 
-    repeatedCities(cities);
+void TravelPack::setCities(vector<string> cities){
+  repeatedCities(cities);
 
   this->cities = cities; 
 }
@@ -100,18 +112,16 @@ void TravelPack::setPrice(unsigned int price){
   this->price = price; 
 }
 
-void TravelPack::setPeopleLimit(unsigned int people_limit, bool check){ 
-  if(check)
-    if(people_limit < num_sold)
-      throw TPackException(NULL);
+void TravelPack::setPeopleLimit(unsigned int people_limit){ 
+  if(people_limit < num_sold)
+    throw TPackException(NULL);
 
   this->people_limit = people_limit; 
 }
 
-void TravelPack::setNumberSold(unsigned int num_sold, bool check){ 
-  if(check)
-    if(people_limit < num_sold)
-      throw TPackException(NULL);
+void TravelPack::setNumberSold(unsigned int num_sold){ 
+  if(people_limit < num_sold)
+    throw TPackException(NULL);
 
   this->num_sold = num_sold; 
 }

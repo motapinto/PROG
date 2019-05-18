@@ -7,7 +7,6 @@
 #include "UtilityFunctions.h"
 
 #define MAX_NIF 999999999
-#define INT_MAX 2147483647
 
 using namespace std;
 
@@ -36,73 +35,84 @@ void print_wait_menu(){
 //Begin Agency
 
 void print_address_struct(){
-  cout<< "(Street Name) / (Door Number) / (Floor) / (Zip Code) / (City)\n";
+  cout<< "(Street Name) / (Door Number) / (Floor) / (Zip Code separated by -) / (City)\n";
 }
 
-void change_agency_name(){
+void print_date_struct(){
+  cout<< "(Year) / (Month) / (Day)\n";
+}
+
+int change_agency_name(Agency &agency_to_change){
   string str_aux;
-  cout<< "Name: "; read_line(str_aux); if(str_aux.size() == 0) return; 
-  agency.setName(str_aux);
+  cout<< "Name: "; read_line(str_aux); if(str_aux.find(ESC_KEY) != string::npos) return 1; 
+  agency_to_change.setName(str_aux);
   modified_agency = true;
+  return 0;
 }
 
-void change_agency_nif(){
+int change_agency_nif(Agency &agency_to_change){
   int nif = -1;
   string str_aux;
 
-  cout<< "NIF: "; read_line(str_aux); if(str_aux.size() == 0) return;
+  cout<< "NIF: "; read_line(str_aux); if(str_aux.find(ESC_KEY) != string::npos) return 1;
   while(!string_to_int(str_aux, nif) || nif < 0 || nif > MAX_NIF){
     cerr << "Invalid intput!\n\n";
-    cout<< "NIF: "; read_line(str_aux); if(str_aux.size() == 0) return;
+    cout<< "NIF: "; read_line(str_aux); if(str_aux.find(ESC_KEY) != string::npos) return 1;
   }
 
-  agency.setNif(nif);
+  agency_to_change.setNif(nif);
   modified_agency = true;
+  return 0;
 }
 
-void change_agency_address(){
+int change_agency_address(Agency &agency_to_change){
   string str_aux;
-  cout<< "Address: "; read_line(str_aux); if(str_aux.size() == 0) return;
+  cout<< "Address: "; read_line(str_aux); if(str_aux.find(ESC_KEY) != string::npos) return 1;
 
   while(1) {
 
     try {
-      agency.setAddress(str_aux);
+      agency_to_change.setAddress(str_aux);
       modified_agency = true;
     }
 
     catch(string) {
       cout<< "Invalid input!\nAddress must be typed in the following way: \n";
       print_address_struct();
-      cout<< "Address: "; read_line(str_aux); if(str_aux.size() == 0) return;
+      cout<< "Address: "; read_line(str_aux); if(str_aux.find(ESC_KEY) != string::npos) return 1;
     }
 
     catch(std::logic_error) {
       cout<< "Invalid input!\nAddress must be typed in the following way: \n";
       print_address_struct();
-      cout<< "Address: "; read_line(str_aux); if(str_aux.size() == 0) return;
+      cout<< "Address: "; read_line(str_aux); if(str_aux.find(ESC_KEY) != string::npos) return 1;
     }
   }
+
+  return 0;
 }
 
-void change_agency_url(){
+int change_agency_url(Agency &agency_to_change){
   string str_aux;
 
-  cout<< "URL: "; read_line(str_aux); if(str_aux.size() == 0) return;
+  cout<< "URL: "; read_line(str_aux); if(str_aux.find(ESC_KEY) != string::npos) return 1;
 
-  agency.setUrl(str_aux);  
+  agency_to_change.setUrl(str_aux);  
   modified_agency = true;
+  return 0;
 }
 
-void change_agency_all(){
-  change_agency_name();
-  change_agency_nif();
-  change_agency_address();
-  change_agency_url();
+int change_agency_all(Agency &agency_to_change){
+  if(change_agency_name(agency_to_change)) return 1;
+  if(change_agency_nif(agency_to_change)) return 1;
+  if(change_agency_address(agency_to_change)) return 1;
+  return change_agency_url(agency_to_change);
 }
 
 void change_agency_menu(){
   int answer = 0;
+  //used in change all to avoid changing only part of the agency
+  Agency agency_aux;
 
   while(1){ //only endls when 0 is typed
     print_first_lines("Change Agency Menu");
@@ -114,10 +124,10 @@ void change_agency_menu(){
     cout<< "0 - Back\n";
     print_last_line();
 
-    answer = scan_single_int();
+    answer = scan_single_int(); if(answer == INT_MAX) return;
     while( answer < 0 || answer > 5){
       cerr << "Invalid intput!\n\n";
-      answer = scan_single_int();
+      answer = scan_single_int(); if(answer == INT_MAX) return;
     }
     
     switch (answer)
@@ -126,23 +136,27 @@ void change_agency_menu(){
         return;
 
       case 1:
-        change_agency_all();
+        if(change_agency_all(agency_aux)) break;
+        agency.setName(agency_aux.getName());
+        agency.setNif(agency_aux.getNif());
+        agency.setAddress(agency_aux.getAddress());
+        agency.setUrl(agency_aux.getUrl());
         break;
 
       case 2:
-        change_agency_name();
+        change_agency_name(agency);
         break;
 
       case 3:
-        change_agency_nif();
+        change_agency_nif(agency);
         break;
 
       case 4:
-        change_agency_address();
+        change_agency_address(agency);
         break;
 
       case 5:
-        change_agency_url();
+        change_agency_url(agency);
         break;
 
       default:
@@ -176,10 +190,10 @@ void agency_menu(){
     cout<< "0 - Back\n";
     print_last_line();
 
-    answer = scan_single_int();
+    answer = scan_single_int(); if(answer == INT_MAX) return;
     while( answer < 0 || answer > 3){
       cerr << "Invalid intput!\n\n";
-      answer = scan_single_int();
+      answer = scan_single_int(); if(answer == INT_MAX) return;
     }
     
     switch (answer)
@@ -266,10 +280,10 @@ void print_client_selected(Client &client){
     cout<< "0 - Back\n";
     print_last_line();
 
-    answer = scan_single_int();
+    answer = scan_single_int(); if(answer == INT_MAX) return;
     while( answer < 0 || answer > 2){
       cerr << "Invalid intput!\n\n";
-      answer = scan_single_int();
+      answer = scan_single_int(); if(answer == INT_MAX) return;
     }
     
     switch (answer)
@@ -308,10 +322,10 @@ void print_single_client(){
     cout<< "0 - Back\n";
     print_last_line();
 
-    answer = scan_single_int();
+    answer = scan_single_int(); if(answer == INT_MAX) return;
     while( answer < 0 || answer > 2){
       cerr << "Invalid intput!\n\n";
-      answer = scan_single_int();
+      answer = scan_single_int(); if(answer == INT_MAX) return;
     }
     
     switch (answer)
@@ -424,10 +438,10 @@ void print_clients_menu(){
     cout<< "0 - Back\n";
     print_last_line();
 
-    answer = scan_single_int();
+    answer = scan_single_int(); if(answer == INT_MAX) return;
     while( answer < 0 || answer > 2){
       cerr << "Invalid intput!\n\n";
-      answer = scan_single_int();
+      answer = scan_single_int(); if(answer == INT_MAX) return;
     }
     
     switch (answer)
@@ -452,7 +466,7 @@ void print_clients_menu(){
 int change_client_name(Client &client){
   string str_aux;
   cout<< "Name: "; 
-  read_line(str_aux); if(str_aux.size() == 0) return 1; 
+  read_line(str_aux); if(str_aux.find(ESC_KEY) != string::npos) return 1; 
 
   client.setName(str_aux);
   return 0;
@@ -460,7 +474,7 @@ int change_client_name(Client &client){
 
 int change_client_address(Client &client){
   string str_aux;
-  cout<< "Address: "; read_line(str_aux); if(str_aux.size() == 0) return 1;
+  cout<< "Address: "; read_line(str_aux); if(str_aux.find(ESC_KEY) != string::npos) return 1;
 
   while(1){
 
@@ -472,13 +486,13 @@ int change_client_address(Client &client){
     catch(string) {
       cout<< "Invalid input!\nAddress must be typed in the following way: \n";
       print_address_struct();
-      cout<< "Address: "; read_line(str_aux); if(str_aux.size() == 0) return 1;
+      cout<< "Address: "; read_line(str_aux); if(str_aux.find(ESC_KEY) != string::npos) return 1;
     }
 
     catch(std::logic_error) {
       cout<< "Invalid input!\nAddress must be typed in the following way: \n";
       print_address_struct();
-      cout<< "Address: "; read_line(str_aux); if(str_aux.size() == 0) return 1;
+      cout<< "Address: "; read_line(str_aux); if(str_aux.find(ESC_KEY) != string::npos) return 1;
     }
   }
 
@@ -488,7 +502,7 @@ int change_client_address(Client &client){
 int change_client_packs_bought(Client &client){
   string str_aux;
 
-  cout<< "Tour packs bought: "; read_line(str_aux); if(str_aux.size() == 0) return 1;
+  cout<< "Tour packs bought (Separated by ; or - for none): "; read_line(str_aux); if(str_aux.find(ESC_KEY) != string::npos) return 1;
 
   while(1) {
       try {
@@ -500,14 +514,14 @@ int change_client_packs_bought(Client &client){
         cout<< "Invalid intput!\nPlease type tour packs bought in the following order:\n";
         cout<< "(Tour Pack Id 1) ; (Tour Pack Id 2); ... ; (Tour Pack Id n) or - for no packs\n";
         cout<< "Tour packs bought: ";
-        read_line(str_aux); if(str_aux.size() == 0) return 1;
+        read_line(str_aux); if(str_aux.find(ESC_KEY) != string::npos) return 1;
       }
 
       catch(std::logic_error) {
         cout<< "Invalid intput!\nPlease type tour packs bought in the following order:\n";
         cout<< "(Tour Pack Id 1) ; (Tour Pack Id 2); ... ; (Tour Pack Id n) or - for no packs\n";
         cout<< "Tour packs bought: ";
-        read_line(str_aux); if(str_aux.size() == 0) return 1;
+        read_line(str_aux); if(str_aux.find(ESC_KEY) != string::npos) return 1;
     }
 
   }
@@ -519,11 +533,11 @@ int change_client_nif(Client &client){
   string str_aux;
   Client search_aux;
 
-  cout<< "NIF: "; read_line(str_aux); if(str_aux.size() == 0) return 1;
+  cout<< "NIF: "; read_line(str_aux); if(str_aux.find(ESC_KEY) != string::npos) return 1;
 
   while(!string_to_int(str_aux, nif) || nif < 0 || nif > MAX_NIF){
     cerr << "Invalid intput!\n\n";
-    cout<< "NIF: "; read_line(str_aux); if(str_aux.size() == 0) return 1;
+    cout<< "NIF: "; read_line(str_aux); if(str_aux.find(ESC_KEY) != string::npos) return 1;
   }
 
   client.setNif(nif);
@@ -534,10 +548,10 @@ int change_client_family_num(Client &client){
   int family_num = -1;
   string str_aux;
 
-  cout<< "Family Number: "; read_line(str_aux); if(str_aux.size() == 0) return 1;
+  cout<< "Family Number: "; read_line(str_aux); if(str_aux.find(ESC_KEY) != string::npos) return 1;
   while(string_to_int(str_aux, family_num) == false || family_num <= 0){
     cerr << "Invalid intput!\n\n";
-    cout<< "Family Number: "; read_line(str_aux); if(str_aux.size() == 0) return 1;
+    cout<< "Family Number: "; read_line(str_aux); if(str_aux.find(ESC_KEY) != string::npos) return 1;
   }
 
   client.setFamilyNum(family_num);
@@ -577,10 +591,10 @@ void change_client_menu(Client &client){
     cout<< "0 - Back\n";
     print_last_line();
 
-    answer = scan_single_int();
+    answer = scan_single_int(); if(answer == INT_MAX) return;
     while( answer < 0 || answer > 6){
       cerr << "Invalid intput!\n\n";
-      answer = scan_single_int();
+      answer = scan_single_int(); if(answer == INT_MAX) return;
     }
     
     switch (answer)
@@ -658,10 +672,10 @@ void change_clients_menu(){
     cout<< "0 - Back\n";
     print_last_line();
 
-    answer = scan_single_int();
+    answer = scan_single_int(); if(answer == INT_MAX) return;
     while( answer < 0 || answer > 2){
       cerr << "Invalid intput!\n\n";
-      answer = scan_single_int();
+      answer = scan_single_int(); if(answer == INT_MAX) return;
     }
     
     switch (answer)
@@ -734,7 +748,7 @@ bool purchase_pack(Client &client){
     }
     
     if( (pack.getPeopleLimit() - (pack.getNumberSold() + client.getFamilyNum())) <= 0 ) {
-      cout<< "This pack has no more seats available for purchase!\n";
+      cout<< "This pack has no more tickets available for purchase!\n";
       return false;
     }
 
@@ -754,11 +768,11 @@ void purchase_client_nif(){
   Client client;
 
   cout<< "NIF: ";
-  read_line(str_aux); if(str_aux.size() == 0) return;
+  read_line(str_aux); if(str_aux.find(ESC_KEY) != string::npos) return;
   while(!string_to_int(str_aux, nif) || nif < 0 || nif > MAX_NIF){
     cerr << "Invalid intput!\n\n";
     cout<< "NIF: ";
-    read_line(str_aux); if(str_aux.size() == 0) return;
+    read_line(str_aux); if(str_aux.find(ESC_KEY) != string::npos) return;
   }
 
   
@@ -801,10 +815,10 @@ void purchase_client_menu(){
     cout<< "0 - Back\n";
     print_last_line();
 
-    answer = scan_single_int();
+    answer = scan_single_int(); if(answer == INT_MAX) return;
     while( answer < 0 || answer > 2){
       cerr << "Invalid intput!\n\n";
-      answer = scan_single_int();
+      answer = scan_single_int(); if(answer == INT_MAX) return;
     }
     
     switch (answer)
@@ -839,10 +853,10 @@ void clients_menu(){
     cout<< "0 - Back\n";
     print_last_line();
 
-    answer = scan_single_int();
+    answer = scan_single_int(); if(answer == INT_MAX) return;
     while( answer < 0 || answer > 5){
       cerr << "Invalid intput!\n\n";
-      answer = scan_single_int();
+      answer = scan_single_int(); if(answer == INT_MAX) return;
     }
     
     switch (answer)
@@ -883,11 +897,11 @@ int search_travel_pack(int &id, TravelPack &pack){
   string str_aux;
 
   cout<< "Travel Pack ID: ";
-  read_line(str_aux); if(str_aux.size() == 0) return 2; 
+  read_line(str_aux); if(str_aux.find(ESC_KEY) != string::npos) return 2; 
   while(string_to_int(str_aux, id) == false || id < 0){
     cerr << "Invalid intput!\n\n";
     cout<< "Travel Pack ID: ";
-    read_line(str_aux); if(str_aux.size() == 0) return 2; 
+    read_line(str_aux); if(str_aux.find(ESC_KEY) != string::npos) return 2; 
   }
 
   return agency.searchTravelPackId(id, pack);
@@ -928,34 +942,34 @@ void print_all_travel_pack_dates(){
   string str_aux;
 
   do {
-    cout<< "Initial Date: "; read_line(str_aux); if(str_aux.size() == 0) return; 
+    cout<< "Initial Date: "; read_line(str_aux); if(str_aux.find(ESC_KEY) != string::npos) return; 
 
     try {
       init_date.setDate(str_aux);
       break;
     }
     catch(string) {
-      cout<< "Invalid intput!\nDate must follow format: (Year)/(Month)/(Day)\n";
+      cout<< "Invalid intput!\nDate must follow format: "; print_date_struct();
     }
     catch(logic_error) {
-      cout<< "Invalid intput!\nDate must follow format: (Year)/(Month)/(Day)\n";
+      cout<< "Invalid intput!\nDate must follow format: "; print_date_struct();
     }
   }  while(1);
 
   init_date.setDate(str_aux);
 
   do {
-    cout<< "Final Date: "; read_line(str_aux); if(str_aux.size() == 0) return; 
+    cout<< "Final Date: "; read_line(str_aux); if(str_aux.find(ESC_KEY) != string::npos) return; 
 
     try {
       final_date.setDate(str_aux);
       break;
     }
     catch(string) {
-      cout<< "Invalid intput!\nDate must follow format: (Year)/(Month)/(Day)\n";
+      cout<< "Invalid intput!\nDate must follow format: "; print_date_struct();
     }
     catch(logic_error) {
-      cout<< "Invalid intput!\nDate must follow format: (Year)/(Month)/(Day)\n";
+      cout<< "Invalid intput!\nDate must follow format: "; print_date_struct();
     }
   }  while(1);
 
@@ -982,32 +996,32 @@ void print_all_travel_pack_destination_dates(){
   cout<< "Destination: "; read_line(destination); if(destination.size() == 0) return; 
 
   do {
-    cout<< "Initial Date: "; read_line(str_aux); if(str_aux.size() == 0) return; 
+    cout<< "Initial Date: "; read_line(str_aux); if(str_aux.find(ESC_KEY) != string::npos) return; 
 
     try {
       init_date.setDate(str_aux);
       break;
     }
     catch(string) {
-      cout<< "Invalid intput!\nDate must follow format: (Year)/(Month)/(Day)\n";
+      cout<< "Invalid intput!\nDate must follow format: "; print_date_struct();
     }
     catch(logic_error) {
-      cout<< "Invalid intput!\nDate must follow format: (Year)/(Month)/(Day)\n";
+      cout<< "Invalid intput!\nDate must follow format: "; print_date_struct();
     }
   }  while(1);
 
   do {
-    cout<< "Final Date: "; read_line(str_aux); if(str_aux.size() == 0) return; 
+    cout<< "Final Date: "; read_line(str_aux); if(str_aux.find(ESC_KEY) != string::npos) return; 
 
     try {
       final_date.setDate(str_aux);
       break;
     }
     catch(string) {
-      cout<< "Invalid intput!\nDate must follow format: (Year)/(Month)/(Day)\n";
+      cout<< "Invalid intput!\nDate must follow format: "; print_date_struct();
     }
     catch(logic_error) {
-      cout<< "Invalid intput!\nDate must follow format: (Year)/(Month)/(Day)\n";
+      cout<< "Invalid intput!\nDate must follow format: "; print_date_struct();
     }
   }  while(1);
 
@@ -1042,10 +1056,10 @@ void print_travel_pack_menu(){
     cout<< "0 - Back\n";
     print_last_line();
 
-    answer = scan_single_int();
+    answer = scan_single_int(); if(answer == INT_MAX) return;
     while( answer < 0 || answer > 5){
       cerr << "Invalid intput!\n\n";
-      answer = scan_single_int();
+      answer = scan_single_int(); if(answer == INT_MAX) return;
     }
     
     switch (answer)
@@ -1098,33 +1112,33 @@ int change_travel_pack_dates(TravelPack &travel_pack){
 
   do{
     do {
-      cout<< "Initial Date: "; read_line(str_aux); if(str_aux.size() == 0) return 1; 
+      cout<< "Initial Date: "; read_line(str_aux); if(str_aux.find(ESC_KEY) != string::npos) return 1; 
 
       try {
         init_date.setDate(str_aux);
         not_valid = false;
       }
       catch(string) {
-        cout<< "Invalid intput!\nDate must follow format: (Year)/(Month)/(Day)\n";
+        cout<< "Invalid intput!\nDate must follow format: "; print_date_struct();
       }
       catch(logic_error) {
-        cout<< "Invalid intput!\nDate must follow format: (Year)/(Month)/(Day)\n";
+        cout<< "Invalid intput!\nDate must follow format: "; print_date_struct();
       }
     }  while(not_valid);
 
     not_valid = true;
     do {
-      cout<< "Final Date: "; read_line(str_aux); if(str_aux.size() == 0) return 1; 
+      cout<< "Final Date: "; read_line(str_aux); if(str_aux.find(ESC_KEY) != string::npos) return 1; 
 
       try {
         final_date.setDate(str_aux);
         not_valid = false;
       }
       catch(string) {
-        cout<< "Invalid intput!\nDate must follow format: (Year)/(Month)/(Day)\n";
+        cout<< "Invalid intput!\nDate must follow format: "; print_date_struct();
       }
       catch(logic_error) {
-        cout<< "Invalid intput!\nDate must follow format: (Year)/(Month)/(Day)\n";
+        cout<< "Invalid intput!\nDate must follow format: "; print_date_struct();
       }
     }  while(not_valid);
 
@@ -1134,12 +1148,12 @@ int change_travel_pack_dates(TravelPack &travel_pack){
   }while(not_valid);
 
   if(travel_pack.getInitDate() > init_date){
-    travel_pack.setInitDate(init_date.getDate(), true);
-    travel_pack.setFinalDate(final_date.getDate(), true);
+    travel_pack.setInitDate(init_date);
+    travel_pack.setFinalDate(final_date);
   }
   else{
-    travel_pack.setFinalDate(final_date.getDate(), true);
-    travel_pack.setInitDate(init_date.getDate(), true);
+    travel_pack.setFinalDate(final_date);
+    travel_pack.setInitDate(init_date);
   }
   return 0;
 }
@@ -1149,17 +1163,17 @@ int change_travel_pack_init_date(TravelPack &travel_pack){
   Date date_aux;
 
   do {
-    cout<< "Initial Date: "; read_line(str_aux); if(str_aux.size() == 0) return 1; 
+    cout<< "Initial Date: "; read_line(str_aux); if(str_aux.find(ESC_KEY) != string::npos) return 1; 
 
     try {
-      travel_pack.setInitDate(str_aux, true);
+      travel_pack.setInitDate(str_aux);
       break;
     }
     catch(string) {
-      cout<< "Invalid intput!\nDate must follow format: (Year)/(Month)/(Day)\n";
+      cout<< "Invalid intput!\nDate must follow format: "; print_date_struct();
     }
     catch(logic_error) {
-        cout<< "Invalid intput!\nDate must follow format: (Year)/(Month)/(Day)\n";
+        cout<< "Invalid intput!\nDate must follow format: "; print_date_struct();
       }
   }  while(1);
   return 0;
@@ -1170,17 +1184,17 @@ int change_travel_pack_final_date(TravelPack &travel_pack){
   Date date_aux;
 
   do {
-    cout<< "Final Date: "; read_line(str_aux); if(str_aux.size() == 0) return 1; 
+    cout<< "Final Date: "; read_line(str_aux); if(str_aux.find(ESC_KEY) != string::npos) return 1; 
 
     try {
-      travel_pack.setFinalDate(str_aux, true);
+      travel_pack.setFinalDate(str_aux);
       break;
     }
     catch(string) {
-      cout<< "Invalid intput!\nDate must follow format: (Year)/(Month)/(Day)\n";
+      cout<< "Invalid intput!\nDate must follow format: "; print_date_struct();
     }
     catch(logic_error) {
-      cout<< "Invalid intput!\nDate must follow format: (Year)/(Month)/(Day)\n";
+      cout<< "Invalid intput!\nDate must follow format: "; print_date_struct();
     }
   }  while(1);
   return 0;
@@ -1188,7 +1202,7 @@ int change_travel_pack_final_date(TravelPack &travel_pack){
 
 int change_travel_pack_destination(TravelPack &travel_pack){
   string str_aux;
-  cout<< "Destination: "; read_line(str_aux); if(str_aux.size() == 0) return 1;
+  cout<< "Destination: "; read_line(str_aux); if(str_aux.find(ESC_KEY) != string::npos) return 1;
 
   travel_pack.setDestination(str_aux);
   return 0;
@@ -1198,38 +1212,73 @@ int change_travel_pack_cities(TravelPack &travel_pack){
   string str_aux;
   vector<string> cities;
 
-  cout<< "Cities (Separated by , or - for none): "; read_line(str_aux); if(str_aux.size() == 0) return 1;
+  cout<< "Cities (Separated by , or - for none): "; read_line(str_aux); if(str_aux.find(ESC_KEY) != string::npos) return 1;
 
   if(str_aux.compare("-") == 0) cities.resize(0);
   else decompose(str_aux, cities, ',');
 
-  travel_pack.setCities(cities, true);
+  travel_pack.setCities(cities);
   return 0;
 }
 
 int change_travel_pack_price(TravelPack &travel_pack){
   int price = -1;
   string str_aux;
-  cout<< "Price: "; read_line(str_aux); if(str_aux.size() == 0) return 1;
+  cout<< "Price: "; read_line(str_aux); if(str_aux.find(ESC_KEY) != string::npos) return 1;
   while(string_to_int(str_aux, price) == false || price < 0){
     cerr << "Invalid intput!\n\n";
-    cout<< "Price: "; read_line(str_aux); if(str_aux.size() == 0) return 1;
+    cout<< "Price: "; read_line(str_aux); if(str_aux.find(ESC_KEY) != string::npos) return 1;
   }
 
   travel_pack.setPrice(price);
   return 0;
 }
 
+int change_travel_pack_people_limit_and_num_sold(TravelPack &travel_pack){
+  int people_limit = -1;
+  int num_sold = -1;
+  bool not_valid = true;
+  string str_aux;
+
+  do{
+    cout<< "Number of tickets available: "; read_line(str_aux); if(str_aux.find(ESC_KEY) != string::npos) return 1;
+    while(string_to_int(str_aux, people_limit) == false || people_limit < 0){
+      cerr << "Invalid intput!\n\n";
+      cout<< "Number of tickets available: "; read_line(str_aux); if(str_aux.find(ESC_KEY) != string::npos) return 1;
+    }
+
+    cout<< "Number of tickets sold: "; read_line(str_aux); if(str_aux.find(ESC_KEY) != string::npos) return 1;
+    while(!string_to_int(str_aux, num_sold) || num_sold < 0){
+      cerr << "Invalid intput!\n\n";
+      cout<< "Number of tickets sold: "; read_line(str_aux); if(str_aux.find(ESC_KEY) != string::npos) return 1;
+    }
+    if( (not_valid = num_sold > people_limit) )
+      cerr << "Number of tickets available must be higher then tickets sold!\n";
+
+  }while(not_valid);
+
+  if(travel_pack.getNumberSold() > people_limit){
+    travel_pack.setNumberSold(num_sold);
+    travel_pack.setPeopleLimit(people_limit);
+  }
+  else{
+    travel_pack.setPeopleLimit(people_limit);
+    travel_pack.setNumberSold(num_sold);
+  }
+
+  return 0;
+}
+
 int change_travel_pack_people_limit(TravelPack &travel_pack){
   int people_limit = -1;
   string str_aux;
-  cout<< "Number of seats available: "; read_line(str_aux); if(str_aux.size() == 0) return 1;
+  cout<< "Number of tickets available: "; read_line(str_aux); if(str_aux.find(ESC_KEY) != string::npos) return 1;
   while(string_to_int(str_aux, people_limit) == false || people_limit < 0){
     cerr << "Invalid intput!\n\n";
-    cout<< "Number of seats available: "; read_line(str_aux); if(str_aux.size() == 0) return 1;
+    cout<< "Number of tickets available: "; read_line(str_aux); if(str_aux.find(ESC_KEY) != string::npos) return 1;
   }
 
-  travel_pack.setPeopleLimit(people_limit, true);
+  travel_pack.setPeopleLimit(people_limit);
   return 0;
 }
 
@@ -1237,27 +1286,36 @@ int change_travel_pack_num_sold(TravelPack &travel_pack){
   int num_sold = -1;
   string str_aux;
 
-  cout<< "Number of seats sold: "; read_line(str_aux); if(str_aux.size() == 0) return 1;
+  cout<< "Number of tickets sold: "; read_line(str_aux); if(str_aux.find(ESC_KEY) != string::npos) return 1;
   while(!string_to_int(str_aux, num_sold) || num_sold < 0){
     cerr << "Invalid intput!\n\n";
-    cout<< "Number of seats sold: "; read_line(str_aux); if(str_aux.size() == 0) return 1;
+    cout<< "Number of tickets sold: "; read_line(str_aux); if(str_aux.find(ESC_KEY) != string::npos) return 1;
   }
 
-  travel_pack.setNumberSold(num_sold, true);
+  travel_pack.setNumberSold(num_sold);
   return 0;
 }
 
 int change_travel_pack_available(TravelPack &travel_pack){
   string str_aux;
-  cout<< "Available(Yes/No): "; read_line(str_aux); if(str_aux.size() == 0) return 1; 
+  cout<< "Available(Yes/No): "; read_line(str_aux); if(str_aux.find(ESC_KEY) != string::npos) return 1; 
   while(str_aux.compare("Yes") != 0 && str_aux.compare("No") != 0){
     cout<< "Invalid Input\n";
-    cout<< "Available(Yes/No): "; read_line(str_aux); if(str_aux.size() == 0) return 1;
+    cout<< "Available(Yes/No): "; read_line(str_aux); if(str_aux.find(ESC_KEY) != string::npos) return 1;
   }
 
   if(str_aux.compare("Yes") == 0) travel_pack.setAvailability(true);
   else if(str_aux.compare("No") == 0) travel_pack.setAvailability(false);
   return 0;
+}
+
+int change_travel_pack_all(TravelPack &travel_pack){
+  if(change_travel_pack_destination(travel_pack)) return 1;
+  if(change_travel_pack_cities(travel_pack)) return 1;
+  if(change_travel_pack_dates(travel_pack)) return 1;
+  if(change_travel_pack_price(travel_pack)) return 1;
+  if(change_travel_pack_people_limit(travel_pack)) return 1;
+  return change_travel_pack_num_sold(travel_pack);
 }
 
 void add_travel_pack(){
@@ -1267,11 +1325,11 @@ void add_travel_pack(){
   string str_aux;
 
   cout<< "Travel Pack ID: ";
-  read_line(str_aux); if(str_aux.size() == 0) return;
+  read_line(str_aux); if(str_aux.find(ESC_KEY) != string::npos) return;
   while(string_to_int(str_aux, id) == false || id < 0){
     cerr << "Invalid intput!\n\n";
     cout<< "Travel Pack ID: ";
-    read_line(str_aux); if(str_aux.size() == 0) return;
+    read_line(str_aux); if(str_aux.find(ESC_KEY) != string::npos) return;
   }
   new_pack.setPackId(id);
 
@@ -1281,18 +1339,7 @@ void add_travel_pack(){
     return;
   }
 
-  if(change_travel_pack_destination(new_pack)) return;
-  if(change_travel_pack_cities(new_pack)) return;
-  if(change_travel_pack_dates(new_pack)) return;
-  if(change_travel_pack_price(new_pack)) return;
-  if(change_travel_pack_people_limit(new_pack)) return;
-  if(change_travel_pack_num_sold(new_pack)) return;
-  if(new_pack.getNumberSold() > new_pack.getPeopleLimit()){
-    cerr << "Invalid seats numbers: number of total seats available must higher or equal to number of seats sold!\n";
-    print_wait_menu();
-    return;
-  }
-  change_travel_pack_available(new_pack);
+  if(change_travel_pack_all(new_pack)) return;
 
   if(agency.addTravelPack(new_pack) == false){
     cerr << "Failled to add travel pack\n";
@@ -1313,16 +1360,16 @@ void change_travel_pack_menu(TravelPack &travel_pack){
     cout<< "4 - Initial Date\n";
     cout<< "5 - Final Date\n";
     cout<< "6 - Price\n";
-    cout<< "7 - Seats Available\n";
-    cout<< "8 - Seats Sold\n";
+    cout<< "7 - Tickets Available\n";
+    cout<< "8 - Tickets Sold\n";
     cout<< "9 - Availability\n";
     cout<< "0 - Back\n";
     print_last_line();
 
-    answer = scan_single_int();
+    answer = scan_single_int(); if(answer == INT_MAX) return;
     while( answer < 0 || answer > 9){
       cerr << "Invalid intput!\n\n";
-      answer = scan_single_int();
+      answer = scan_single_int(); if(answer == INT_MAX) return;
     }
     
     switch (answer)
@@ -1331,6 +1378,7 @@ void change_travel_pack_menu(TravelPack &travel_pack){
         return;
 
       case 1:
+        change_travel_pack_all(travel_pack);
         if(change_travel_pack_destination(travel_pack)) break;
         if(change_travel_pack_cities(travel_pack)) break;
         if(change_travel_pack_dates(travel_pack)) break;
@@ -1390,10 +1438,10 @@ void travel_packs_menu(){
     cout<< "0 - Back\n";
     print_last_line();
 
-    answer = scan_single_int();
+    answer = scan_single_int(); if(answer == INT_MAX) return;
     while( answer < 0 || answer > 3){
       cerr << "Invalid intput!\n\n";
-      answer = scan_single_int();
+      answer = scan_single_int(); if(answer == INT_MAX) return;
     }
     
     switch (answer)
@@ -1440,10 +1488,10 @@ void print_most_visited_places(){
   string str_aux;
   int number_places = -1;
 
-  cout<< "Number of Places: "; read_line(str_aux); if(str_aux.size() == 0) return;
+  cout<< "Number of Places: "; read_line(str_aux); if(str_aux.find(ESC_KEY) != string::npos) return;
   while(!string_to_int(str_aux, number_places) || number_places <= 0){
     cerr << "Invalid intput!\n\n";
-    cout<< "Number of Places: "; read_line(str_aux); if(str_aux.size() == 0) return;
+    cout<< "Number of Places: "; read_line(str_aux); if(str_aux.find(ESC_KEY) != string::npos) return;
   }
 
   auto it = mp.rbegin();
@@ -1464,10 +1512,10 @@ void print_most_visited_places_clients(){
   vector <unsigned int> packs_bought;
   
 
-  cout << "Number of Places: "; read_line(str_aux); if(str_aux.size() == 0) return;
+  cout << "Number of Places: "; read_line(str_aux); if(str_aux.find(ESC_KEY) != string::npos) return;
   while(!string_to_int(str_aux, number_places) || number_places <= 0){
     cerr << "Invalid intput!\n\n";
-    cout << "Number of Places: "; read_line(str_aux); if(str_aux.size() == 0) return;
+    cout << "Number of Places: "; read_line(str_aux); if(str_aux.find(ESC_KEY) != string::npos) return;
   }
 
   for(size_t client_count = 0; client_count < clients.size(); client_count++){
@@ -1524,10 +1572,10 @@ void statistics_menu(){
     cout<< "0 - Back\n";
     print_last_line();
 
-    answer = scan_single_int();
+    answer = scan_single_int(); if(answer == INT_MAX) return;
     while( answer < 0 || answer > 2){
       cerr << "Invalid intput!\n\n";
-      answer = scan_single_int();
+      answer = scan_single_int(); if(answer == INT_MAX) return;
     }
     
     switch (answer)
@@ -1551,6 +1599,15 @@ void statistics_menu(){
 
 //End Statistics
 
+void print_help(){
+  cout << "Use keys from 1 to 0 to move through the menus.\n";
+  cout << "At any point during any input you can just press ESC followed by enter to go to previous menu.\n";
+  cout << "Address must follow format: "; print_address_struct();
+  cout << "Date must follow format: "; print_date_struct();
+
+  print_wait_menu();
+}
+
 void start_menu(){
   int answer;
 
@@ -1560,13 +1617,14 @@ void start_menu(){
     cout<< "2 - Clients\n";
     cout<< "3 - Travel Packs\n";
     cout<< "4 - Statistics\n";
+    cout<< "5 - Help\n";
     cout<< "0 - Exit\n";
     print_last_line();
 
-    answer = scan_single_int();
-    while( answer < 0 || answer > 4){
+    answer = scan_single_int(); if(answer == INT_MAX) return;
+    while( answer < 0 || answer > 5){
       cerr << "Invalid intput!\n\n";
-      answer = scan_single_int();
+      answer = scan_single_int(); if(answer == INT_MAX) return;
     }
     
     switch (answer){
@@ -1587,6 +1645,10 @@ void start_menu(){
 
       case 4:
         statistics_menu();
+        break;
+
+      case 5:
+        print_help();
         break;
     }
   }
