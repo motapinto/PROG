@@ -140,8 +140,6 @@ std::ostream& operator << (std::ostream& os, const Client &client){
 }
 
 std::ofstream& operator << (std::ofstream& os, const Client &client){
-    std::set<unsigned int>::iterator it = client.packs_purchased.begin();
-
     os << client.client_name << std::endl;
     os << client.nif << std::endl;
     os << client.family_num << std::endl;

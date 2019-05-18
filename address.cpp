@@ -11,8 +11,8 @@ Address::Address(std::string address){
 Address::Address(std::string street_name, std::string postal_code, std::string city, std::string floor_num, unsigned int door_num){
     std::string address;
 
-    address = this->street_name + " / " + std::to_string(this->door_num) + " / " + this->floor_num  
-    + " / " + this->postal_code + " / " +  this->city;
+    address = street_name + " / " + std::to_string(door_num) + " / " + floor_num  
+    + " / " + postal_code + " / " +  city;
 
     checkAddress(address, this->street_name, this->postal_code, this->city, this->floor_num, this->door_num);
 }
