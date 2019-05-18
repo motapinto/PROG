@@ -478,7 +478,7 @@ int change_client_address(Client &client){
     catch(std::logic_error) {
       cout<< "Invalid input!\nAddress must be typed in the following way: \n";
       print_address_struct();
-      cout<< "Address: "; read_line(str_aux); if(str_aux.size() == 0) return;
+      cout<< "Address: "; read_line(str_aux); if(str_aux.size() == 0) return 1;
     }
   }
 
