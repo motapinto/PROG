@@ -1120,6 +1120,7 @@ int change_travel_pack_dates(TravelPack &travel_pack){
       try {
         init_date.setDate(str_aux);
         not_valid = false;
+        break;
       }
       catch(string) {
         cout<< "Invalid intput!\nDate must follow format: "; print_date_struct();
@@ -1136,6 +1137,7 @@ int change_travel_pack_dates(TravelPack &travel_pack){
       try {
         final_date.setDate(str_aux);
         not_valid = false;
+        break;
       }
       catch(string) {
         cout<< "Invalid intput!\nDate must follow format: "; print_date_struct();
