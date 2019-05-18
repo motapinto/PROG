@@ -134,7 +134,7 @@ Date& Date::operator = (const Date date){
 }
 
 std::ostream& operator << (std::ostream& os, const Date& date){
-    os << date.year << "/" << date.month << "/" << date.day;
+    os << date.year << "/" << std::setfill('0') << std::setw(2) << date.month << "/" << std::setfill('0') << std::setw(2) << date.day;
     return os;
 }
 
