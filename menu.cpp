@@ -75,6 +75,7 @@ int change_agency_address(Agency &agency_to_change){
     try {
       agency_to_change.setAddress(str_aux);
       modified_agency = true;
+      break;
     }
 
     catch(string) {
