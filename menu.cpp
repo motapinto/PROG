@@ -936,11 +936,9 @@ void print_all_travel_pack_dates(){
     }
     catch(string) {
       cout<< "Invalid intput!\nDate must follow format: (Year)/(Month)/(Day)\n";
-      cout<< "Initial Date: ";  read_line(str_aux); if(str_aux.size() == 0) return;
     }
     catch(logic_error) {
       cout<< "Invalid intput!\nDate must follow format: (Year)/(Month)/(Day)\n";
-      cout<< "Initial Date: ";  read_line(str_aux); if(str_aux.size() == 0) return;
     }
   }  while(1);
 
@@ -955,11 +953,9 @@ void print_all_travel_pack_dates(){
     }
     catch(string) {
       cout<< "Invalid intput!\nDate must follow format: (Year)/(Month)/(Day)\n";
-      cout<< "Final Date: "; read_line(str_aux); if(str_aux.size() == 0) return;
     }
     catch(logic_error) {
       cout<< "Invalid intput!\nDate must follow format: (Year)/(Month)/(Day)\n";
-      cout<< "Final Date: "; read_line(str_aux); if(str_aux.size() == 0) return;
     }
   }  while(1);
 
@@ -994,11 +990,9 @@ void print_all_travel_pack_destination_dates(){
     }
     catch(string) {
       cout<< "Invalid intput!\nDate must follow format: (Year)/(Month)/(Day)\n";
-      cout<< "Initial Date: ";  read_line(str_aux); if(str_aux.size() == 0) return;
     }
     catch(logic_error) {
       cout<< "Invalid intput!\nDate must follow format: (Year)/(Month)/(Day)\n";
-      cout<< "Initial Date: ";  read_line(str_aux); if(str_aux.size() == 0) return;
     }
   }  while(1);
 
@@ -1011,11 +1005,9 @@ void print_all_travel_pack_destination_dates(){
     }
     catch(string) {
       cout<< "Invalid intput!\nDate must follow format: (Year)/(Month)/(Day)\n";
-      cout<< "Final Date: "; read_line(str_aux); if(str_aux.size() == 0) return;
     }
     catch(logic_error) {
       cout<< "Invalid intput!\nDate must follow format: (Year)/(Month)/(Day)\n";
-      cout<< "Final Date: "; read_line(str_aux); if(str_aux.size() == 0) return;
     }
   }  while(1);
 
@@ -1101,7 +1093,7 @@ void print_travel_pack_menu(){
 
 int change_travel_pack_dates(TravelPack &travel_pack){
   string str_aux;
-  bool not_valid;
+  bool not_valid = true;
   Date init_date, final_date;
 
   do{
@@ -1110,32 +1102,32 @@ int change_travel_pack_dates(TravelPack &travel_pack){
 
       try {
         init_date.setDate(str_aux);
+        not_valid = false;
       }
       catch(string) {
         cout<< "Invalid intput!\nDate must follow format: (Year)/(Month)/(Day)\n";
-        cout<< "Initial Date: ";  read_line(str_aux); if(str_aux.size() == 0) return 1;
       }
       catch(logic_error) {
         cout<< "Invalid intput!\nDate must follow format: (Year)/(Month)/(Day)\n";
-        cout<< "Initial Date: ";  read_line(str_aux); if(str_aux.size() == 0) return 1;
       }
-    }  while(1);
+    }  while(not_valid);
 
+    not_valid = true;
     do {
       cout<< "Final Date: "; read_line(str_aux); if(str_aux.size() == 0) return 1; 
 
       try {
         final_date.setDate(str_aux);
+        not_valid = false;
       }
       catch(string) {
         cout<< "Invalid intput!\nDate must follow format: (Year)/(Month)/(Day)\n";
-        cout<< "Final Date: ";  read_line(str_aux); if(str_aux.size() == 0) return 1;
       }
       catch(logic_error) {
         cout<< "Invalid intput!\nDate must follow format: (Year)/(Month)/(Day)\n";
-        cout<< "Final Date: ";  read_line(str_aux); if(str_aux.size() == 0) return 1;
       }
-    }  while(1);
+    }  while(not_valid);
+
     if((not_valid = init_date > final_date))
       cerr << "Invalid Dates: Final Date must after or the same as Initial Date\n";
 
@@ -1165,11 +1157,9 @@ int change_travel_pack_init_date(TravelPack &travel_pack){
     }
     catch(string) {
       cout<< "Invalid intput!\nDate must follow format: (Year)/(Month)/(Day)\n";
-      cout<< "Initial Date: "; read_line(str_aux); if(str_aux.size() == 0) return 1;
     }
     catch(logic_error) {
         cout<< "Invalid intput!\nDate must follow format: (Year)/(Month)/(Day)\n";
-        cout<< "Initial Date: "; read_line(str_aux); if(str_aux.size() == 0) return 1;
       }
   }  while(1);
   return 0;
@@ -1188,12 +1178,10 @@ int change_travel_pack_final_date(TravelPack &travel_pack){
     }
     catch(string) {
       cout<< "Invalid intput!\nDate must follow format: (Year)/(Month)/(Day)\n";
-      cout<< "Final Date: "; read_line(str_aux); if(str_aux.size() == 0) return 1;
     }
     catch(logic_error) {
-        cout<< "Invalid intput!\nDate must follow format: (Year)/(Month)/(Day)\n";
-        cout<< "Final Date: "; read_line(str_aux); if(str_aux.size() == 0) return 1;
-      }
+      cout<< "Invalid intput!\nDate must follow format: (Year)/(Month)/(Day)\n";
+    }
   }  while(1);
   return 0;
 }
