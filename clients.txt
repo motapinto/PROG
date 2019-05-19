@@ -2,8 +2,7 @@ Rui Manuel
 234987156
 4
 Rua Sem Fim / 200 / 5Esq / 1200-001 / Lisboa
-20
-600
+0
 ::::::::::
 Rui
 123
@@ -58,5 +57,5 @@ Harry
 19815
 5
 Rua Estranha / 84 / 1Dir / 6000-456 / Londres
-26 ; 30
-7450
+-
+0

@@ -229,7 +229,7 @@ int search_client_name(Client &client){
   vector<Client> vec;
   string name;
 
-  cout<< "Name: "; read_line(name);
+  cout<< "Name: "; read_line(name); if(name.find(ESC_KEY) != string::npos) return 1; //if ESC returns to previous menu
 
   vec = agency.searchClientName(name);
   
@@ -245,13 +245,13 @@ int search_client_nif(Client &client){
   string str_aux;
 
   cout<< "NIF: ";
-  read_line(str_aux);
+  read_line(str_aux); if(str_aux.find(ESC_KEY) != string::npos) return 1; //if ESC returns to previous menu
 
   //waits for valid input
   while(!string_to_int(str_aux, nif) || nif < 0 || nif > MAX_NIF){
     cerr << "Invalid intput!\n\n";
     cout<< "NIF: ";
-    read_line(str_aux); 
+    read_line(str_aux); if(str_aux.find(ESC_KEY) != string::npos) return 1; //if ESC returns to previous menu
   }
 
 

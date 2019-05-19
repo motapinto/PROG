@@ -220,6 +220,7 @@ std::ifstream& operator >> (std::ifstream& is, Client &client){
               throw ClientException(NULL);
             
             client.money_spent = value_check;
+            client.packs_purchased.clear();
             return is;
           }
           else
