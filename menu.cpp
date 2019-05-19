@@ -729,7 +729,7 @@ void change_clients_menu(){
   }
 }
 
-bool purchase_pack(Client &client){
+void purchase_pack(Client &client){
   int id = -1;
   string str_aux;
   TravelPack pack;
@@ -749,22 +749,23 @@ bool purchase_pack(Client &client){
     //check if pack is available
     if(!pack.getAvailability()) {
       cout<< "This pack is not available for purchase!\n";
-      return false;
+      return;
     }
     //check if pack has tickets to sell
     if( (pack.getPeopleLimit() - (pack.getNumberSold() + client.getFamilyNum())) <= 0 ) {
       cout<< "This pack has no more tickets available for purchase!\n";
-      return false;
+      return;
     }
 
     if(!agency.purchasePack(client.getNif(), pack.getPackId())){
       cout << "Failled to purchase pack!\n";
-      return false;
+      return;
     }
+    else modified = true;
 
-    return true;
+    return;
   }
-  return false;
+  return;
 }
 
 void purchase_client_nif(){
@@ -781,13 +782,11 @@ void purchase_client_nif(){
   }
 
   if(agency.searchClientNif((unsigned int)nif, client) == true){
-    if(purchase_pack(client) == true){
-      agency.changeClient(client, nif);
-      modified = true;
-    } 
-    print_wait_menu();
+    purchase_pack(client);
   }
   else cout<< "Client with NIF: " << nif << " not found!\n";
+
+  print_wait_menu();
 }
 
 void purchase_client_name(){
@@ -800,10 +799,7 @@ void purchase_client_name(){
   
   if(vec.size() > 1) cout<< "More than one client found with name: " << name << "\nPlease select another method of choosing a client\n";
   else if(vec.size() == 0) cout<< "Client with name:" << name << " not found!\n";
-  else if(purchase_pack(vec.at(0)) == true){
-    agency.changeClient(vec.at(0), vec.at(0).getNif());
-    modified = true;
-  } 
+  else purchase_pack(vec.at(0));
   
   print_wait_menu();
 }
