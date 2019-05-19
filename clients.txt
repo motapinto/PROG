@@ -20,5 +20,40 @@ Miguel
 457245748
 20
 Avenida / 60 / - / 4412-643 / Braga
-8
 20
+3000
+::::::::::
+Carlos
+16151235
+1
+Rua Maluca / 15 / 8Dir / 2000-444 / Paris
+20 ; 22
+605
+::::::::::
+Paulo
+12362156
+3
+Rua Da Esquina / 48 / 6Esq / 3000-487 / Lagos
+24
+450
+::::::::::
+Ana
+2591981
+6
+Esta Rua / 87 / 2Esq / 100-45 / Madrid
+26 ; 23
+12900
+::::::::::
+Maria
+189515
+2
+Outra Rua / 648 / 5Dir / 9500-687 / Roma
+29
+600
+::::::::::
+Harry
+19815
+5
+Rua Estranha / 84 / 1Dir / 6000-456 / Londres
+30 ; 26
+7450
