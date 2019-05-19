@@ -157,6 +157,8 @@ std::ofstream& operator << (std::ofstream& os, const Client &client){
       
       os << std::endl;
     }
+    else 
+    os << "-\n";
     os << client.money_spent << std::endl;
 
     return os;
@@ -216,6 +218,7 @@ std::ifstream& operator >> (std::ifstream& is, Client &client){
               throw ClientException(NULL);
             if(value_check <= -1) //verify value
               throw ClientException(NULL);
+            
             client.money_spent = value_check;
             return is;
           }
@@ -228,7 +231,7 @@ std::ifstream& operator >> (std::ifstream& is, Client &client){
             throw ClientException(NULL);
           if(value_check <= -1) //verify value
             throw ClientException(NULL);
-          
+
           client.money_spent = value_check;    
           return is;
       }

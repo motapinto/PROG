@@ -433,6 +433,8 @@ unsigned int Agency::sumSold(const unsigned int nif){
 unsigned int Agency::sumSold(const std::set<unsigned int> &tour_packs, const unsigned int family_num){
   unsigned int n_sold = 0;
 
+  if(tour_packs.size() == 0) return n_sold;
+
   for(size_t k = 0; k < this->tour_pack.size(); k++)
     for(auto it : tour_packs){
       if(it == this->tour_pack.at(k).id)
@@ -444,6 +446,8 @@ unsigned int Agency::sumSold(const std::set<unsigned int> &tour_packs, const uns
 
 unsigned int Agency::sumSold(const std::vector<unsigned int> &tour_packs, const unsigned int family_num){
   unsigned int n_sold = 0;
+
+  if(tour_packs.size() == 0) return n_sold;
 
   for(size_t k = 0; k < this->tour_pack.size(); k++)
     for(size_t j = 0; j < tour_packs.size(); j++){
@@ -537,6 +541,8 @@ bool Agency::verifyPacks(const std::set<unsigned int> &packs, const unsigned int
 
 bool Agency::verifyClientPacks(const std::set<unsigned int> &packs){
   TravelPack aux;
+
+  if(packs.size() == 0) return true;
 
   for(auto it = packs.begin(); it != packs.end(); it++){
       if(!searchTravelPackId(*it, aux)) return false;

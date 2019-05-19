@@ -2,12 +2,14 @@ Rui Manuel
 234987156
 4
 Rua Sem Fim / 200 / 5Esq / 1200-001 / Lisboa
-0
+20
+600
 ::::::::::
 Rui
 123
 4
 Rua / 23 / 1Esq / 4480-257 / Vila do Conde
+-
 0
 ::::::::::
 Joao
