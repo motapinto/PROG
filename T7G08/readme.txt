@@ -21,5 +21,6 @@ O ficheiro da agência tem que ter todos os valores da agencia, os ficheiros dos
 Este trabalho foi feito usando classes porque quando foi entregue o inunciado do trabalho, comecei a fazer o trabalho com um colega sendo que pensavamos que seria um trabalho de grupo.
   Quando o Professor Jorge Silva disse que não seria a pares, fomos perguntar-lhe e este disse que poderiamos manter o código feito em conjunto, tendo começado a implementar com classes o Professor também nos disse que poderiamos continuar a usar estas mesmas.
 
+Se não houver packs comprados na linha dos ids coloca-se - e no valor 0.
 
 NOTA: é incluído um makefile para este projeto que compila os ficheiros e chama ao programa: main.
