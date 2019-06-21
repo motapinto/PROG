@@ -2,6 +2,7 @@ Rui Manuel
 234987156
 4
 Rua Sem Fim / 200 / 5Esq / 1200-001 / Lisboa
+-
 0
 ::::::::::
 Rui
@@ -50,12 +51,19 @@ Maria
 189515
 2
 Outra Rua / 648 / 5Dir / 9500-687 / Roma
-29
-600
+20 ; 29
+900
 ::::::::::
 Harry
 19815
 5
 Rua Estranha / 84 / 1Dir / 6000-456 / Londres
+-
+0
+::::::::::
+Pedro
+52356164
+4
+Rua 2 / 100 / - / 4400-123 / Porto
 -
 0
